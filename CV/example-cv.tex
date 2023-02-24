@@ -1,0 +1,704 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% Simple LaTeX CV Template %%%%%%%%%%%%%%%%%%%%%%%%/Users/chagaiweiss/Desktop/CV/CMW CV.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% NOTE: If you find that it says                                     %%
+%%                                                                    %%
+%%                           1 of ??                                  %%
+%%                                                                    %%
+%% at the bottom of your first page, this means that the AUX file     %%
+%% was not available when you ran LaTeX on this source. Simply RERUN  %%
+%% LaTeX to get the ``??'' replaced with the number of the last page  %%
+%% of the document. The AUX file will be generated on the first run   %%
+%% of LaTeX and used on the second run to fill in all of the          %%
+%% references.                                                        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't like 10pt? Try 11pt or 12pt
+\documentclass[11pt]{article}
+
+\usepackage{mathptmx}
+\usepackage {fontawesome}
+% The automated optical recognition software used to digitize resume
+% information works best with fonts that do not have serifs. This
+% command uses a sans serif font throughout. Uncomment both lines (or at
+% least the second) to restore a Roman font (i.e., a font with serifs).
+%\usepackage{times}
+%\renewcommand{\familydefault}{\sfdefault}
+
+% This is a helpful package that puts math inside length specifications
+\usepackage{calc}
+\usepackage{comment}
+\usepackage{etaremune}
+% Simpler bibsection for CV sections
+% (thanks to natbib for inspiration)
+\makeatletter
+\newlength{\bibhang}
+\setlength{\bibhang}{1em} %1em}
+\newlength{\bibsep}
+ {\@listi \global\bibsep\itemsep \global\advance\bibsep by\parsep}
+\newenvironment{bibsection}%
+        {\begin{enumerate}{}{%
+%        {\begin{list}{}{%
+       \setlength{\leftmargin}{\bibhang}%
+       \setlength{\itemindent}{-\leftmargin}%
+       \setlength{\itemsep}{\bibsep}%
+       \setlength{\parsep}{\z@}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\topsep}{0pt}}}
+        {\end{enumerate}\vspace{-.6\baselineskip}}
+%        {\end{list}\vspace{-.6\baselineskip}}
+\makeatother
+
+
+
+% Layout: Puts the section titles on left side of page
+\reversemarginpar
+
+%
+%         PAPER SIZE, PAGE NUMBER, AND DOCUMENT LAYOUT NOTES:
+%
+% The next \usepackage line changes the layout for CV style section
+% headings as marginal notes. It also sets up the paper size as either
+% letter or A4. By default, letter was used. If A4 paper is desired,
+% comment out the letterpaper lines and uncomment the a4paper lines.
+%
+% As you can see, the margin widths and section title widths can be
+% easily adjusted.
+%
+% ALSO: Notice that the includefoot option can be commented OUT in order
+% to put the PAGE NUMBER *IN* the bottom margin. This will make the
+% effective text area larger.
+%
+% IF YOU WISH TO REMOVE THE ``of LASTPAGE'' next to each page number,
+% see the note about the +LP and -LP lines below. Comment out the +LP
+% and uncomment the -LP.
+%
+% IF YOU WISH TO REMOVE PAGE NUMBERS, be sure that the includefoot line
+% is uncommented and ALSO uncomment the \pagestyle{empty} a few lines
+% below.
+%
+
+%% Use these lines for letter-sized paper
+\usepackage[paper=letterpaper,
+            %includefoot, % Uncomment to put page number above margin
+            marginparwidth=1.3in,     % Length of section titles
+            marginparsep=.05in,       % Space between titles and text
+            margin=.8in,               % 1 inch margins
+            includemp]{geometry}
+
+%% Use these lines for A4-sized paper
+%\usepackage[paper=a4paper,
+%            %includefoot, % Uncomment to put page number above margin
+%            marginparwidth=30.5mm,    % Length of section titles
+%            marginparsep=1.5mm,       % Space between titles and text
+%            margin=25mm,              % 25mm margins
+%            includemp]{geometry}
+
+%% More layout: Get rid of indenting throughout entire document
+\setlength{\parindent}{0in}
+
+\usepackage[shortlabels]{enumitem}
+
+%% Reference the last page in the page number
+%
+% NOTE: comment the +LP line and uncomment the -LP line to have page
+%       numbers without the ``of ##'' last page reference)
+%
+% NOTE: uncomment the \pagestyle{empty} line to get rid of all page
+%       numbers (make sure includefoot is commented out above)
+%
+\usepackage{fancyhdr,lastpage}
+\pagestyle{fancy}
+%\pagestyle{empty}      % Uncomment this to get rid of page numbers
+\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\fancyfootoffset{\marginparsep+\marginparwidth}
+\newlength{\footpageshift}
+\setlength{\footpageshift}
+          {0.5\textwidth+0.5\marginparsep+0.5\marginparwidth-2in}
+\lfoot{\hspace{\footpageshift}%
+       \parbox{4in}{\, \hfill %
+                    \arabic{page} of \protect\pageref*{LastPage} % +LP
+%                    \arabic{page}                               % -LP
+                    \hfill \,}}
+
+% Finally, give us PDF bookmarks
+\usepackage{color,hyperref}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.30}
+\hypersetup{colorlinks,breaklinks,
+            linkcolor=darkblue,urlcolor=darkblue,
+            anchorcolor=darkblue,citecolor=darkblue}
+     
+\PassOptionsToPackage{bookmarks=false}{hyperref}
+%%%%%%%%%%%%%%%%%%%%%%%% End Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The title (name) with a horizontal rule under it
+% (optional argument typesets an object right-justified across from name
+%  as well)
+%
+% Usage: \makeheading{name}
+%        OR
+%        \makeheading[right_object]{name}
+%
+% Place at top of document. It should be the first thing.
+% If ``right_object'' is provided in the square-braced optional
+% argument, it will be right justified on the same line as ``name'' at
+% the top of the CV. For example:
+%
+%       \makeheading[\emph{Curriculum vitae}]{Your Name}
+%
+% will put an emphasized ``Curriculum vitae'' at the top of the document
+% as a title. Likewise, a picture could be included:
+%
+%   \makeheading[\includegraphics[height=1.5in]{my_picutre}]{Your Name}
+%
+% the picture will be flush right across from the name.
+\newcommand{\makeheading}[2][]%
+        {\hspace*{-\marginparsep minus \marginparwidth}%
+         \begin{minipage}[t]{\textwidth+\marginparwidth+\marginparsep}%
+             {\large \bfseries #2 \hfill #1}\\[-0.15\baselineskip]%
+                 \rule{\columnwidth}{1pt}%
+         \end{minipage}}
+
+% The section headings
+%
+% Usage: \section{section name}
+\renewcommand{\section}[1]{\pagebreak[3]%
+    \hyphenpenalty=10000%
+    \vspace{1.3\baselineskip}%
+    \phantomsection\addcontentsline{toc}{section}{#1}%
+    \noindent\llap{\scshape\smash{\parbox[t]{\marginparwidth}{\raggedright #1}}}%
+    \vspace{-\baselineskip}\par}
+
+% An itemize-style list with lots of space between items
+\newenvironment{outerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1,leftmargin=*]}{\end{itemize}%
+         \vspace{-.6\baselineskip}}
+
+% An environment IDENTICAL to outerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{lonelist}[1][\enskip\textbullet]%
+        {\begin{list}{#1}{%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\topsep}{0pt}}}
+        {\end{list}\vspace{-.6\baselineskip}}
+
+% An itemize-style list with little space between items
+\newenvironment{innerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt]}
+        {\end{itemize}}
+
+% An environment IDENTICAL to innerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{loneinnerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt]}
+        {\end{itemize}\vspace{-.6\baselineskip}}
+
+% To add some paragraph space between lines.
+% This also tells LaTeX to preferably break a page on one of these gaps
+% if there is a needed pagebreak nearby.
+\newcommand{\blankline}{\quad\pagebreak[3]}
+\newcommand{\halfblankline}{\quad\vspace{-0.5\baselineskip}\pagebreak[3]}
+
+% Uses hyperref to link DOI
+\newcommand\doilink[1]{\href{http://dx.doi.org/#1}{#1}}
+\newcommand\doi[1]{doi:\doilink{#1}}
+\usepackage{amsmath,amssymb,latexsym}
+% For \url{SOME_URL}, links SOME_URL to the url SOME_URL
+\providecommand*\url[1]{\href{#1}{#1}}
+\urlstyle{rm}
+% Same as above, but pretty-prints SOME_URL in teletype fixed-width font
+\renewcommand*\url[1]{\href{#1}{\texttt{#1}}}
+
+% For \email{ADDRESS}, links ADDRESS to the url mailto:ADDRESS
+\providecommand*\email[1]{\href{mailto:#1}{#1}}
+% Same as above, but pretty-prints ADDRESS in teletype fixed-width font
+%\renewcommand*\email[1]{\href{mailto:#1}{\texttt{#1}}}
+
+%\providecommand\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+%\providecommand\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%    \TeX}}
+\providecommand\BibTeX{{B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    \TeX}}
+\providecommand\Matlab{\textsc{Matlab}}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Begin CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Set Colored Links
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{marvosym}
+%\newcommand{\MYhref}[3][red]{\href{#2}{\color{#1}{#3}}}%
+
+\begin{document}
+\makeheading{Chagai M. Weiss}
+
+\section{Contact Information}
+
+% NOTE: Mind where the & separators and \\ breaks are in the following
+%       table.
+%
+% ALSO: \rcollength is the width of the right column of the table
+%       (adjust it to your liking; default is 1.85in).
+%
+\newlength{\rcollength}\setlength{\rcollength}{1.5in}%
+%
+\begin{tabular}[t]{@{}p{\textwidth-\rcollength}p{\rcollength}}
+%\href{http://www.cse.osu.edu/}%
+   {Encina Hall}, (C145), & \hspace{-.45cm}   \hspace{.1cm} \small{+1-608-345-8151} \\
+616 Jane Stanford Way,   &\hspace{-.45cm}  \hspace{.1cm} \href{mailto:cmweiss@stanford.edu}{\ttfamily{\small cmweiss@stanford.edu}} \\
+Stanford, CA, 94305    &\hspace{-.45cm} \hspace{.1cm} \href{www.chagaiweiss.com}{\ttfamily{\small www.chagaiweiss.com}} \\\\
+\end{tabular}\\
+
+%\faPhone 
+%\faEnvelopeO
+%\faGlobe
+%\section{Objective}
+
+%Insert text here if you want to
+%\begin{innerlist}
+%\item More information and auxiliary documents can be found at\\\url{http://www.tedpavlic.com/facjobsearch/}
+%\end{innerlist}
+
+%\section{Research Interests}
+
+%Ethnic Politics, Political Psychology, Intergroup Conflicts, Prejudice Reduction, Political Economy, Causal Inference \& Experimental Design \\
+
+
+
+
+
+\section{Appointments}
+\href{http://stanford.org/}{\textbf{Stanford University}}
+\begin{outerlist}
+
+\item[] \href{https://kingcenter.stanford.edu/our-work/research-initiatives/conflict-and-polarization}{Conflict and Polarization Lab} Postdoctoral Fellow, \hfill Fall 2022-- \\ 
+\href{https://kingcenter.stanford.edu}{King Center on Global Development} 
+\end{outerlist}\vspace{.1in}
+\href{https://www.harvard.edu/}{\textbf{Harvard University}}
+\begin{outerlist}
+
+\item[] Middle East Initiative Predoctoral Fellow,
+        \href{https://www.belfercenter.org/project/middle-east-initiative}
+             {Harvard Kennedy School}
+           \hfill 2020-2022
+\end{outerlist}
+
+
+\section{Education}
+
+\href{http://polisci.wisc.edu}{\textbf{The University of Wisconsin--Madison}}
+\begin{outerlist}
+
+\item[] Ph.D.,
+        \href{http://polisci.wisc.edu}
+             {Political Science}
+           \hfill August 2022
+        \begin{innerlist}
+        \item \textbf{Dissertation:} Prejudice Reduction at Scale: How Institutional Inclusion Reduces Social Exclusion  
+                 \begin{itemize}[label=$\star$]
+		 \item \emph{Best Dissertation in Comparative Politics Award}, UW-Madison (2022)
+		\end{itemize}      
+        \item \textbf{Committee:} Rikhil Bhavnani (\emph{Chair}), Yoshiko Herrera, Nadav Shelef, and Jonathan Renshon
+        \item \textbf{Fields:} Comparative Politics, International Relations, Political Methodology (\emph{minor})
+        \end{innerlist}
+
+%\item[] M.S.,
+   %     \href{http://www.sph.umn.edu/biostatistics/}
+      %       {Biostatistics},
+         %    Aug 2010
+        %\begin{innerlist}
+        %\item Topic: \emph{Assessing the Impact of the Density of Alcohol Establishments on Crime in Minneapolis Neighborhoods Using Univariate and Multivariate Conditionally Autoregressive Models}
+     %   \item Advisor:
+            %  \href{http://www.biostat.umn.edu/~brad/}
+               %    {Bradley P. Carlin, Ph.D}
+   %     \end{innerlist}
+%\end{outerlist}
+
+%%\vspace{.1in}
+%\href{http://polisci.wisc.edu}{\textbf{The University of Wisconsin - Madison}}
+%\begin{outerlist}
+\item[] M.A.,
+        \href{http://polisci.wisc.edu}
+             {Political Science} \hfill {2018}
+\end{outerlist}  \vspace{.1in}
+
+\href{http://new.huji.ac.il/en}{\textbf{The Hebrew University of Jerusalem}}
+\begin{outerlist}
+\item[] B.A.,
+        \href{https://en.politics.huji.ac.il/}
+             {Political Science \& Middle Eastern Studies} \hfill {August 2016}
+        \begin{innerlist}
+        \item \emph{Cum Laude}
+        \end{innerlist}
+
+\end{outerlist}
+
+
+
+\section{Books}
+\vspace{.1in}
+Brutger, Ryan, Joshua D. Kertzer, Jonathan Renshon, \& \textbf{Chagai M. Weiss}. ``\href{https://www.cambridge.org/core/elements/abs/abstraction-in-survey-experiments/9B21F5D1B9158659A2009E7C4450CA3B}{Abstraction in Experimental Design: Testing the Tradeoffs}." Forthcoming in \emph{Cambridge University Press, Elements in Experimental Political Science Series}.\\% (edited by James Druckman).\\
+
+
+%\begin{itemize}
+%\item []Brutger, Ryan, Joshua D. Kertzer, Jonathan Renshon, \& \textbf{Chagai M. Weiss}. ``Abstraction in Experimental Design: Testing the Tradeoffs," Forthcoming in \emph{Cambridge University Press, Elements in Experimental Political Science series} (edited by James Druckman).
+%\item[] \textbf{Weiss, Chagai M}. ``Prejudice Reduction at Scale: How Institutional Inclusion Reduces Social Exclusion." (\emph{In progress}).%Under contract with \emph{Cambridge University Press}, Elements in Experimental Political Science series (edited by James Druckman).%\\
+    %   Paper: \href{https://www.dropbox.com/s/fcex2xux2fq9jfn/abstract-concrete-nyu-new.pdf?dl=0}{\faFilePdfO}
+%\end{itemize}
+
+
+
+\section{Peer-Reviewed Publications}
+\vspace{.1in}
+
+Peyton, Kyle, \textbf{Chagai M. Weiss}, and Paige Vaughn. ``\href{https://www.chagaiweiss.com/papers/inprogress/pwv_paper_si_7july2022.pdf}{Beliefs about Minority Representation in Policing and Preferences for Increasing Officer Diversity.}" \emph{Proceedings of the National Academy of Sciences}, Forthcoming.\\
+
+Getmansky, Anna \& \textbf{Chagai M. Weiss}. ``\href{https://journals.sagepub.com/doi/10.1177/00104140221141837}{War Time Military Service Can Affect Partisan Preferences.}" \emph{Comparative Political Studies}, Forthcoming.\\
+
+\textbf{Weiss, Chagai M.}, Neal Tsur, Dan Miodownik, Yonatan Lupu, and Evgeny Finkel. ``\href{https://www.cambridge.org/core/journals/political-science-research-and-methods/article/atypical-violence-and-conflict-dynamics-evidence-from-jerusalem/689731DDDA2C0B9C818911C86B472460}{Atypical Violence and Conflict Dynamics: Evidence from Jerusalem}." \emph{Political Science Research and Methods}, Forthcoming.\\
+
+
+Getmansky, Anna \& \textbf{Chagai M. Weiss}. ``\href{https://journals.sagepub.com/doi/10.1177/00220027221114086}{Pyrrhic Victory: How and Why Wars Affect Political Attitudes and Behavior.}"  \emph{The Journal of Conflict Resolution}, Forthcoming.\\
+
+\textbf{Weiss, Chagai M.}, Alexandra Siegel, \& David Romney ``\href{https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12718}{How Threats of Exclusion Mobilize Palestinian Political Participation.}" \emph{The American Journal of Political Science}, Forthcoming.\\
+
+Brutger, Ryan, Joshua D. Kertzer, Jonathan Renshon, Dustin Tingley, \& \textbf{Chagai M. Weiss}. ``\href{https://onlinelibrary.wiley.com/doi/full/10.1111/ajps.12710}{Abstraction and Detail in Experimental Design.}" \emph{The American Journal of Political Science}, Forthcoming.\\
+
+ \textbf{Weiss, Chagai M.}. ``\href{https://www.pnas.org/content/118/14/e2022634118}{Diversity in Health Care Institutions Reduces Israeli Patients' Prejudice toward Arabs}." \emph{Proceedings of the National Academy of Sciences} 118.14 (2021).
+ \begin{itemize}[label=$\star$]
+ \item \emph{APSA Conflict Processes Best Paper Award} (2019)
+ \item \emph{Genevieve Gorst Herfurth Award Honorable Mention, UW-Madison} (2021)
+\end{itemize}
+Bassan-Nygate, Lotem \& \textbf{Chagai M. Weiss}. ``\href{https://journals.sagepub.com/doi/full/10.1177/00104140211024283}{Party Competition and Cooperation Shape Affective Polarization: Evidence from Natural and Survey Experiments in Israel.}" \emph{Comparative Political Studies} 55.2 (2020): 287-319.
+    \begin{itemize}[label=$\star$]
+ \item \emph{George \& Sylvia Laikin Prize, UW-Madison} (2021)
+  \item \emph{Mildred Potter Hovland Journal Article Prize, UW-Madison} (2021)
+ \end{itemize}
+ 
+ Gilad, Sharon, Saar Alon-Barkat \& \textbf{Chagai M. Weiss}. ``\href{https://onlinelibrary.wiley.com/doi/abs/10.1111/gove.12383}{Political and Bureaucratic Translation of Social Movement Demands: The Case of Israel's 2011 Social Protest.}" \textit{Governance} 32.2 (2019): 369--385.\\
+ 
+ Rock, Jonathan, \textbf{Chagai M. Weiss} \& Dan Miodownik. ``\href{https://www.sciencedirect.com/science/article/pii/S0962629817303323}{Geographies of Violence in Jerusalem: The Spatial Logic of Intergroup Conflict.}" \textit{Political Geography} 66 (2018): 88--97.
+
+%\begin{itemize}
+   %          \item[] \textbf{Weiss, Chagai M.}, Alexandra Siegel, \& David Romney ``\href{https://www.chagaiweiss.com/papers/published/DoC_AJPS_preprint.pdf}{How Threats of Exclusion Mobilize Palestinian Political Participation.}" \emph{The American Journal of Political Science}, Forthcoming.
+             
+        %       \item[] Brutger, Ryan, Joshua D. Kertzer, Jonathan Renshon, Dustin Tingley, \& \textbf{Chagai M. Weiss}. ``\href{https://www.chagaiweiss.com/papers/published/bkrtw_ajps_preprint.pdf}{Abstraction and Detail in Experimental Design.}" \emph{The American Journal of Political Science}, Forthcoming.
+               
+ %\item[] \textbf{Weiss, Chagai M.}. ``\href{https://www.pnas.org/content/118/14/e2022634118}{Diversity in Health Care Institutions Reduces Israeli Patients' Prejudice toward Arabs}." \emph{Proceedings of the National Academy of Sciences} 118.14 (2021).
+% \begin{itemize}[label=$\star$]
+ %\item \emph{APSA Conflict Processes Best Paper Award} (2019)
+ %\item \emph{Genevieve Gorst Herfurth Award Honorable Mention, UW-Madison} (2021)
+ %\end{itemize}
+ 
+% \item[] Bassan-Nygate, Lotem \& \textbf{Chagai M. Weiss}. ``\href{https://journals.sagepub.com/doi/full/10.1177/00104140211024283}{Party Competition and Cooperation Shape Affective Polarization: Evidence from Natural and Survey Experiments in Israel.}" \emph{Comparative Political Studies} 55.2 (2020): 287-319.
+%    \begin{itemize}[label=$\star$]
+ %\item \emph{George \& Sylvia Laikin Prize, UW-Madison} (2021)
+  %\item \emph{Mildred Potter Hovland Journal Article Prize, UW-Madison} (2021)
+ %\end{itemize}
+ 
+ %   \item[] Gilad, Sharon, Saar Alon-Barkat \& \textbf{Chagai M. Weiss}. ``\href{https://onlinelibrary.wiley.com/doi/abs/10.1111/gove.12383}{Political and Bureaucratic Translation of Social Movement Demands: The Case of Israel's 2011 Social Protest.}" \textit{Governance} 32.2 (2019): 369--385.
+    
+%   \item[] Rock, Jonathan, \textbf{Chagai M. Weiss} \& Dan Miodownik. ``\href{https://www.sciencedirect.com/science/article/pii/S0962629817303323}{Geographies of Violence in Jerusalem: The Spatial Logic of Intergroup Conflict.}" \textit{Political Geography} 66 (2018): 88--97.
+%     \end{itemize}
+
+
+\section{In Progress}
+\vspace{.1in}
+
+\textbf{Weiss, Chagai M}. ``\href{https://www.chagaiweiss.com/papers/book/weiss_book_overview.pdf}{Prejudice Reduction at Scale: How Institutional Inclusion Reduces Social Exclusion.}" (\emph{Book Project}).\\ 
+
+Kao, Kristen, Ellen Lust, Marwa Shalaby \& \textbf{Chagai M. Weiss}. ``\href{https://www.chagaiweiss.com/papers/inprogress/klsw_gender.pdf}{Group Gender Composition and Perceptions of Legitimacy.}" (Invited to revise and resubmit at \emph{The American Political Science Review}).  \\    
+
+\textbf{Weiss, Chagai M.}, Eran Halperin, Shira Ran. ``\href{https://www.chagaiweiss.com/papers/inprogress/wrh_7.pdf}{Addressing the Elephant in the Room: Field Experiments in Israel Show that Education Programs that Broach Sensitive Topics Can Reduce Prejudice.}" (Invited to revise and resubmit at \emph{The Proceedings of the National Academy of Sciences}).  \\    
+
+
+
+\textbf{Weiss, Chagai M.}. ``\href{https://www.chagaiweiss.com/papers/inprogress/mei_diveristy.pdf}{Minority Representation in Healthcare Provision Reduces Prejudice: Evidence from the COVID-19 Crises in Israel and the U.S.}"
+         \begin{itemize}[label=$\bullet$]
+ \item \emph{Harvard Kennedy School MEI Working Paper, August 2021}.
+	 \end{itemize} 	
+
+Scacco, Alexandra, Alexandra Siegel, \& \textbf{Chagai M. Weiss}. ``The Prevalence of Intergroup Avoidance Online and How it Can Be Reduced."\\
+
+Bassan-Nygate, Lotem, Jonathan Renshon, Jessica Weeks, and \textbf{Chagai M. Weiss}. ``The Generalizability of IR Experiments Beyond the U.S." 
+ 
+%\begin{itemize}
+
+   %      \item[] Getmansky, Anna \& \textbf{Chagai M. Weiss}. ``\href{https://www.chagaiweiss.com/papers/inprogress/yk1.pdf}{Pyrrhic Victory: How and Why Wars Affect Political Attitudes and Behavior.}" (Conditionally accepted at \emph{The Journal of Conflict Resolution}).
+               
+
+    %     \item[] \textbf{Weiss, Chagai M.}, Neal Tsur, Dan Miodownik, Yonatan Lupu, and Evgeny Finkel. ``\href{https://www.chagaiweiss.com/papers/inprogress/ah_rr_psrm.pdf}{Atypical Violence and Conflict Dynamics: Evidence from Jerusalem}." (Conditionally accepted at \emph{Political Science Research and Methods}).
+ 
+         %        \item[] Getmansky, Anna \& \textbf{Chagai M. Weiss}. ``\href{https://www.chagaiweiss.com/papers/inprogress/yk2_v6.pdf}{War Time Military Service Can Affect Partisan Preferences.}" (Invited to revise and resubmit at \emph{Comparative Political Studies}).
+     
+              %         \item[] \textbf{Weiss, Chagai M.}, Eran Halperin, Shira Ran. ``\href{https://www.chagaiweiss.com/papers/inprogress/wrh_paper_v5.pdf}{Broaching Prejudicial Taboos to Improve Intergroup Relations: A field Experiment in Israel.}" 
+                       
+%	  \item[] Kao, Kristen, Ellen Lust, Marwa Shalaby \& \textbf{Chagai M. Weiss}. ``\href{https://www.chagaiweiss.com/papers/inprogress/klsw_gender.pdf}{Group Gender Composition and Perceptions of Legitimacy.}" (Under Review).                 
+
+     %   \item[] \textbf{Weiss, Chagai M.}. ``\href{https://static1.squarespace.com/static/5bda793b0dbda3f980201462/t/612d4b65135ba31ae519112a/1630358374769/mei_diveristy.pdf}{Minority Representation in Healthcare Provision Reduces Prejudice: Evidence from the COVID-19 Crises in Israel and the U.S.}"
+        % \begin{itemize}[label=$\bullet$]
+ %\item \emph{Middle East Initiative Working Paper, August 2021}.
+%	 \end{itemize} 	 
+%\end{itemize}
+
+
+
+%\section{Work In Progress}
+%\vspace{-.125in}
+%\begin{itemize}      
+%	 \item[] Scacco, Alexandra, Alexandra Siegel, \& \textbf{Chagai M. Weiss}. ``Desegregating Social Media Environments: A Facebook Field Experiment in Israel."
+	         
+%     \item[] Peyton, Kyle, \textbf{Chagai M. Weiss}, and Paige Vaughn. ``Correcting misperceptions about police diversity increases public support for diversification."
+     
+%     \item[] Bassan-Nygate, Lotem, Jonathan Renshon, Jessica Weeks, and \textbf{Chagai M. Weiss}. ``The Generalizability of IR Experiments Beyond the U.S." 
+ 
+            % \item Mousa, Salma, Eric Mvukiyehe \& \textbf{Chagai M. Weiss}. ``Perspective Taking at Scale: A Facebook Intervention to Reduce Israeli Prejudice towards Palestinians." 
+  %  Paper: \href{https://static1.squarespace.com/static/5bda793b0dbda3f980201462/t/5ea161645636756e62be5568/1587634541187/YK_GW_APRIL2020.pdf}{\faFilePdfO}
+    
+  %     \item Mousa, Salma \& \textbf{Chagai M. Weiss}. ``Mobilizing Activists through Intergroup Contact: Evidence from a Field Experiment in Israel." \\
+    %   Pre-Registration Materials: \href{http://egap.org/registration/5884}{\faMapO}
+      % \item Kao, Kristen, Ellen Lust, Marwa Shalaby \& \textbf{Chagai M. Weiss}. ``Descriptive Representation, Decision Rules, and Deliberation in Oman: Evidence from a Field Experiment" 
+
+   %  \item \textbf{Weiss, Chagai M.}, Neal Tsur, Yon Lupu, Evgeny Finkel \& Dan Miodownik. ``Can Independent Actors Influence Armed Conflict?" (\emph{Under review})\\
+    % Paper: \href{https://www.dropbox.com/s/6l0auc7sv9m0bfr/weiss_ah.pdf?dl=0}{\faFilePdfO}
+      %    \item \textbf{Weiss, Chagai M.} ``Linking the Battlefield and the Ballot-Box: The Causal Effects of Combatant Deaths and Voting Behavior" (\emph{Under review})\\
+  %  Paper: \href{https://www.dropbox.com/s/l2wyvbm9nofsvxt/cmw_halalim.pdf?dl=0}{\faFilePdfO}
+                 %    \item Manekin, Devorah, \& \textbf{Chagai M. Weiss}. ``Can Corrective Information Motivate Intergroup Contact in Hospitals." 
+                  % \item {\bf Quick, H.}, Carlin, B.P., and Banerjee, S. ``Space-time Gaussian process modeling of temporal air pollution gradients."
+%\end{itemize}
+
+     
+  
+
+   
+\section{Other Publications}
+\vspace{.1in}
+Marwa Shalaby, \textbf{Chagai Weiss}, Ellen Lust, Kristen Kao, and coauthors, ``\href{https://papers.ssrn.com/sol3/papers.cfm?abstract\_id=3741934}{The Dynamics of Decentralization in the MENA: Processes, Outcomes, and Obstacles.}" \textit{Program on Governance and Local Development Working Paper No. 31.}\\
+
+\textbf{Weiss, Chagai M.}. ``\href{https://www.comparativepoliticsnewsletter.org/wp-content/uploads/2020/06/Spring-Newsletter-2020_11_Weiss.pdf}{Sharing Spaces: Segregation, Integration, and Intergroup Relations.}" \textit{APSA Comparative Politics Newsletter}, Spring 2020.\\
+
+ Bassan-Nygete, Lotem \& \textbf{Chagai M. Weiss}. ``\href{https://apsamena.org/2020/11/19/its-us-or-them-partisan-polarization-in-israel-and-beyond/}{It's Us or Them: Partisan Polarization in Israel and Beyond.}" \textit{APSA MENA Newsletter}, Spring 2020.\\ 
+ 
+ \textbf{Weiss, Chagai M.}. ``\href{https://pomeps.org/segregation-integration-and-intergroup-relations-in-israel}{Segregation, Integration, and Intergroup Relations in Israel.}" \emph{POMEPS Working Paper}, Fall 2020. 
+ 
+%\begin{itemize}
+   % \item[] Marwa Shalaby, \textbf{Chagai Weiss}, Ellen Lust, Kristen Kao, and coauthors, ``\href{https://papers.ssrn.com/sol3/papers.cfm?abstract\_id=3741934}{The Dynamics of Decentralization in the MENA: Processes, Outcomes, and Obstacles.}" \textit{Program on Governance and Local Development Working Paper No. 31.}    \item[]  \textbf{Weiss, Chagai M.}. ``\href{https://chagaimweiss.com/s/APSA_Newsletter.pdf}{Sharing Spaces: Segregation, Integration, and Intergroup Relations.}" \textit{APSA Comparative Politics Newsletter}, Spring 2020.
+  %\item[]  Bassan-Nygete, Lotem \& \textbf{Chagai M. Weiss}. ``\href{https://static1.squarespace.com/static/5bda793b0dbda3f980201462/t/5ed5271d00577d3c5b10d27c/1591027491231/BW_MENA.pdf}{It's Us or Them: Partisan Polarization in Israel and Beyond.}" \textit{APSA MENA Newsletter}, Spring 2020.
+  %\item[] \textbf{Weiss, Chagai M.}. ``\href{https://pomeps.org/segregation-integration-and-intergroup-relations-in-israel}{Segregation, Integration, and Intergroup Relations in Israel.}" \emph{POMEPS Working Paper}, Fall 2020. 
+     %  \end{itemize}
+%3A10.7910%2FDVN%2FYLLX8V
+% Add a little space to nudge next ``Conference Publications'' marginpar
+% down to make room for tall ``Submitted Journal Publications''
+% marginpar. If there are enough submitted journal publications, this
+% space will not be needed (and should be removed).
+%\vspace{0.1in}
+
+
+
+
+\section{Outreach}
+\vspace{.1in}
+\href{https://www.washingtonpost.com/politics/2020/02/27/israels-voting-3rd-time-year-thats-polarizing-voters-even-more/}{Israel is voting -- for the third time in a year. That's polarizing voters even more.}  \emph{The Monkey Cage}, February 2020. (With Lotem Bassan-Nygate).\\
+\href{https://beta.washingtonpost.com/politics/2019/09/13/an-hbo-series-looks-political-violence-jerusalem-data-shows-that-its-right-track/}{An HBO series looks at political violence in Jerusalem. Here's the reality behind the drama.} \emph{The Monkey Cage}, September 2019.\\
+\href{https://www.washingtonpost.com/news/monkey-cage/wp/2018/12/04/how-might-recent-confrontations-with-hamas-influence-israeli-elections/?utm_term=.ef8bb33be23b}{How might recent confrontations with Hamas influence Israeli elections?} \emph{The Monkey Cage}, December 2018. \\
+
+
+
+\section{Invited Talks}
+\vspace{.1in}
+
+{\bf 2023}: \textbf{UC Berkeley}, \emph{IR Speaker Series} (\emph{scheduled}) \vspace{.01in}
+
+{\bf 2022}: \textbf{UC Irvine}, \emph{Department of Political Science, Survey Methodology Seminar}, \textbf{Harvard}, \emph{Department of Psychology}.\vspace{.01in}
+
+{\bf 2021}: \textbf{Hebrew University} (Israel), \emph{Department of Psychology -- PCIR Lab}, \textbf{Harvard}, \emph{Department of Psychology -- Cushman-Greene Lab}.\vspace{.01in}
+
+{\bf 2020}: \textbf{Ben Gurion University} (Israel), \emph{Department of Economics}, \textbf{WZB Berlin} (Germany), \emph{Institutions and Political Inequality Speakers Series}.\vspace{.01in}
+
+{\bf 2019}: \textbf{George Washington University}, \emph{Workshop on Israeli politics}.
+
+\section{Conferences}
+{\bf 2022}: Overcoming Prejudice Conference (University of Pennsylvania), MPSA (Chicago), Berlin Meeting on the Political Economy of Development (WZB Berlin), PolMeth (St. Louis, scheduled), APSA (Montreal, scheduled), Toronto Political Behavior Workshop (Toronto, scheduled). \vspace{.01in}
+
+{\bf 2021}: APSA (Seattle), PolMeth Europe (Virtual Poster), MPSA (Virtual), Harvard Experimental Political Science Conference (Virtual), Chicago Area Political and Social Behavior CAB Workshop (Virtual Poster, hosted at Northwestern University).\vspace{.01in}
+
+{\bf 2020}: The Dynamics of Decentralization in MENA (The University of Gutenberg), CSES Conference on Experimental Political Science (NYU), POMEPS Working Group (Virtual), APSA (Virtual).\vspace{.01in}
+
+{\bf 2019}: Eurasian Peace Science (Jerusalem), Winter Experimental Social Science Institute (WESSI, NYU Abu-Dhabi), Economic Science Association (ESA, NYU Abu-Dhabi), ISA (Toronto), MPSA (Chicago), Political Psychology APSA Pre-Conference (Washington D.C.), APSA (Washington D.C.), Peace Science (Manhattan, Kansas).\vspace{.01in}
+
+{\bf 2018}: ISA (San Francisco).
+
+
+
+
+\section{Additional Training}
+\vspace{.1in}
+{\bf The Middlebury Arabic School} \hfill  2018\vspace{.01in}
+
+{\bf Oxford Spring School in Advanced Research Methods} \hfill  2016
+
+
+\section{Awards \& Grants}
+\vspace{.1in}
+\textbf{Center for Jewish Studies Travel Grant}, UW--Madison \hfill Summer 2022 \vspace{.01in}
+
+\textbf{National Science Foundation PolMeth Conference Travel Grant} \hfill  Summer 2022 \vspace{.01in}
+
+\textbf{Charles and Gayle Mazursky Student Support Fund}, UW--Madison \hfill  Spring 2021 \vspace{.01in}
+
+\textbf{Political Science Summer Writing Grant}, UW--Madison \hfill 2021\vspace{.01in}
+
+\textbf{Political Science Summer Initiative Grant}, UW--Madison \hfill 2021\vspace{.01in}
+
+\textbf{Horowitz Foundation for Social Policy Research Grant}, National Compettition \hfill 2020\vspace{.01in}
+
+\textbf{Graduate Student Travel/Research Grant Competition}, UW--Madison \hfill 2020\vspace{.01in}
+
+\textbf{Political Science Summer Initiative Grant}, UW--Madison \hfill 2020\vspace{.01in}
+
+\textbf{POMEPS Travel Grant} \hfill 2020\vspace{.01in}
+
+\textbf{IRIS Graduate Student Summer Fieldwork Award,} UW--Madison \hfill 2019\vspace{.01in}
+
+\textbf{The Morris Abrams Award in International Relations}, National Compettition \hfill 2019\vspace{.01in}
+
+\textbf{Political Science Summer Initiative Grant}, UW--Madison \hfill 2019\vspace{.01in}
+
+\textbf{IR Graduate Student Travel/Research Grant Competition}, UW--Madison \hfill 2019\vspace{.01in}
+
+\textbf{Graduate Student Travel Award}, Elections Research Center, UW--Madison \hfill  2019\vspace{.01in}
+
+\textbf{Best Graduate Paper in the 8th Eurasian Peace Science Conference} \hfill  2019\vspace{.01in}
+
+\textbf{Charles and Gayle Mazursky Student Support Fund}, UW--Madison \hfill  Fall 2018\vspace{.01in}
+
+\textbf{Student Research Travel Grant}, UW--Madison \hfill 2018\vspace{.01in}
+
+\textbf{Foreign Language and Area Studies (FLAS) Yearly Fellowship} (\emph{Declined}) \hfill 2018\vspace{.01in}
+
+\textbf{The Morris Falk Institute for Economic Research in Israel}, Hebrew University \hfill  2018\vspace{.01in}
+
+\textbf{The Harry S. Truman Institute Research Grant}, Hebrew University \hfill  2018\vspace{.01in}
+
+\textbf{Israel Institute Research Grant} \hfill  2018\vspace{.01in}
+
+\textbf{Charles and Gayle Mazursky Student Support Fund}, UW--Madison \hfill  Spring 2018\vspace{.01in}
+
+\textbf{Foreign Language and Area Studies (FLAS) Summer Fellowship} \hfill 2018\vspace{.01in}
+
+\textbf{IR Graduate Student Travel/Research Grant Competition}, UW--Madison \hfill 2018\vspace{.01in}
+
+\textbf{Minerva Center for Human Rights Research Grant}, Hebrew University \hfill 2017\vspace{.01in}
+
+\textbf{Isaac and Ida Lipton Study Abroad Fellowship}, UW-Madison \hfill 2017\vspace{.01in}
+
+\textbf{Charles and Gayle Mazursky Student Support Fund}, UW-Madison \hfill  Fall 2017\vspace{.01in}
+
+
+
+
+%\section{Research Experience}
+
+%\textbf{Research Assistant} 
+%\begin{innerlist}
+%\item[]  Supervisor: Prof. Marwa Shalaby, Ellen Lust, and Kristen Kao (Gutenberg University)
+%\item[]  Supervisor: Prof. Yoshiko Herrera (The University of Wisconsin - Madison)
+%\item[]  Supervisor: Prof. Scott Straus (The University of Wisconsin - Madison)
+%\item[]  Supervisor: Prof. Jonathan Renshon (The University of Wisconsin - Madison)
+%\item[]  Supervisor: Prof. Dan Miodownik (The Hebrew University, Political Science)
+%\item[]  Supervisor: Prof. Sharon Gilad (The Hebrew University, Political Science)\vspace*{-3mm}
+%\end{innerlist}
+
+
+\section{Teaching}
+\vspace{.1in}
+{\bf Teaching Assistant:} Research Methods in Political Science \hfill Fall 2018\\
+Professor Jessica Weeks, University of Wisconsin--Madison\\
+
+{\bf Grader:} Israeli Politics and Society \hfill Spring 2018\\
+Professor Nadav Shelef, University of Wisconsin--Madison\\
+
+
+\section{Service}
+\vspace{.1in}
+{\bf Referee for:} \emph{American Journal of Political Science, Cambridge University Press (Elements in Experimental Political Science), Comparative Political Studies, Conflict Management and Peace Science, Conflict Resolution Quarterly, Ethnopolitics, Frontiers in Psychology, Human Right Review, International Studies Quarterly, Journal of Experimental Political Science, Journal of Hospital Management and Health Policy, Journal of Politics, Local Government Studies, Organizational Behavior and Human Decision Processes, Party Politics, Political Geography, Political Research Quarterly, Public Administration, Science Advances, Social Psychological and Personality Science}.\\
+
+{\bf Co-Founder and Coordinator:} \href{https://igr.netlify.app/}{IGR} -- The Intergroup Relations Workshop  \hfill  2020\\
+Monthly working group to discuss research on intergroup relations\\
+With Cara Wong, Rebecca Littman, and Alexandra Scacco\\
+{\bf Co-Founder and Coordinator:} Comparative Politics Graduate Working Group \hfill  2019\\
+University of Wisconsin--Madison, With Anton Shirikov\\
+{\bf Student Coordinator:} Experimental Politics Workshop \hfill  2019\\
+University of Wisconsin -- Madison\\
+{\bf Student Co-Coordinator:} Comparative Politics Colloquium \hfill  2018-2019\\
+University of Wisconsin -- Madison\\
+%\item[]{\bf Student Co-Coordinator:} Political Economy Colloquium \hfill  2018-2019\\
+%The Department of Political Science, \\ University of Wisconsin -- Madison
+%\item[]{\bf Student Coordinator:} Graduate Student Political Methodology Workshop \hfill  2017\\
+%The Departments of International Relations \& Political Science, \\The Hebrew University of Jerusalem, IL
+%\item[]{\bf Student Coordinator:} The Middle East After the Arab Spring \hfill  2016\\
+%The Davis Institute, The Hebrew University of Jerusalem, IL
+%\item[]{\bf Student Coordinator:} Israel Under The Shadow of Conflict \hfill  2016\\
+%The Davis Institute, The Hebrew University of Jerusalem, IL\vspace*{-3mm}
+
+
+
+
+%\newpage
+\section{Other Professional Experience}
+
+{\bf \href{https://zulat.org.il/en/}{Zulat} -- Equality and Human Rights} \hfill  2020\\
+Research Consultant, Israel\\
+{\bf \href{https://en.achord.huji.ac.il/}{aChord} -- Social Psychology for Social Change} \hfill  2020\\
+Research Consultant, Israel\\
+{\bf Military Service (Israel)} \hfill  2009-2012\\
+Mandatory Service as a Paratrooper's Commander
+
+
+\section{Software}
+
+R, STATA, ArcMap, QGIS\vspace*{-3mm}
+
+
+\section{Languages}
+
+\textbf{Hebrew} (Native), \textbf{Arabic} (Advanced) \vspace*{-3mm}
+
+\section{References}
+ \setlist{nolistsep}
+\begin{itemize}[noitemsep,leftmargin=*]
+\item[]{\bf Rikhil Bhavnani} \hfil{\bf Yoshiko Herrera}
+\item[]Department of Political Science \hfil Department of Political Science
+\item[]University of Wisconsin--Madison \hfil University of Wisconsin--Madison
+\item[]{\href{bhavnani@wisc.edu}{\ttfamily{bhavnani@wisc@wisc.edu}}} \hfil \hspace{-1.2cm} {\href{yherrera@wisc.edu}{\ttfamily{yherrera@wisc.edu}}}\vspace*{3mm}
+\end{itemize}
+
+
+
+%{\bf Yoshiko Herrera}\vspace*{-3mm}
+%\begin{itemize}
+%\item [] Department of Political Science   \hfill{\href{yherrera@wisc.edu}{\ttfamily\textcolor{Maroon}{yherrera@wisc.edu}}} \\
+%University of Wisconsin -- Madison\\
+%\end{itemize}\vspace*{-3mm}
+ \setlist{nolistsep}
+\begin{itemize}[noitemsep,leftmargin=*]
+\item[]{\bf Nadav Shelef} \hfil{ \bf \hspace{.6cm} Jonathan Renshon}
+\item[]Department of Political Science \hfil Department of Political Science
+\item[]University of Wisconsin--Madison \hfil University of Wisconsin--Madison
+\item[]{\href{shelef@wisc.edu}{\ttfamily{shelef@wisc.edu}}} \hfil {\href{renshon@wisc.edu}{\ttfamily{renshon@wisc.edu}}}\vspace*{3mm}
+\end{itemize}
+
+
+\section{Last Updated:} \today
+
+
+
+\end{document}

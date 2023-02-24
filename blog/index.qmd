@@ -1,0 +1,24 @@
+---
+title: "Blog"
+author: ""
+description-meta: "{{< meta website.description >}}"
+listing:
+  - id: posts_2022
+    contents: "2022/**/index.qmd"
+    sort: "date desc"
+    template: ../html/blog/listing.ejs
+page-layout: full
+toc-title: Year
+toc-location: right
+date-format: "MMMM D, YYYY"
+code-tools: false
+comments: false
+---
+
+## 2022
+
+:::{#posts_2022}
+:::
+
+
+

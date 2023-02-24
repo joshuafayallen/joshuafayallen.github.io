@@ -1,0 +1,97 @@
+---
+title: "What to do when you break R"
+date: 2022-06-23
+description: "What happens when you keep getting c stack usage errors "
+categories:
+  - r
+  - bash
+---
+
+
+Hi all, when I first stated using `R` I tried making my website using `blogdown`. While [Alison Hill PhD](https://www.apreshill.com/blog/2020-12-new-year-new-blogdown/) provides an
+excellent intro to launching your website. However, I am truly special and managed to mess this process up. For a few days whenever I did anything more computationally intensive than 
+
+```{r, message=FALSE}
+rm(list=ls())
+library(tidyverse)
+```
+
+
+I would get a nasty error message saying "c stack usage is too close to the limit" and I could not do anything. This would have been fine but at the time I was still taking classes and need to have `R` working to complete the problem sets.
+
+So what did I do to get in the c stack death spiral and how did it end up being fixed? For the former you should not skip steps in [Dr. Hill's](https://www.apreshill.com/blog/2020-12-new-year-new-blogdown/) post. For the later  well to spare you the long arduous process here is what we tried. 
+
+- me consulting stackoverflow & realizing I really f****k up
+- restarting my computer
+- uninstalling & reinstalling blogdown
+- uninstalling & reinstalling R
+- uninstalling & reinstalling pandocs
+
+After hours of trouble shooting #rstats twitter came to the rescue when this distress signal was sent out. 
+
+
+```{r echo =FALSE}
+library(tweetrmd)
+
+
+tweet_embed("https://twitter.com/andrewheiss/status/1358492134039511040")
+
+```
+
+
+So here is what ended up working. To start you will need a super simple Rmd file to test with in a local directory. I suggest starting a new Rmd file with nothing in it other than the default YAML header and "test" in the main body or "Lorem Ipsum" if you feel fancy. 
+
+
+In the terminal run the following code
+
+
+```{bash
+cd ~ 
+
+ls -la
+
+```
+
+
+
+
+Then look for files starting with a period. Okay if you messed up in the initial blogdown setup you are looking for the ".Rprofile" that is causing you the problem. What ended up happening is that you broke all of R by including a recursive function. So restarting and uninstalling R will not kill the function it will be there 
+
+<center>
+
+![](https://media.giphy.com/media/l4FB8FfpphPmxdTkA/giphy.gif)
+
+</center>
+
+
+What you are going to do is open a terminal in Rstudio or otherwise than start running this.
+
+```{bash
+cat.Rprofile
+```
+
+than run 
+
+
+```{bash
+cat.zshrc
+```
+
+
+than after that run 
+
+```
+mv. Rprofile .Rprofile-original
+```
+
+
+Then close out Rstudio and reopen Rstudio. Then try to knit your super simple Rmd file and install a package and doing something fun! Than knit that file.
+
+Hopefully the dreaded C stack usage error is gone. If it is than celebrate
+<center>
+
+![](https://media.giphy.com/media/d86kftzaeizO8/giphy.gif)
+
+</center>
+
+because you can use `R` again!!!!
