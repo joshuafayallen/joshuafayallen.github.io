@@ -1,0 +1,26 @@
+- title: Introduction to American Government
+  description: "Introduction to American Government"
+  university: Georgia State University
+  logo: logos/threebranches.png
+  number: Pols 1101
+  url: https://fpols110122.netlify.app/
+  semester:
+  - name: Fall 2022
+    url: https://fpols110122.netlify.app/
+  - name: Summer 2022
+    url: spols110122.netlify.app/
+  - name: Spring 2022
+    url: https://sppols110122.netlify.app/
+
+- title: R Workshops 
+  description: "Research Data Services R Workshops"
+  number: 
+  university: Georgia State University
+  url: https://joshuafayallen.github.io/research-data-services-r-workshops/
+  logo: logos/workshop-logo.png
+  semester:
+  - name: Spring 2023
+    url: https://joshuafayallen.github.io/research-data-services-r-workshops/
+  - name: Fall 2022
+    url: https://joshuafayallen.github.io/research-data-services-r-workshops/
+

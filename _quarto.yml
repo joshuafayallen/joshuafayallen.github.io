@@ -15,7 +15,10 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - text: "Research"
+        file: research/index.qmd
+      - text: "Teaching"
+        file: teaching/index.qmd
     right:
       - icon: envelope
         aria-label: email

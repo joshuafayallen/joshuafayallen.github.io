@@ -1,0 +1,17 @@
+---
+title: "Research"
+description-meta: "{{< meta website.description >}}"
+listing:
+  - id: working-papers
+    contents: "working-papers/*/index.qmd"
+    sort: "date desc"
+    template: ../html/research/listing.ejs
+page-layout: full
+include-back-link: false
+toc-location: right
+---
+
+## Working papers
+
+:::{#working-papers}
+:::
