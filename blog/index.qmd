@@ -6,6 +6,7 @@ listing:
   - id: posts_2022
     contents: "2022/**/index.qmd"
     sort: "date desc"
+    categories: true
 page-layout: full
 toc-title: Year
 toc-location: right

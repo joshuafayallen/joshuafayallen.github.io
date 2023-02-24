@@ -1,5 +1,5 @@
 ---
-title: "Stream lining Midsemester Reports With The Tidyverse"
+title: "Streamlining Midsemester Reports With The Tidyverse"
 date: 2022-03-11
 description: "Working with LMS data using the tidyverse"
 categories:

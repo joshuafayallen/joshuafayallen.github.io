@@ -1,17 +1,11 @@
 ---
-title: "Research"
-description-meta: "{{< meta website.description >}}"
-listing:
-  - id: working-papers
-    contents: "working-papers/*/index.qmd"
-    sort: "date desc"
-    template: ../html/research/listing.ejs
-page-layout: full
-include-back-link: false
-toc-location: right
+title: "Research and Projects"
+toc: true
+comments: false
 ---
 
 ## Working papers
 
-:::{#working-papers}
-:::
+::: {.references}
+Allen Joshua. "Testing the Effect of U.S. Airstrikes on Insurgent Initiated Attacks " Paper presented at SPSA 2020 and ISA-MW 209
+::: 
