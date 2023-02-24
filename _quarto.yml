@@ -1,8 +1,14 @@
 project:
   type: website
+  render:
+    - "*.qmd"
+    - "*.md"
 
+freeze: true
 website:
   title: ""
+  site-url: "https://www.joshallen.github.io"
+  repo-url: "https://github.com/joshuafayallen/quarto-website"
   navbar:
     pinned: true
     left:
