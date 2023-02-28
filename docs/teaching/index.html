@@ -70,9 +70,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-title','listing-description','listing-university','listing-logo','listing-number','listing-url','listing-semester',{ data: ['index'] },{ data: ['categories'] }],
+      valueNames: ['listing-title','listing-description','listing-university','listing-logo','listing-number','listing-semester','listing-url',{ data: ['index'] },{ data: ['categories'] }],
       
-      searchColumns: ["listing-title","listing-description","listing-university","listing-logo","listing-number","listing-url","listing-semester"],
+      searchColumns: ["listing-title","listing-description","listing-university","listing-logo","listing-number","listing-semester","listing-url"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -190,23 +190,15 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="section" class="level2">
 <h2 class="anchored" data-anchor-id="section">2022–23</h2>
-<div id="ay_22-23">
-
-</div>
-
-
-
-</section>
-
-<div class="quarto-listing quarto-listing-container-custom" id="listing-ay22_23">
+<div id="listing-ay22_23" class="quarto-listing quarto-listing-container-custom">
 <div class="teaching">
     <div class="course-entry">
         <div class="logo">
-            <a href="https://fpols110122.netlify.app/" target="_blank"><img src="logos/threebranches.png" alt="Introduction to American Government" title="Introduction to American Government"></a>
+            <img src="logos/threebranches.png" alt="Introduction to American Government" title="Introduction to American Government">
         </div>
         <div class="body">
             <p class="course-title">
-                <a href="https://fpols110122.netlify.app/" target="_blank">Introduction to American Government</a> 
+                Introduction to American Government 
             </p>
             <p class="course-details">
                 <span class="course-number">Pols 1101</span> | 
@@ -235,7 +227,7 @@ ul.task-list li input[type="checkbox"] {
             <p class="course-description">Research Data Services R Workshops</p>
             <ul class="course-semesters">
                 <li><a href="https://joshuafayallen.github.io/research-data-services-r-workshops/"><i class="fa-solid fa-building-columns"></i> Spring 2023</a></li>
-                <li><a href="https://joshuafayallen.github.io/research-data-services-r-workshops/"><i class="fa-solid fa-building-columns"></i> Fall 2022</a></li>
+                <li class="no-link"><i class="fa-solid fa-building-columns"></i> Fall 2022</li>
             </ul>
         </div>
     </div>
@@ -243,7 +235,13 @@ ul.task-list li input[type="checkbox"] {
 <div class="listing-no-matching d-none">
 No matching items
 </div>
-</div></main> <!-- /main -->
+</div>
+
+
+
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

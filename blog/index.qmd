@@ -7,6 +7,7 @@ listing:
     contents: "2022/**/index.qmd"
     sort: "date desc"
     categories: true
+    template: ../html/blog/listing.ejs
 page-layout: full
 toc-title: Year
 toc-location: right
