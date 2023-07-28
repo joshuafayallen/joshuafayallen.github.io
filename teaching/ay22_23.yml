@@ -15,6 +15,7 @@
   description: "This course serves as an introduction research methods, casual inference, applied statistics, and using R. During
 the semester we will cover how to develop research questions, theory development, and how to answer
 questions about political phenomena"
+  university: Georgia State University
   logo: logos/research_methods_logo.png
   number: Pols 3800
   semester:

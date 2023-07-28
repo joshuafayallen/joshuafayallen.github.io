@@ -7,5 +7,17 @@ comments: false
 ## Working papers
 
 ::: {.references}
-Allen Joshua. "Testing the Effect of U.S. Airstrikes on Insurgent Initiated Attacks " Paper presented at SPSA 2020 and ISA-MW 209
+Allen Joshua. "The Use of The Holocaust in Online Discourse and in Media: A Computational Approach"
+
+Allen Joshua. "Collective Memory and Contemporary Political Behavior: Evidence from
+France"
+
 ::: 
+
+
+## Dormant Papers 
+:::{.references}
+Allen Joshua. Testing The Effects of U.S. Airstrikes on Insurgent Initiated Violence in
+Yemen
+
+:::
