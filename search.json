@@ -18,7 +18,7 @@
     "href": "index.html",
     "title": "Josh Allen",
     "section": "",
-    "text": "Welcome to my website! My name is Josh Allen and I am a PhD Candidate in the Department of Political Science at Georgia State University. I earned my M.A. at Georgia State and am a proud Sonoma State University alum.\nMy research focuses on the impact of the Holocaust on contemporary political attitudes in Europe.\nThis is a test to see if the github actions workflow runs smoothly\n\nlibrary(ggplot2)\nlibrary(palmerpenguins)\n\nggplot(penguins, aes(x = body_mass_g)) +\ngeom_histogram()\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\nWarning: Removed 2 rows containing non-finite outside the scale range\n(`stat_bin()`)."
+    "text": "Welcome to my website! My name is Josh Allen and I am a PhD Candidate in the Department of Political Science at Georgia State University. I earned my M.A. at Georgia State and am a proud Sonoma State University alum.\nMy research focuses on the impact of the Holocaust on contemporary political attitudes in Europe."
   },
   {
     "objectID": "blog/2022/2022-03-11-using-r-to-streamline-midsemester-reports/index.html",
