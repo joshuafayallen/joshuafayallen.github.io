@@ -9,7 +9,7 @@ categories:
 
 At GSU, we have [Early Alert](https://success.students.gsu.edu/early-alert/#1491401397066-70b280d0-31cd2fde-8845) that is meant to connect students with resources if they are not doing well in the first few weeks of classes. While setting up your rules of thumb is up to you, this can quickly soak up an entire day if you are going row by row in your class of 60 or more students. To streamline the process I turned to `R` because it is a fairly simple data cleaning task.
 
-Our learning management software likes to add lots of extra stuff to the column names in our data. While most of us would come up with a more concise name like `Chapter_4` our software names is `Chapter 4.2 Points Grade <Numeric MaxPoints:100 Weight:3.125 Category:Area9 Chapters CategoryWeight:23>`  we could use `janitor::clean_names` to eliminate some of the extraneous stuff iCollege will get grumpy at us. We could do this in Excel, and I have done it in the past, I figured I could speed this up in `R` while avoiding the headaches of ensuring each and every column is where it should be.
+Our learning management software likes to add lots of extra stuff to the column names in our data. While most of us would come up with a more concise name like `Chapter_4` our software exports the column names as assignment name, grading scheme, and the weights that are assigned. So it looks like `Chapter 4.2 Points Grade <Numeric MaxPoints:100 Weight:3.125 Category:Area9 Chapters CategoryWeight:23>`.  We could use `janitor::clean_names` to eliminate some of the extraneous stuff, however iCollege will get grumpy at us because they do not match the names in the gradebook. We could do this in Excel, and I have done it in the past, I figured I could speed this up in `R` while avoiding the headaches of ensuring each and every column is where it should be.
 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -18,7 +18,6 @@ set.seed(1994)
 
 students = 26
 
-
 dat = tibble(id = 1:26,
              Students = LETTERS,
              `Chapter 4.2 Points Grade <Numeric MaxPoints:100 Weight:3.125 Category:Area9 Chapters CategoryWeight:23>` = rnorm(students, mean = 90, sd = 5),
@@ -26,9 +25,6 @@ dat = tibble(id = 1:26,
             `Chapter 4.4  Points Grade <Numeric MaxPoints:100 Weight:3.125 Category:Area9 Chapters CategoryWeight:23>` = rnorm(students, mean = 90, sd = 5),
             `Chapter 4.5  Points Grade <Numeric MaxPoints:100 Weight:3.125 Category:Area9 Chapters CategoryWeight:23>` = rnorm(students, mean = 90, sd = 5),
             `Exam 1 Points Grade <Numeric MaxPoints:55 Weight 10 Category: Exams` = rnorm(students, mean = 85, sd = 3))  
-
-
-
 
 
 
