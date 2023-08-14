@@ -17,9 +17,8 @@ This is a test to see if workflows run correctly
 
 ```{r}
 
+pacman::p_load("palmerpenguins", "ggplot2")
 
-data("penguins", package = "palmerpenguins")
-library(ggplot2)
 
 ggplot(penguins, aes(x = body_mass_g, fill = species)) +
 geom_density()
