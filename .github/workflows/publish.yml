@@ -17,8 +17,8 @@ jobs:
           use-public-rspm: true
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-    extra-packages: any::pkgdown, local::.
-    needs: website
+          extra-packages: any::pkgdown, local::.
+          needs: website
       - name: Check out repository
         uses: actions/checkout@v3
 
