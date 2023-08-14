@@ -8,7 +8,7 @@ project:
 freeze: true
 website:
   title: ""
-  site-url: "https://www.joshallen.github.io"
+  site-url: "https://joshuafayallen.github.io"
   repo-url: "https://github.com/joshuafayallen/quarto-website"
   navbar:
     pinned: true
