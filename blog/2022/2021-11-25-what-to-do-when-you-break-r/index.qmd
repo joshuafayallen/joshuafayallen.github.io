@@ -12,6 +12,7 @@ Hi all, when I first stated using `R` I tried making my website using `blogdown`
 excellent intro to launching your website. However, I am truly special and managed to mess this process up. For a few days whenever I did anything more computationally intensive than 
 
 ```{r, message=FALSE}
+#| eval: false
 rm(list=ls())
 library(tidyverse)
 ```
@@ -30,14 +31,7 @@ So what did I do to get in the c stack death spiral and how did it end up being 
 After hours of trouble shooting #rstats twitter came to the rescue when this distress signal was sent out. 
 
 
-```{r echo =FALSE}
-library(tweetrmd)
-
-
-tweet_embed("https://twitter.com/andrewheiss/status/1358492134039511040")
-
-```
-
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> world! I have a student who is getting a &quot;c stack usage is too close to the limit&quot; every time when using knitr (even with an R-chunk-free Rmd file) &amp; getting same error when trying to install anything with devtools or remotes. We&#39;ve un/reinstalled R but no luck. Ideas?</p>&mdash; Andrew Heiss (🐘 @andrew@fediscience.org) (@andrewheiss) <a href="https://twitter.com/andrewheiss/status/1358492134039511040?ref_src=twsrc%5Etfw">February 7, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 So here is what ended up working. To start you will need a super simple Rmd file to test with in a local directory. I suggest starting a new Rmd file with nothing in it other than the default YAML header and "test" in the main body or "Lorem Ipsum" if you feel fancy. 
 
@@ -45,7 +39,8 @@ So here is what ended up working. To start you will need a super simple Rmd file
 In the terminal run the following code
 
 
-```{bash
+```{bash}
+#| eval: false
 cd ~ 
 
 ls -la
@@ -66,14 +61,16 @@ Then look for files starting with a period. Okay if you messed up in the initial
 
 What you are going to do is open a terminal in Rstudio or otherwise than start running this.
 
-```{bash
+```{bash}
+#| eval: false
 cat.Rprofile
 ```
 
 than run 
 
 
-```{bash
+```{bash}
+#| eval: false
 cat.zshrc
 ```
 

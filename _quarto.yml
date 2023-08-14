@@ -5,7 +5,7 @@ project:
     - "*.qmd"
     - "*.md"
 
-freeze: true
+freeze: auto
 website:
   title: ""
   site-url: "https://joshuafayallen.github.io"
