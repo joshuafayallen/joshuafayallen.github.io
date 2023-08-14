@@ -1,8 +1,10 @@
 {
-  "hash": "e1d4390e611d0386ff2e094f2ed432fb",
+  "hash": "dcea8d25e507c0f7fc78500f29bfea49",
   "result": {
-    "markdown": "---\ntitle: \"Josh Allen\"\nabout:\n  template: solana\n  image: static/me.jpg\n  image-width: 18em\n---\n\n\nWelcome to my website! My name is Josh Allen and I am a PhD Candidate in the Department of Political Science at Georgia State University. I earned my M.A. at Georgia State and am a proud Sonoma State University alum.\n\nMy research focuses on the impact of the Holocaust on contemporary political attitudes in Europe. \n\nThis is a test to see if the workflow runs  and then seeing if it updaters the website \n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n2 + 2 \n```\n\n::: {.cell-output .cell-output-stdout}\n```\n[1] 4\n```\n:::\n:::",
-    "supporting": [],
+    "markdown": "---\ntitle: \"Josh Allen\"\nabout:\n  template: solana\n  image: static/me.jpg\n  image-width: 18em\n---\n\n\nWelcome to my website! My name is Josh Allen and I am a PhD Candidate in the Department of Political Science at Georgia State University. I earned my M.A. at Georgia State and am a proud Sonoma State University alum.\n\nMy research focuses on the impact of the Holocaust on contemporary political attitudes in Europe. \n\n\nThis is a test to see if the github actions workflow runs smoothly \n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(ggplot2)\nlibrary(palmerpenguins)\n\nggplot(penguins, aes(x = body_mass_g)) +\ngeom_histogram()\n```\n\n::: {.cell-output .cell-output-stderr}\n```\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n```\n:::\n\n::: {.cell-output .cell-output-stderr}\n```\nWarning: Removed 2 rows containing non-finite outside the scale range\n(`stat_bin()`).\n```\n:::\n\n::: {.cell-output-display}\n![](index_files/figure-html/unnamed-chunk-1-1.png){width=672}\n:::\n:::",
+    "supporting": [
+      "index_files"
+    ],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],
