@@ -1,6 +1,8 @@
 project:
   type: website
   output-dir: docs
+  resources:
+    - "Allen_Vita.pdf"
   render:
     - "*.qmd"
     - "*.md"
