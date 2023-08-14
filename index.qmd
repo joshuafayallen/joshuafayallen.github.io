@@ -11,16 +11,3 @@ Welcome to my website! My name is Josh Allen and I am a PhD Candidate in the Dep
 My research focuses on the impact of the Holocaust on contemporary political attitudes in Europe. 
 
 
-This is a test to see if the github actions workflow runs smoothly 
-
-
-```{r}
-library(ggplot2)
-library(palmerpenguins)
-
-ggplot(penguins, aes(x = body_mass_g)) +
-geom_histogram()
-
-
-
-```
