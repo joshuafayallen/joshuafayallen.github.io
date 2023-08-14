@@ -22,6 +22,7 @@ jobs:
             any::downlit
             any::xml2
             any::pacman
+            any::tidyverse
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
