@@ -1,39 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.joshallen.github.io/about.html</loc>
-    <lastmod>2023-02-24T13:35:08.046Z</lastmod>
+    <loc>https://www.joshallen.github.io/teaching/index.html</loc>
+    <lastmod>2023-08-14T16:50:44.945Z</lastmod>
   </url>
   <url>
     <loc>https://www.joshallen.github.io/index.html</loc>
-    <lastmod>2023-02-24T21:21:49.469Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.joshallen.github.io/research/working-papers/Testing-The-Effects/index.html</loc>
-    <lastmod>2023-02-24T21:25:46.428Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.joshallen.github.io/research/index.html</loc>
-    <lastmod>2023-07-28T17:21:16.848Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.joshallen.github.io/teaching/index.html</loc>
-    <lastmod>2023-07-28T17:22:39.980Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.joshallen.github.io/CV/index.html</loc>
-    <lastmod>2023-08-14T16:32:19.836Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.joshallen.github.io/blog/index.html</loc>
-    <lastmod>2023-02-28T00:20:09.155Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.joshallen.github.io/blog/2022/2021-11-25-what-to-do-when-you-break-r/index.html</loc>
-    <lastmod>2023-02-27T23:29:51.396Z</lastmod>
+    <lastmod>2023-08-14T16:50:44.381Z</lastmod>
   </url>
   <url>
     <loc>https://www.joshallen.github.io/blog/2022/2022-03-11-using-r-to-streamline-midsemester-reports/index.html</loc>
-    <lastmod>2023-02-24T21:32:55.305Z</lastmod>
+    <lastmod>2023-08-14T16:50:43.759Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.joshallen.github.io/about.html</loc>
+    <lastmod>2023-08-14T16:50:41.538Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.joshallen.github.io/CV/index.html</loc>
+    <lastmod>2023-08-14T16:50:41.227Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.joshallen.github.io/blog/2022/2021-11-25-what-to-do-when-you-break-r/index.html</loc>
+    <lastmod>2023-08-14T16:50:42.105Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.joshallen.github.io/blog/index.html</loc>
+    <lastmod>2023-08-14T16:50:44.077Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.joshallen.github.io/research/index.html</loc>
+    <lastmod>2023-08-14T16:50:44.657Z</lastmod>
   </url>
 </urlset>
