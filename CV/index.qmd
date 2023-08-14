@@ -1,6 +1,5 @@
 ---
-title: Curriculum vitæ
-description-meta: "{{< meta website.description >}}"
+title: Curriculum vitae 
 date: "`r format(Sys.time(), '%m / %d %y')` "
 title-block-banner: "#5d6174"
 published-title: CV last updated
