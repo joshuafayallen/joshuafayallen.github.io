@@ -12,7 +12,7 @@ At GSU, we have [Early Alert](https://success.students.gsu.edu/early-alert/#1491
 Our learning management software likes to add lots of extra stuff to the column names in our data. While most of us would come up with a more concise name like `Chapter_4` our software exports the column names as assignment name, grading scheme, and the weights that are assigned. So it looks like `Chapter 4.2 Points Grade <Numeric MaxPoints:100 Weight:3.125 Category:Area9 Chapters CategoryWeight:23>`.  We could use `janitor::clean_names` to eliminate some of the extraneous stuff, however iCollege will get grumpy at us because they do not match the names in the gradebook. We could do this in Excel, and I have done it in the past, I figured I could speed this up in `R` while avoiding the headaches of ensuring each and every column is where it should be.
 
 ```{r, message=FALSE, warning=FALSE}
-library(tidyverse)
+pacman::p_load(tidyverse, DT)
 
 set.seed(1994)
 

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -199,19 +199,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>At GSU, we have <a href="https://success.students.gsu.edu/early-alert/#1491401397066-70b280d0-31cd2fde-8845">Early Alert</a> that is meant to connect students with resources if they are not doing well in the first few weeks of classes. While setting up your rules of thumb is up to you, this can quickly soak up an entire day if you are going row by row in your class of 60 or more students. To streamline the process I turned to <code>R</code> because it is a fairly simple data cleaning task.</p>
 <p>Our learning management software likes to add lots of extra stuff to the column names in our data. While most of us would come up with a more concise name like <code>Chapter_4</code> our software exports the column names as assignment name, grading scheme, and the weights that are assigned. So it looks like <code>Chapter 4.2 Points Grade &lt;Numeric MaxPoints:100 Weight:3.125 Category:Area9 Chapters CategoryWeight:23&gt;</code>. We could use <code>janitor::clean_names</code> to eliminate some of the extraneous stuff, however iCollege will get grumpy at us because they do not match the names in the gradebook. We could do this in Excel, and I have done it in the past, I figured I could speed this up in <code>R</code> while avoiding the headaches of ensuring each and every column is where it should be.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1994</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>students <span class="ot">=</span> <span class="dv">26</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">26</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">Students =</span> LETTERS,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Chapter 4.2 Points Grade &lt;Numeric MaxPoints:100 Weight:3.125 Category:Area9 Chapters CategoryWeight:23&gt;</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rnorm</span>(students, <span class="at">mean =</span> <span class="dv">90</span>, <span class="at">sd =</span> <span class="dv">5</span>),</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">Chapter 4.3 Points Grade &lt;Numeric MaxPoints:100 Weight:3.125 Category:Area9 Chapters CategoryWeight:23&gt;</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rnorm</span>(students, <span class="at">mean =</span> <span class="dv">90</span>, <span class="at">sd =</span> <span class="dv">5</span>),</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">Chapter 4.4  Points Grade &lt;Numeric MaxPoints:100 Weight:3.125 Category:Area9 Chapters CategoryWeight:23&gt;</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rnorm</span>(students, <span class="at">mean =</span> <span class="dv">90</span>, <span class="at">sd =</span> <span class="dv">5</span>),</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">Chapter 4.5  Points Grade &lt;Numeric MaxPoints:100 Weight:3.125 Category:Area9 Chapters CategoryWeight:23&gt;</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rnorm</span>(students, <span class="at">mean =</span> <span class="dv">90</span>, <span class="at">sd =</span> <span class="dv">5</span>),</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">Exam 1 Points Grade &lt;Numeric MaxPoints:55 Weight 10 Category: Exams</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rnorm</span>(students, <span class="at">mean =</span> <span class="dv">85</span>, <span class="at">sd =</span> <span class="dv">3</span>))  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, DT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+The downloaded binary packages are in
+    /var/folders/0k/jvdgmwf56zg1dw7n9mm2wzvc0000gp/T//RtmphLVZMW/downloaded_packages</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1994</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>students <span class="ot">=</span> <span class="dv">26</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">26</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">Students =</span> LETTERS,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Chapter 4.2 Points Grade &lt;Numeric MaxPoints:100 Weight:3.125 Category:Area9 Chapters CategoryWeight:23&gt;</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rnorm</span>(students, <span class="at">mean =</span> <span class="dv">90</span>, <span class="at">sd =</span> <span class="dv">5</span>),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">Chapter 4.3 Points Grade &lt;Numeric MaxPoints:100 Weight:3.125 Category:Area9 Chapters CategoryWeight:23&gt;</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rnorm</span>(students, <span class="at">mean =</span> <span class="dv">90</span>, <span class="at">sd =</span> <span class="dv">5</span>),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">Chapter 4.4  Points Grade &lt;Numeric MaxPoints:100 Weight:3.125 Category:Area9 Chapters CategoryWeight:23&gt;</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rnorm</span>(students, <span class="at">mean =</span> <span class="dv">90</span>, <span class="at">sd =</span> <span class="dv">5</span>),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">Chapter 4.5  Points Grade &lt;Numeric MaxPoints:100 Weight:3.125 Category:Area9 Chapters CategoryWeight:23&gt;</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rnorm</span>(students, <span class="at">mean =</span> <span class="dv">90</span>, <span class="at">sd =</span> <span class="dv">5</span>),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">Exam 1 Points Grade &lt;Numeric MaxPoints:55 Weight 10 Category: Exams</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rnorm</span>(students, <span class="at">mean =</span> <span class="dv">85</span>, <span class="at">sd =</span> <span class="dv">3</span>))  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this simple example there are only 5 columns they have annoying names sure but it is not that bad. We can probably copy and paste them and we will be fine. However, in my real data there are 13 or so chapters with a few subsections in each of them. So this can get out from under us kind of quick and copy and pasting does not make our lives any easier. We also usually get columns that do not help us. Our <code>ID</code> variable is not doing anything other than providing the same info in a less transparent way than the <code>student</code> name variable, and more minor items like surveys which do not have a lot of weight on their final grade.</p>
 <p>I just used <code>rnorm</code> for convenience; however your data is more likely to have some missing values because students did not do stuff so it looks like this.</p>
@@ -507,76 +511,76 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>So for the purpose of the report I treat NA’s as zeros. If you are dealing with multiple columns this is a pretty easy step just use <code>mutate(across)</code> and using some combination of <code>starts_with</code>, <code>contains</code>, <code>everything</code>, or <code>ends_with</code> to achieve the desired goal.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>imputed <span class="ot">=</span>  dat_miss <span class="sc">%&gt;%</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(<span class="fu">starts_with</span>(<span class="st">"exam"</span>), <span class="fu">starts_with</span>(<span class="st">"chapter"</span>), </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                  ), <span class="sc">~</span><span class="fu">replace</span>(., <span class="fu">is.na</span>(.), <span class="dv">0</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>imputed <span class="ot">=</span>  dat_miss <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(<span class="fu">starts_with</span>(<span class="st">"exam"</span>), <span class="fu">starts_with</span>(<span class="st">"chapter"</span>), </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                  ), <span class="sc">~</span><span class="fu">replace</span>(., <span class="fu">is.na</span>(.), <span class="dv">0</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So that should take care of the <code>NA's</code> but we still need to generate our indicators. The assignments that carry the most weight are exams and the chapters, so I focus the most on those. In my use case, taking the sum makes sense, but for yours the average is probably the better option. Thankfully, while the learning management software names are a bit cumbersome, they do share something in common. So we can use <code>mutate(across)</code> and <code>rowwise</code> to make our life easier. <code>rowwise</code> is a pretty neat little function that works perfectly for this task where you are trying to do things for each <a href="https://www.tidyverse.org/blog/2020/04/dplyr-1-0-0-rowwise/">student</a>. Then you can use <code>case_when</code> or <code>ifelse</code> to generate a logical to create your flag. This is a toy example, but we can quickly start to build it out for our specific use cases. Using a mixture of <code>apply</code> and <code>select</code> you can achieve the same thing.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a> flag <span class="ot">=</span> imputed <span class="sc">%&gt;%</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">flag_dplyr =</span> <span class="fu">round</span>(<span class="fu">sum</span>(<span class="fu">across</span>(<span class="fu">starts_with</span>(<span class="st">"chapter"</span>)))))</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>flag<span class="sc">$</span>flag_apply <span class="ot">=</span> imputed <span class="sc">%&gt;%</span> </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">"chapter"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(., <span class="dv">1</span>, <span class="cf">function</span>(row){</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">sum</span>(row))</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a> flag <span class="ot">=</span> imputed <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">flag_dplyr =</span> <span class="fu">round</span>(<span class="fu">sum</span>(<span class="fu">across</span>(<span class="fu">starts_with</span>(<span class="st">"chapter"</span>)))))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>flag<span class="sc">$</span>flag_apply <span class="ot">=</span> imputed <span class="sc">%&gt;%</span> </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">"chapter"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(., <span class="dv">1</span>, <span class="cf">function</span>(row){</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">sum</span>(row))</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Cool, we can use this for our basic stuff, but I tend to weigh exams by how well students did. So your highest exam score counts for more, and your lowest exam has the least amount of weight. As with lots of things in <code>R</code> you can do this a few ways. There is probably a more concise way of doing this with <code>apply</code> it is ugly but works.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>exams_complete <span class="ot">=</span> imputed <span class="sc">%&gt;%</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">Exam 2 Points Grade &lt;Numeric MaxPoints:55 Weight 10 Category: Exams</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rnorm</span>(students, <span class="at">mean =</span> <span class="dv">70</span>, <span class="at">sd =</span> <span class="dv">11</span>),</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Exam 3 Points Grade &lt;Numeric MaxPoints:55 Weight 10 Category: Exams</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rnorm</span>(students, <span class="at">mean =</span> <span class="dv">75</span>, <span class="at">sd =</span> <span class="dv">11</span>))</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>exams_complete<span class="sc">$</span>higest_exam_apply <span class="ot">=</span> exams_complete <span class="sc">%&gt;%</span>  </span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">"Exam"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(., <span class="dv">1</span>, <span class="cf">function</span>(row){</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">max</span>(row))</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>exams_complete <span class="ot">=</span> exams_complete <span class="sc">%&gt;%</span> </span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hig_exam_dplyr =</span> <span class="fu">round</span>(<span class="fu">max</span>(<span class="fu">c_across</span>(<span class="fu">contains</span>(<span class="st">"Exam"</span>)))))</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>exams_complete<span class="sc">$</span>lowest_exam_apply <span class="ot">=</span> exams_complete <span class="sc">%&gt;%</span>  </span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">"Exam"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(., <span class="dv">1</span>, <span class="cf">function</span>(row){</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">min</span>(row))</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>exams_complete <span class="ot">=</span> exams_complete <span class="sc">%&gt;%</span> </span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">low_exam_dplyr =</span> <span class="fu">round</span>(<span class="fu">min</span>(<span class="fu">c_across</span>(<span class="fu">contains</span>(<span class="st">"Exam"</span>)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>exams_complete <span class="ot">=</span> imputed <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">Exam 2 Points Grade &lt;Numeric MaxPoints:55 Weight 10 Category: Exams</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rnorm</span>(students, <span class="at">mean =</span> <span class="dv">70</span>, <span class="at">sd =</span> <span class="dv">11</span>),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Exam 3 Points Grade &lt;Numeric MaxPoints:55 Weight 10 Category: Exams</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">rnorm</span>(students, <span class="at">mean =</span> <span class="dv">75</span>, <span class="at">sd =</span> <span class="dv">11</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>exams_complete<span class="sc">$</span>higest_exam_apply <span class="ot">=</span> exams_complete <span class="sc">%&gt;%</span>  </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">"Exam"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(., <span class="dv">1</span>, <span class="cf">function</span>(row){</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">max</span>(row))</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>exams_complete <span class="ot">=</span> exams_complete <span class="sc">%&gt;%</span> </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hig_exam_dplyr =</span> <span class="fu">round</span>(<span class="fu">max</span>(<span class="fu">c_across</span>(<span class="fu">contains</span>(<span class="st">"Exam"</span>)))))</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>exams_complete<span class="sc">$</span>lowest_exam_apply <span class="ot">=</span> exams_complete <span class="sc">%&gt;%</span>  </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">"Exam"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(., <span class="dv">1</span>, <span class="cf">function</span>(row){</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">min</span>(row))</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>exams_complete <span class="ot">=</span> exams_complete <span class="sc">%&gt;%</span> </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">low_exam_dplyr =</span> <span class="fu">round</span>(<span class="fu">min</span>(<span class="fu">c_across</span>(<span class="fu">contains</span>(<span class="st">"Exam"</span>)))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So this is easy enough because we are just changing what we are doing with our summary function, but what about the second highest exam score? In this case you are going to have to use some trickery to get what you want</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>exams_complete<span class="sc">$</span>second_highest <span class="ot">=</span> exams_complete <span class="sc">%&gt;%</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"Exam"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(., <span class="dv">1</span>, <span class="cf">function</span>(row){</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">sort</span>(row, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">2</span>])</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>exams_complete<span class="sc">$</span>second_highest <span class="ot">=</span> exams_complete <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"Exam"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(., <span class="dv">1</span>, <span class="cf">function</span>(row){</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>(<span class="fu">sort</span>(row, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">2</span>])</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is simple enough and you can just use <code>select</code> and <code>filter</code> to get the info you want. However, as we all know we have to do some grading. You can use all your favorite <code>dplyr</code> tricks to grade and impute grades. This is the easy part, and now you can start to expand this out to using <code>R</code> to automate calculating grades. One super neat assignment all Intro to Government students at Georgia State do is assigning an adult field trip of sorts that is free for them. The students go to the <a href="https://www.civilandhumanrights.org/">National Center for Civil and Human Rights</a> and do a tour and simulation of the lunch counter sit-ins. There are a few components to this: they submit a unique code as part of the proof that they have done it. Naturally, as is the case, some students just did not do it, but that nbd just use our friend left join, but to retain all the students be sure to include <code>keep = TRUE</code> so each student gets graded.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>codes_data <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">Students =</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>],</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">code =</span> <span class="dv">100</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>exams_complete <span class="ot">=</span> <span class="fu">mutate</span>(exams_complete, <span class="at">Code =</span> <span class="cn">NA</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>grades_with_codes <span class="ot">=</span> <span class="fu">left_join</span>(exams_complete, codes_data, <span class="at">by =</span> <span class="st">"Students"</span>, <span class="at">keep =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Code =</span> code,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">Code =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(Code), <span class="dv">0</span>, Code)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">id =</span> id.x,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">students =</span> Students.x) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>id.y, <span class="sc">-</span>Students.y, <span class="sc">-</span>code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>codes_data <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">Students =</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>],</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">code =</span> <span class="dv">100</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>exams_complete <span class="ot">=</span> <span class="fu">mutate</span>(exams_complete, <span class="at">Code =</span> <span class="cn">NA</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>grades_with_codes <span class="ot">=</span> <span class="fu">left_join</span>(exams_complete, codes_data, <span class="at">by =</span> <span class="st">"Students"</span>, <span class="at">keep =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Code =</span> code,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">Code =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(Code), <span class="dv">0</span>, Code)) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">id =</span> id.x,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">students =</span> Students.x) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>id.y, <span class="sc">-</span>Students.y, <span class="sc">-</span>code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In the real data, I join by using last names, which works for the most part. But you may need to check to make sure that your LMS has correctly spelled your students’ last name or, just as importantly, they spelled their last name correctly. Hopefully, this helps somebody. If not, at least it is tucked in a nice blog post. Be sure to check everything to make sure it is working, but if it works correctly then hopefully , you get a nice graded dataset</p>
 <div class="cell">
