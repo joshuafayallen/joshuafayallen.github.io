@@ -1,0 +1,1707 @@
+---
+title: "Translating What I know in the tidyverse to polars:"
+date: last-modified
+date-format: "MMM D, YYYY"
+description: "This is me learning the snake language"
+categories:
+  - r
+  - tidyverse
+  - python
+  - polars
+knitr: 
+   opts_chunk: 
+     warning: false
+     message: false 
+---
+
+
+I suppose at some point it is good to become more well versed in lots of tools. I have been python curious for about a year or so and I think it is important to use the tool best suited for the task. Also sometimes it is important to get out of your comfort zone. I am definitely somebody who is very comfortable in R and the `tidyverse` and use it for a lot of stuff. I have heard lots of ravings about polars specifically about its speed and similarities in intuition with the tidyverse. So I thought I would have a collection of code for myself and the people of the internet to reference. 
+
+
+Just a disclaimer. This is really just me working through the similarities and is going to be based on the [tidyintelligence's blog post](https://blog.tidy-intelligence.com/posts/dplyr-vs-polars/), [Robert Mitchell's blog post](https://robertmitchellv.com/blog/2022-07-r-python-side-by-side/r-python-side-by-side.html), and [Emily Rieder's blog post](https://www.emilyriederer.com/post/py-rgo-polars/). In all honesty, this is just for me to smash them together to have a one-stop shop for myself. If you found this post over these resources I highly recommend you check out these resources. 
+
+
+
+# The Basics 
+
+As always we should load in the respective packages we are going to use. 
+
+```{r}
+#| include: false
+#| echo: false 
+pacman::p_load(reticulate, rmarkdown, janitor, arrow )
+
+
+
+py_install(c("polars", "pandas", "pyjanitor", "numpy", "pyarrow", "setuptools", "statsmodels", "seaborn", "matplotlib"))
+
+
+
+
+```
+
+
+
+:::{.panel-tabset}
+## R 
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+library(palmerpenguins)
+
+
+
+
+```
+
+
+## Python 
+
+
+```{python}
+import polars as pl
+import polars.selectors as cs
+from palmerpenguins import load_penguins
+
+penguins = load_penguins().pipe(pl.from_pandas)
+
+
+pl.Config(tbl_rows = 10)
+
+
+
+
+
+```
+
+
+
+:::
+
+
+Okay so far nothing too crazy! The main difference in loading in the packages and the data we are using is really just that to get with our familiar `starts_with` friends from the tidyverse we have to add `polars.selectors` and change some defaults. Lots of the time we would like to see the top and bottom portion and the column types. In `R` this is just our `head`, `tail`, `glimpse/str` in python it should be broadly similar. 
+
+
+:::{.panel-tabset}
+
+## R 
+
+```{r}
+head(penguins) |>
+knitr::kable(booktabs = TRUE)
+
+
+```
+
+
+## Python
+
+```{python}
+
+penguins.head()
+
+
+```
+
+:::
+
+So one big difference for me is that when you are doing things with objects instead of feeding them directly to head you are doing `object_name.head()` which I suppose will take some time to get used to. I suppose for completeness we should look at the glimpse equivalent since I use that function all the time 
+
+
+:::{.panel-tabset}
+
+## R
+
+```{r}
+
+glimpse(penguins)
+
+```
+
+## Python
+
+
+```{python}
+
+penguins.glimpse()
+
+```
+
+:::
+
+
+Okay! What is cool for me so far about polars is that it is more getting used to the whole `.` thing. 
+
+
+# Filter
+
+One of the key things in data cleaning or working with data is working with observations that fit some criteria! In this case, lets just grab all the rows that have Adelie penguins and are above the mean body mass 
+
+
+:::{.panel-tabset}
+
+## R
+
+```{r}
+
+penguins |>
+filter(species == "Adelie", body_mass_g > mean(body_mass_g, na.rm = TRUE))
+
+
+```
+
+
+
+
+## Python 
+
+
+
+```{python}
+#| error: true
+penguins.filter(pl.col("species") == "Adelie" &
+                pl.col("body_mass_g" > mean(pl.col("body_mass_g"))))
+
+
+
+```
+
+:::
+
+This is my first attempt at it! It looks like the problem  I am running into is that Python does not have a `base python` where a function like mean is defined. 
+
+After fiddling with it for some time it turns out the filter call is actually not correctly defined either! So before each filter option, you need to add a set of `()`
+
+:::{.panel-tabset}
+
+## R
+
+```{r}
+
+penguins |>
+filter(species == "Adelie", body_mass_g > mean(body_mass_g, na.rm = TRUE))
+
+
+
+```
+
+
+
+
+## Python 
+
+
+
+```{python}
+#| error: true
+
+penguins.filter((pl.col("species") == "Adelie") &
+                (pl.col("body_mass_g") > pl.col("body_mass_g").mean()))
+
+
+
+```
+
+:::
+
+Nobody said this was going to be pretty or seamless! One other thing to get used to is that we are not going to be using something crazy like `%in%` for set membership! We use `is_in` 
+
+
+:::{.panel-tabset}
+
+## R
+
+```{r}
+
+penguins |>
+filter(species %in% c("Gentoo", "Chinstrap"),
+       bill_depth_mm > median(bill_depth_mm, na.rm = TRUE))
+
+
+
+```
+
+
+
+
+## Python 
+
+
+
+```{python}
+#| error: true
+
+penguins.filter((pl.col("species").is_in(["Chinstrap", "Gentoo"])) & 
+                (pl.col("bill_depth_mm") > pl.col("bill_depth_mm").median()))
+
+
+```
+
+:::
+
+
+One other thing that is weird (to me at least) is that you do not have to set the polars functions to remove NA's by default! Which I suppose is nice? But feels a bit wrong and weird to me as an R user. 
+
+
+
+# Select 
+
+
+In some cases, we have a dataset with extraneous columns we do not care for. Let's do a really extreme example 
+
+
+
+:::{.panel-tabset}
+
+## R 
+
+```{r}
+
+penguins |>
+select(island)
+
+```
+
+## Python
+
+```{python}
+
+penguins.select((pl.col("island")))
+
+
+```
+
+
+:::
+
+
+OKAY! first try now we are cooking! If we wanted to do multiple columns we would do something to the effect of
+
+
+:::{.panel-tabset}
+
+## R
+
+```{r}
+
+penguins |>
+select(species, island)
+
+
+
+```
+
+
+
+
+## Python 
+
+To do multiple columns we could do something to the effect of this:
+
+
+```{python}
+#| error: true
+
+penguins.select((pl.col("species", "island")))
+
+
+```
+
+:::
+
+Which feels more natural to me, but to some extent a dictionary would probably be more pythony. One thing I use all the time is using tidyselectors like `starts_with` 
+
+
+:::{.panel-tabset}
+
+## R
+
+```{r}
+
+penguins |>
+select(starts_with("bill"))
+
+
+
+```
+
+
+
+
+## Python 
+
+
+
+```{python}
+#| error: true
+
+penguins.select(cs.starts_with("bill"))
+
+
+```
+
+:::
+
+This is actually so cool that in this case it works exactly like the tidyverse selector functions! 
+
+### Renaming 
+
+I am a simple man I like snake_case but lets say I am more camel case inclined. I may want to rename columns that I am using as to not deal with object not found messages because I am used to typing billLengthMm. In the tidyverse we would do 
+
+
+:::{.panel-tabset}
+
+## R
+
+```{r}
+
+penguins |>
+rename(BillLengthMm = bill_length_mm,
+       BillDepthMm = bill_depth_mm)
+
+
+```
+
+
+
+
+## Python 
+
+
+
+```{python}
+#| error: true
+
+penguins = penguins.rename({"bill_length_mm":"BillLengthMm",
+                "bill_depth_mm":"BillDepthMm"})
+
+
+penguins = penguins.rename({"BillLengthMm": "bill_length_mm", 
+              "BillDepthMm":"bill_depth_mm"})
+
+
+```
+
+:::
+
+
+In effect the thing you need to switch in your head when working in polars is that the order goes `old_name`:`new_name` I assigned it to an object because I wanted to test out a module I found online.
+
+# Mutate 
+
+Okay we have worked with subsets now we need to actually create some things. We should also work on chaining things together. Lets first with doing math stuff to the columns. Lets start with how I think it works in polars and if it errors then we can go and fix it
+
+
+
+:::{.panel-tabset}
+
+## R
+
+```{r}
+
+penguins |>
+mutate(sqr_bill_length = bill_length_mm^2) |>
+select(sqr_bill_length) |>
+head()
+
+
+```
+
+
+
+
+## Python 
+
+
+
+```{python}
+#| error: true
+
+penguins.mutate({pl.col("bill_length_mm")^2: "sqr_bill_length"}).select(pl.col("sqr_bill_length"))
+
+
+```
+
+:::
+
+
+Okay where I am coming from is that in my head what we are doing is using the same logic as renaming columns. Lets fix it. So the first problem is that there is no `mutate` verb. Instead we use `with_column` 
+
+
+```{python}
+
+
+
+penguins.with_columns(sqr_bill_length = pl.col("bill_length_mm")**2).select(pl.col("sqr_bill_length")).head()
+
+```
+
+
+Okay this is the general idea. One of the big advantages of mutate is that we chain things together in the same mutate col. So lets say we wanted to square something than return it back to the original value
+
+
+:::{.panel-tabset}
+
+
+## R 
+
+```{r}
+
+penguins |>
+mutate(sqr_bill = bill_length_mm^2,
+       og_bill = sqrt(sqr_bill)) |>
+       select(sqr_bill, og_bill, bill_length_mm) |>
+       head(n = 5)
+
+
+
+```
+
+
+
+## Python 
+
+
+
+```{python}
+
+
+
+penguins.with_columns(sqr_bill = pl.col("bill_length_mm")**2).with_columns(og_bill = pl.col("sqr_bill").sqrt()).select(pl.col("sqr_bill", "og_bill", "bill_length_mm")).head(5)
+
+
+```
+
+
+:::
+
+
+Now the next step is creating conditionals 
+
+
+
+:::{.panel-tabset}
+
+
+## R 
+
+```{r}
+
+penguins |>
+mutate(female = ifelse(sex == "female", TRUE, FALSE)) |>
+select(sex, female) |>
+head(5)
+
+
+
+```
+
+
+
+## Python 
+
+
+
+```{python}
+
+
+penguins.with_columns(female = pl.when(pl.col("sex") == "female").then(True).otherwise(False)).select(["sex", "female"]).head(5)
+
+
+```
+
+
+:::
+
+Full disclosure this took a much longer time than shown but this is the basic idea. Lets do this to keep myself a bit more honest. Recreate a silly example that I use to teach ifelse using the starwars dataset. 
+
+
+```{r}
+data("starwars")
+
+arrow::write_parquet(starwars, "starwars.parquet")
+
+```
+
+
+:::{.panel-tabset}
+
+
+## R 
+
+```{r}
+
+starwars |>
+mutate(dog_years = birth_year * 7,
+       comment = paste(name, "is", dog_years, "in dog years")) |>
+       select(name, dog_years, comment) |>
+       head(5)
+
+
+
+```
+
+
+
+## Python 
+
+
+
+```{python}
+#| error: true
+
+starwars = pl.read_parquet("starwars.parquet")
+
+starwars.with_columns(dog_years = pl.col("birth_year") * 7).with_columns(dog_years_string = pl.col("dog_years").cast(str)).with_columns(comment = pl.col("name") + " is " + pl.col("dog_years_string") + " in dog years ")
+
+```
+
+
+:::
+
+It turns out that the column was actually a string 
+
+
+
+
+
+```{python}
+#| error: true
+
+starwars.glimpse()
+
+starwars.with_columns(dog_years = pl.col("birth_year").str.to_integer(strict = False)*7).with_columns(dog_years_string = pl.col("dog_years").cast(pl.String)).with_columns(comment = pl.col("name") + " is " + pl.col("dog_years_string")  + " in dog years").select(pl.col("name", "dog_years", "comment"))
+
+```
+
+
+
+Lets also do this for penguins but make it fun 
+
+
+
+
+```{python}
+
+penguins.with_columns(big_peng = pl.when(pl.col("body_mass_g") > pl.col("body_mass_g").mean()).then(True).otherwise(False))
+```
+
+
+
+
+
+## Group by and summarize
+
+
+Last but not least we need to do the group by and summarise bit. It looks like this is slightly more intuitive
+
+
+:::{.panel-tabset}
+
+
+## R 
+
+```{r}
+
+penguins |>
+group_by(species) |>
+summarise(total = n())
+
+
+
+```
+
+
+
+## Python 
+
+
+
+```{python}
+#| error: true
+
+penguins.group_by(pl.col("species")).agg(total = pl.count())
+
+```
+
+
+:::
+
+
+Lets do some mathy stuff 
+
+
+```{python}
+
+penguins.group_by(pl.col("species")).agg(count = pl.len(),
+                                         mean_flipp = pl.mean("flipper_length_mm"),
+                                         median_flipp = pl.median("flipper_length_mm"))
+
+```
+
+
+A thing that is useful in summarize is that we can use our selectors to summarise across multiple columns like this 
+
+
+
+
+```{r}
+
+penguins |>
+group_by(species) |>
+summarise(across(starts_with("bill"), list(mean = \(x) mean(x, na.rm = TRUE,
+                                           median = \(x) median(x, na.rm,  TRUE)))))
+
+
+
+```
+
+
+
+In polars I imagine it would probably be something like this 
+
+
+
+
+```{python}
+#| error: true
+
+penguins.group_by(pl.col("species")).agg(cs.starts_with("bill").mean())
+
+
+```
+
+
+The think I am running into now is that I would like to add a `_` without doing any extra work. It looks like according to the docs it should be this 
+
+
+
+```{python}
+
+penguins.group_by(pl.col("species")).agg(cs.starts_with("bill").mean().name.suffix("_mean"),
+                                         cs.starts_with("bill").median().name.suffix("_median"))
+
+```
+
+
+## Joins in Polars 
+
+It would be nice if we had all the data we wanted in one dataset but that is not life we often need to join data. Critically we also would not want to have all our data in one place if we care about users safety. So we may want to keep portions of the dataset in separate places. So lets define a simple dataset to work with. 
+
+
+
+
+```{r}
+national_data <- tribble(
+  ~state, ~year, ~unemployment, ~inflation, ~population,
+  "GA",   2018,  5,             2,          100,
+  "GA",   2019,  5.3,           1.8,        200,
+  "GA",   2020,  5.2,           2.5,        300,
+  "NC",   2018,  6.1,           1.8,        350,
+  "NC",   2019,  5.9,           1.6,        375,
+  "NC",   2020,  5.3,           1.8,        400,
+  "CO",   2018,  4.7,           2.7,        200,
+  "CO",   2019,  4.4,           2.6,        300,
+  "CO",   2020,  5.1,           2.5,        400
+)
+
+national_libraries <- tribble(
+  ~state, ~year, ~libraries, ~schools,
+  "CO",   2018,  230,        470,
+  "CO",   2019,  240,        440,
+  "CO",   2020,  270,        510,
+  "NC",   2018,  200,        610,
+  "NC",   2019,  210,        590,
+  "NC",   2020,  220,        530,
+)
+
+
+```
+
+
+```{python}
+
+national_dict = {"state": ["Ga", "Ga", "Ga",  "NC", "NC", "NC", "CO", "CO", "CO"], "unemployment":[6,6,8,6,4,3,7,8,9], "year": [2019,2018,2017,2019,2018,2017,2019,2018,2017]}
+
+
+national_data = pl.DataFrame(national_dict)
+
+
+library_dict = {"state":["CO", "CO", "CO"], "libraries": [23234,2343234,32342342], "year":[2019,2018,2017]}
+
+
+library_data = pl.DataFrame(library_dict)
+
+
+
+```
+
+
+We may want to merge in the library dataset. In tidyland we would do something like this 
+
+
+
+
+
+```{r}
+
+national_data |>
+left_join(national_libraries, join_by(state, year))
+
+
+```
+
+
+In polars land we would join the data like this 
+
+
+
+
+```{python}
+
+joined_data = national_data.join(library_data, on = ["state","year"], how = "left")
+
+joined_data 
+
+
+```
+
+
+
+This is honestly pretty comfortable. One thing that is really nice about dplyr is that you can pretty easily join columns that are not named the same thing. 
+
+
+```{r}
+
+national_libraries = national_libraries |>
+rename(state_name = state)
+
+
+
+national_data |>
+left_join(national_libraries, join_by(state == state_name, year))
+
+
+```
+
+In polars the process is less clear immediately. Instead of a nice `join_by` argument you have specify the keys separately. But still pretty intuitive. 
+
+
+```{python}
+
+
+library_dat = library_data.rename({"state": "state_name"})
+
+
+national_data.join(library_dat, left_on = ["state", "year"],
+               right_on = ["state_name", "year"], how = "left" )
+
+
+```
+
+
+
+
+## Binding Rows 
+
+Sometimes we just want to add rows to our data 
+
+
+```{r}
+
+a = data.frame(id = 1:2, vals = 1:2)
+
+b  = data.frame(id = 3:4, vals = 3:4)
+
+
+a |>
+bind_rows(b)
+
+
+
+```
+
+
+or we want to add columns 
+
+
+
+```{r}
+
+c = data.frame(chars = c("hello", "lorem"),
+               var_23 = c("world", "ipsum"))
+
+a |>
+bind_cols(c)
+
+
+```
+
+
+
+
+How would we do this in polars? 
+
+
+
+
+```{python}
+
+a = pl.DataFrame(
+       {"a": [1,2],
+        "b": [3,4]}
+)
+
+b = pl.DataFrame({"a" : [3,4], "b": [5,6]})
+
+
+pl.concat([a, b], how = "vertical")
+
+```
+
+
+Again fairly intuitive if we wanted to bind the columns 
+
+
+
+
+```{python}
+
+c = pl.DataFrame({"chars": ["hello", "lorem"], "chars2":["world","ipsum"]})
+
+
+pl.concat([a,c], how = "horizontal")
+
+```
+
+
+
+# Tidyr 
+
+
+
+## Pivots of all shapes 
+
+Sometimes we need to pivot our data. Lets use the built in example from tidyr. Basically we have a whole bunch of columns that denote counts of income brackets 
+
+
+```{r}
+
+relig = relig_income
+
+
+write_csv(relig,"relig_income.csv")
+
+
+head(relig_income)
+
+
+```
+
+In tidyr we would just do this 
+
+
+
+```{r}
+
+relig |>
+pivot_longer(-religion,
+              names_to = "income_bracket",
+              values_to = "count")
+
+
+
+```
+
+
+which is nice because we can just identify a column and then pivot. One thing that I will have to just memorize is that when we are moving things to long in polars than we melt the dataframe. Kind of like a popsicle or something. The mnemonic device will come to me eventually 
+
+
+
+
+```{python}
+
+relig = pl.read_csv("relig_income.csv")
+
+relig.head()
+
+
+```
+
+
+To melt all we do is 
+
+
+
+```{python}
+
+relig.melt(id_vars = "religion", variable_name = "income_bracket", value_name = "count")
+
+```
+
+
+
+same would go for the pivoting wider 
+
+
+
+```{python}
+
+
+penguins.pivot(index = "island",columns = "species", values = "body_mass_g",
+              aggregate_function="sum")
+
+```
+
+
+this isn't quite the same because we are aggregating it. This is likely just a skill issue on the user end. But still we have wide data now!
+
+
+
+### Using selectors in pivot longer 
+
+
+A slightly more complex example is using the billboards datas 
+
+```{r}
+
+billboards = tidyr::billboard
+
+
+write_csv(billboards, "billboard.csv")
+
+
+head(billboards)
+
+ billboards |>
+pivot_longer(cols = starts_with("wk"),
+              names_to = "week",
+              values_to = "count_of_weeks")
+
+
+```
+
+
+
+We can do something similar with polars by using our selectors.
+
+
+```{python}
+
+billboards = pl.read_csv("billboard.csv")
+
+
+billboards.melt(id_vars = "artist",value_vars  = cs.starts_with("wk"),
+                variable_name = "week", value_name = "count" )
+
+
+
+```
+
+Broadly it works the same but if you don't specify the id vars you will end up with just the week and count column
+
+## Unnest
+
+Sometimes we have these unfriendly list columns that we would like to make not lists. Lets go ahead and use the starwars list columns. 
+
+```{r}
+
+
+starwars_lists = starwars |>
+select(name, where(is.list)) |>
+unnest_longer(starships , keep_empty = TRUE) |>
+unnest_longer(films, keep_empty = TRUE) |>
+unnest_longer(vehicles, keep_empty = TRUE)
+
+
+
+
+
+head(starwars_lists)
+
+
+```
+
+
+In polars we have a similarish function named `explode`. Unfortunately we don't have a a selector for all attribute types so we are going to do this by hand. 
+
+```{python}
+
+starwars_list = starwars.select(["name", "films", "vehicles", "starships"])
+
+starwars_list.glimpse()
+
+
+starwars_explode =  starwars_list.explode("films").explode("vehicles").explode("starships")
+
+starwars_explode.head()
+
+
+```
+
+
+
+# Plotting data 
+
+
+Confession time. I hate matplots I never think they look very nice. However I as somebody who enjoys data visualization should learn how to do it in python too. From what I can tell there are a few different attempts at porting over ggplot. But It seems like working in something somewhat standard versus going polars and ibis all the way probably makes sense.
+
+One thing that should be mentioned is that missing values in python are not the same. Since quarto was getting mad at me for some reason about not having installed the palmer penguins package I decided to stop fighting with it. One thing that is 
+
+```{python with-across-example}
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+
+
+
+
+sns.set_theme(style = "whitegrid")
+
+```
+
+So I think seaborne might be the way to go. Since I don't think histograms will go out of style lets just go and make a histogram 
+
+
+```{python}
+
+sns.histplot(data = penguins, x = "body_mass_g")
+
+```
+
+
+easy enough 
+
+
+
+```{python}
+
+sns.histplot(data = penguins, x = "body_mass_g", hue  = "species")
+
+```
+
+
+What if we wanted densities instead of frequencies? In ggplot it would be 
+
+
+
+```{r}
+ggplot(penguins, aes(x = body_mass_g, fill = species)) +
+geom_histogram(aes(y =  after_stat(density)))
+
+
+
+```
+
+
+
+In sns it would be. 
+
+
+
+```{python}
+
+sns.histplot(data = penguins, x = "body_mass_g", hue = "species", stat = "density")
+
+```
+
+
+I really like the legend on the inside! In new `ggplot 3.whatever` it is different now that there is an explicit `legend.position="inside"`.
+
+
+
+```{r}
+
+ggplot(penguins, aes(x = body_mass_g, y = after_stat(density), fill = species)) +
+geom_histogram() +
+theme_minimal() +
+theme(legend.position = c(.95,.95),
+      legend.justification = c("right", "top"))
+
+
+
+
+```
+
+
+Cool I like that and will fiddle with that my ggplot theme! 
+
+
+Okay lets now go and do some bivariate plots. Obviously the workhorse of bivariate plotting is the scatterplot .
+
+
+
+
+```{python}
+
+sns.scatterplot(data = penguins, x = "flipper_length_mm", y = "body_mass_g", hue = "species")
+
+```
+
+
+
+the next thing that we would want is to size points by the size of the penguin 
+
+
+
+```{python}
+
+sns.scatterplot(data = penguins, x = "flipper_length_mm", y = "body_mass_g", hue = "species", size = "body_mass_g")
+
+```
+
+
+That is not really great since the legend is inside and covering stuff. In ggplot we would simply just move the legend position. In this case we have to save it as an object
+
+
+
+
+```{python}
+
+exmp = sns.scatterplot(data = penguins, x = "flipper_length_mm", y = "body_mass_g", hue = "species", size = "body_mass_g")
+
+sns.move_legend(exmp, "upper left", bbox_to_anchor = (1,1))
+
+```
+
+
+
+
+
+
+
+```{python}
+
+sns.lmplot(data = penguins, x = "flipper_length_mm", y = "body_mass_g", hue = "species")
+
+```
+
+
+Then the other one that I use all the time is using a line of best fit .
+Okay obviously the most annoying part is that we don't have great labels 
+
+
+
+```{python}
+
+labs_examp = sns.lmplot(data = penguins, x = "flipper_length_mm", y = "body_mass_g", hue = "species")
+
+
+
+labs_examp.set_axis_labels(x_var= "Flipper Length(mm)", y_var = "Body Mass(g)")
+
+
+```
+
+
+One of the things we may want to do is to create small multiples. 
+
+
+
+```{python}
+
+sns.displot(data = penguins, x = "body_mass_g", hue = "species", row= "species", facet_kws = dict(margin_titles=False))
+
+```
+
+
+I am honestly not wild about the plot but that is life
+
+# Modeling 
+
+The last step in the journey is really just learning the basics of modeling. The annoying part is that there is no native support for our favorite stats stuff. So no trusty dust glm or OLS when you open up python.  From the excellent [marginaleffects package](https://marginaleffects.com/vignettes/get_started.html) it looks like there is a nice interface called `statsmodels` and they have a formula api which works like modeling in `R` just without lazy evaluation. 
+
+
+
+
+```{python}
+
+import statsmodels.formula.api as smf
+import numpy as np
+
+
+```
+
+
+Lets fit a few simple models to try and get the hang of statsmodels and see what happens. I will also load `broom` since I find that it makes working with all the various list components that R spits less annoying to work with. 
+
+
+Lets fit a univariate model first and then we can start playing with the api a little more
+
+:::{.panel-tabset}
+
+
+## R 
+
+```{r}
+
+library(broom)
+
+naive = lm(body_mass_g ~ flipper_length_mm, data = penguins)
+
+tidy(naive)
+
+
+```
+
+
+
+## Python 
+
+```{python}
+
+naive = smf.ols("body_mass_g ~ flipper_length_mm", data = penguins).fit()
+
+```
+
+
+:::
+
+
+The biggest difference between the two approaches is that specifying the model and fitting the model are two different steps. If we wanted to see a similar print out we would have to do something like 
+
+
+
+```{python}
+naive.summary()
+
+```
+
+Cool. A multivariate model would broadly be the same. One thing that we can do in R is we can transform the predictors in the formula like this 
+
+
+
+```{r}
+
+squared = lm(body_mass_g ~ flipper_length_mm + I(flipper_length_mm^2) + bill_depth_mm,
+              data = penguins)
+              
+tidy(squared)
+
+
+```
+
+
+
+We can do something like it.
+
+
+
+
+```{python}
+
+
+squared = smf.ols("body_mass_g ~ flipper_length_mm**2 + flipper_length_mm  + bill_depth_mm", data = penguins).fit()
+
+
+squared.summary()
+
+```
+
+However the results differ pretty wildly! Luckily there is an I operator in the underlying thing that makes this work. The problem is that it only works on pandas dataframes
+
+```{python}
+
+
+penguins_pd = penguins.to_pandas()
+
+
+squared = smf.ols('body_mass_g ~ I(flipper_length_mm**2) + flipper_length_mm + bill_depth_mm', data = penguins_pd).fit()
+
+
+
+
+```
+
+
+Now the results are lining up.  As a political scientist by training we love ourselves an interaction term. 
+
+
+:::{.panel-tabset}
+
+
+## R 
+
+```{r}
+
+interacted = lm(body_mass_g ~ bill_depth_mm * species + flipper_length_mm,
+data = penguins) 
+
+
+tidy(interacted)
+
+
+
+```
+
+## Python 
+
+
+```{python}
+
+
+
+interacted = smf.ols("body_mass_g ~ bill_length_mm * species + flipper_length_mm", data = penguins_pd).fit()
+
+
+interacted.summary()
+
+
+
+```
+
+:::
+
+
+Again for whatever reason patsy does not have great support for polars dataframe so the original polars frame throws an error. 
+
+One thing that we generally want to do is check our OLS assumptions. There are lots of different tests that we can run. But a good first check is to look at the fitted values versus the residuals. 
+
+
+In R we can do 
+
+
+
+```{r}
+#| message: false
+#| warning: false
+pacman::p_load(patchwork)
+
+dropped_nas = penguins |> drop_na(sex)
+
+
+with_species = lm(body_mass_g ~ bill_length_mm + flipper_length_mm + species,
+             data = dropped_nas)
+
+check_resids = augment(with_species, data = dropped_nas)
+
+
+violation_one = ggplot(check_resids, aes(x = .fitted, y = .resid, color = species)) +
+geom_point() +
+theme_minimal()
+
+violation_two = ggplot(check_resids, aes(x = .resid)) +
+geom_histogram() +
+theme_minimal()
+
+
+violation_one + violation_two 
+
+
+```
+
+
+
+
+In Python we would do something like this. 
+
+
+```{python}
+import pandas as pd
+
+penguins_sans_na = penguins.filter((pl.col("sex").is_not_null())).to_pandas()
+
+
+with_species = smf.ols('body_mass_g ~ bill_length_mm + flipper_length_mm + species', data = penguins_sans_na).fit()
+
+penguins_sans_na['fitted_vals'] = with_species.fittedvalues
+
+penguins_sans_na['residuals'] = with_species.resid
+
+
+
+sns.scatterplot(x = "fitted_vals", y = "residuals", hue = "species", data = penguins_sans_na)
+
+
+
+
+```
+
+
+# Misc stuff that are usefull but not neccessarilly useful all the time 
+
+Here are the collection of misfits that I thought would be useful 
+
+
+### Slice(family)
+
+One useful thing that I use all the time when testing out various things I am doing is using slice. This can be specific rows or a random sample of rows! 
+
+
+If we wanted specific rows we could do this with `slice` 
+
+:::{.panel-tabset}
+
+## R
+
+```{r}
+
+penguins |>
+slice(90:100)
+
+
+```
+
+
+
+
+## Python 
+
+
+
+```{python}
+#| error: true
+
+penguins.slice(89:10)
+
+
+```
+
+:::
+
+
+It looks like the R user in me strikes. So in polars if you wanted to do the same thing you give the starting number of the row you want and the length of the row you want. So we would rewrite the code like this 
+
+
+
+
+:::{.panel-tabset}
+
+## R
+
+```{r}
+
+penguins |>
+slice(90:100)
+
+
+```
+
+
+
+
+## Python 
+
+
+
+```{python}
+#| error: true
+
+penguins.slice(89,10)
+
+
+```
+
+:::
+
+I actually quite like the syntax of the python version better. It is just annoying having to reset my thinking to start counting at `0`
+
+
+
+
+### Slice Sample 
+
+I find it useful to take a random sample of rows and test functions. It is nice for the function to work on a set of examples you come up with but not everything is consistent so lopping off chunks of a dataset and seeing if it still works is useful. 
+
+
+
+:::{.panel-tabset}
+
+## R
+
+```{r}
+set.seed(1994)
+penguins |>
+slice_sample(n = 10)
+
+```
+
+
+
+
+## Python 
+
+
+
+```{python}
+#| error: true
+
+penguins.sample(n = 10, seed = 1994)
+
+
+```
+
+:::
+
+Luckily the syntax is broadly the same! 
+
+
+
+
+
+
+
+### Batch renaming 
+
+Often times if we download data from the internet the column names are a mess and we want to rename them all at once. The janitor package in R is extra handy
+
+Lets say we wanted to mass produce a camel case across the entire dataframe. In `R` that is a fairly simple task. Is it the case for python? 
+
+
+
+:::{.panel-tabset}
+
+## R
+
+```{r}
+
+penguins |>
+janitor::clean_names(case = "lower_camel")
+
+
+```
+
+
+
+
+## Python 
+
+
+
+```{python}
+#| error: true
+from janitor import clean_names
+
+penguins = penguins.rename({"bill_length_mm": "BillLengthMm",
+                "bill_depth_mm" : "BillDepthMm"})
+
+penguins.clean_names()
+
+
+```
+
+:::
+
+
+In my head it looks like this. Where we are effectively chaining clean names to the dataframe. From the documentation it looks like this 
+
+
+
+:::{.panel-tabset}
+
+## R
+
+```{r}
+
+penguins |>
+janitor::clean_names(case = "small_camel")
+
+
+```
+
+
+
+
+## Python 
+
+
+
+```{python}
+#| error: true
+
+clean_names(penguins)
+
+
+```
+
+:::
+
+
+Okay the trick it looks like is that it does not work with polars objects. So we need to pass it to pandas and then back to polars. 
+
+
+
+
+```{python}
+import pandas as pd 
+
+penguins.glimpse()
+
+penguins_pd = penguins.to_pandas()
+
+penguins_clean = clean_names(penguins_pd, case_type = "snake")
+
+penguins = pl.from_pandas(penguins_clean)
+
+penguins.glimpse()
+
+
+```
+
+
+This works which is awesome! We got back to the original dataset naes 
+
+
+
+## Make a column into a vector
+
+
+In R there are like a ton of different ways to do this 
+
+
+
+```{r}
+
+vec1 = penguins$bill_depth_mm
+
+vec2 = penguins |>
+pluck("bill_depth_mm")
+
+vec3 = penguins |>
+select(bill_depth_mm) |>
+deframe()
+
+
+
+```
+
+In polars the equivalent of this 
+
+```{python}
+
+vec1 = penguins["bill_depth_mm"]
+
+print(vec1[0,1])
+
+
+```
+
+
+:::{.panel-tabset}
+
+## R
+
+```{r}
+
+vec1[1:3]
+
+```
+
+
+
+
+## Python 
+
+
+
+```{python}
+#| error: true
+
+import numpy as np 
+
+print(vec1[0:2])
+
+
+```
+
+:::
