@@ -242,6 +242,41 @@ penguins.filter((pl.col("species").is_in(["Chinstrap", "Gentoo"])) &
 
 One other thing that is weird (to me at least) is that you do not have to set the polars functions to remove NA's by default! Which I suppose is nice? But feels a bit wrong and weird to me as an R user. 
 
+A common case that you run into is that maybe there are a whole bunch of things or one thing that you don't want. In R you would just add the neccessary negations ahead of what you want. In polars it is a little different if you want to exclude values from a set.
+
+
+::{.panel-tabset}
+
+## R
+
+```{r}
+
+penguins |>
+filter(!species %in% c("Gentoo", "Chinstrap"),
+       island != "Dream")
+
+
+
+```
+
+
+
+
+## Python 
+
+
+
+```{python}
+#| error: true
+
+penguins.filter((pl.col("species").is_in(["Chinstrap", "Gentoo"]).not_()) & 
+                (pl.col("island") != 'Dream'))
+
+
+```
+
+:::
+
 
 
 # Select 
