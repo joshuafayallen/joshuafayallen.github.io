@@ -11,7 +11,8 @@ categories:
 knitr: 
    opts_chunk: 
      warning: false
-     message: false 
+     message: false
+jupyter: python3 
 ---
 
 
@@ -59,6 +60,7 @@ library(palmerpenguins)
 
 
 ```{python}
+#| eval: false
 import polars as pl
 import polars.selectors as cs
 from palmerpenguins import load_penguins
@@ -74,9 +76,20 @@ pl.Config(tbl_rows = 10)
 
 ```
 
+```{python}
+import polars as pl
+import polars.selectors as cs
 
+
+penguins = pl.read_csv('penguins.csv').with_columns(cs.starts_with('bill').cast(pl.Float64, strict = False)).with_columns(cs.starts_with("flipper").cast(pl.Float64, strict = False))
+
+
+
+```
 
 :::
+
+
 
 
 Okay so far nothing too crazy! The main difference in loading in the packages and the data we are using is really just that to get with our familiar `starts_with` friends from the tidyverse we have to add `polars.selectors` and change some defaults. Lots of the time we would like to see the top and bottom portion and the column types. In `R` this is just our `head`, `tail`, `glimpse/str` in python it should be broadly similar. 
@@ -346,7 +359,7 @@ penguins.select((pl.col("species", "island")))
 
 Which feels more natural to me, but to some extent a dictionary would probably be more pythony. One thing I use all the time is using tidyselectors like `starts_with` 
 
-
+### Using Selectors
 :::{.panel-tabset}
 
 ## R
@@ -379,7 +392,7 @@ penguins.select(cs.starts_with("bill"))
 
 This is actually so cool that in this case it works exactly like the tidyverse selector functions! 
 
-### Renaming 
+# Renaming Columns
 
 I am a simple man I like snake_case but lets say I am more camel case inclined. I may want to rename columns that I am using as to not deal with object not found messages because I am used to typing billLengthMm. In the tidyverse we would do 
 
@@ -513,7 +526,7 @@ penguins.with_columns(sqr_bill = pl.col("bill_length_mm")**2).with_columns(og_bi
 
 Now the next step is creating conditionals 
 
-
+### ifelse equivalents
 
 :::{.panel-tabset}
 
@@ -598,7 +611,7 @@ It turns out that the column was actually a string
 
 
 
-
+### Converting columns to appropriate type
 
 ```{python}
 #| error: true
@@ -675,6 +688,8 @@ penguins.group_by(pl.col("species")).agg(count = pl.len(),
 ```
 
 
+### across
+
 A thing that is useful in summarize is that we can use our selectors to summarise across multiple columns like this 
 
 
@@ -719,7 +734,7 @@ penguins.group_by(pl.col("species")).agg(cs.starts_with("bill").mean().name.suff
 ```
 
 
-## Joins in Polars 
+# Joins in Polars 
 
 It would be nice if we had all the data we wanted in one dataset but that is not life we often need to join data. Critically we also would not want to have all our data in one place if we care about users safety. So we may want to keep portions of the dataset in separate places. So lets define a simple dataset to work with. 
 
@@ -837,7 +852,7 @@ national_data.join(library_dat, left_on = ["state", "year"],
 
 
 
-## Binding Rows 
+# Binding Rows 
 
 Sometimes we just want to add rows to our data 
 
@@ -1086,10 +1101,10 @@ One thing that should be mentioned is that missing values in python are not the 
 ```{python with-across-example}
 import seaborn as sns
 import matplotlib.pyplot as plt
+import pandas as pd 
 
 
-
-
+penguins = pd.read_csv("penguins.csv")
 
 sns.set_theme(style = "whitegrid")
 
@@ -1097,6 +1112,7 @@ sns.set_theme(style = "whitegrid")
 
 So I think seaborne might be the way to go. Since I don't think histograms will go out of style lets just go and make a histogram 
 
+## Histograms
 
 ```{python}
 
@@ -1165,7 +1181,7 @@ Cool I like that and will fiddle with that my ggplot theme!
 Okay lets now go and do some bivariate plots. Obviously the workhorse of bivariate plotting is the scatterplot .
 
 
-
+## Scatter Plots
 
 ```{python}
 
@@ -1189,7 +1205,7 @@ sns.scatterplot(data = penguins, x = "flipper_length_mm", y = "body_mass_g", hue
 That is not really great since the legend is inside and covering stuff. In ggplot we would simply just move the legend position. In this case we have to save it as an object
 
 
-
+## Adjusting legend
 
 ```{python}
 
@@ -1215,7 +1231,7 @@ sns.lmplot(data = penguins, x = "flipper_length_mm", y = "body_mass_g", hue = "s
 Then the other one that I use all the time is using a line of best fit .
 Okay obviously the most annoying part is that we don't have great labels 
 
-
+## Adding Informative Labels
 
 ```{python}
 
@@ -1231,7 +1247,7 @@ labs_examp.set_axis_labels(x_var= "Flipper Length(mm)", y_var = "Body Mass(g)")
 
 One of the things we may want to do is to create small multiples. 
 
-
+## Facet Wrap
 
 ```{python}
 
@@ -1338,7 +1354,7 @@ However the results differ pretty wildly! Luckily there is an I operator in the 
 ```{python}
 
 
-penguins_pd = penguins.to_pandas()
+penguins_pd = pd.read_csv('penguins.csv')
 
 
 squared = smf.ols('body_mass_g ~ I(flipper_length_mm**2) + flipper_length_mm + bill_depth_mm', data = penguins_pd).fit()
@@ -1432,9 +1448,11 @@ In Python we would do something like this.
 
 
 ```{python}
-import pandas as pd
+#| eval: false
+penugins_pl = pl.read_csv('penguins.csv')
 
 penguins_sans_na = penguins.filter((pl.col("sex").is_not_null())).to_pandas()
+
 
 
 with_species = smf.ols('body_mass_g ~ bill_length_mm + flipper_length_mm + species', data = penguins_sans_na).fit()
@@ -1655,7 +1673,12 @@ clean_names(penguins)
 Okay the trick it looks like is that it does not work with polars objects. So we need to pass it to pandas and then back to polars. 
 
 
+```{python}
+#| echo: false
 
+penguins = pl.read_csv('penguins.csv')
+
+```
 
 ```{python}
 import pandas as pd 
