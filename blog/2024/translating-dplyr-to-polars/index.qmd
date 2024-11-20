@@ -81,7 +81,7 @@ import polars as pl
 import polars.selectors as cs
 
 
-penguins = pl.read_csv('penguins.csv').with_columns(cs.starts_with('bill').cast(pl.Float64, strict = False)).with_columns(cs.starts_with("flipper").cast(pl.Float64, strict = False))
+penguins = pl.read_csv('penguins.csv').with_columns(cs.starts_with('bill').cast(pl.Float64, strict = False)).with_columns(cs.starts_with("flipper").cast(pl.Float64, strict = False)).with_columns(body_mass_g := pl.col('body_mass_g').cast(pl.Float64, strict = False))
 
 
 
@@ -635,8 +635,21 @@ penguins.with_columns(big_peng = pl.when(pl.col("body_mass_g") > pl.col("body_ma
 ```
 
 
+### Multiple columns 
+
+So one of the rubbing points as a `dplyr` user was that with columns isn't always easy to use if you want to refer to columns you made previously. However, I found that you can use the trusty old walrus operator `:=` to do that.
 
 
+```{python}
+
+penguins.with_columns(
+       body_mass_g :=pl.col('body_mass_g')**2,
+       pl.col('body_mass_g').sqrt().alias('bg')
+)
+
+```
+
+In this case we are just modifying things in place and then simply transforming things back.
 
 ## Group by and summarize
 

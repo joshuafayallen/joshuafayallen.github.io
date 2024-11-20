@@ -83,7 +83,7 @@ import polars as pl
 import polars.selectors as cs
 
 
-penguins = pl.read_csv('penguins.csv').with_columns(cs.starts_with('bill').cast(pl.Float64, strict = False)).with_columns(cs.starts_with("flipper").cast(pl.Float64, strict = False))
+penguins = pl.read_csv('penguins.csv').with_columns(cs.starts_with('bill').cast(pl.Float64, strict = False)).with_columns(cs.starts_with("flipper").cast(pl.Float64, strict = False)).with_columns(body_mass_g := pl.col('body_mass_g').cast(pl.Float64, strict = False))
 
 
 
@@ -643,6 +643,18 @@ penguins.with_columns(big_peng = pl.when(pl.col("body_mass_g") > pl.col("body_ma
 #
 #
 #
+
+penguins.with_columns(
+       body_mass_g_sqr = pl.col('body_mass_g')**2,
+                       pl.col('body_mass_g_sqr').sqrt()
+)
+
+#
+#
+#
+#
+#
+#
 #
 #
 #
@@ -1103,10 +1115,10 @@ starwars_explode.head()
 #
 import seaborn as sns
 import matplotlib.pyplot as plt
+import pandas as pd 
 
 
-
-
+penguins = pd.read_csv("penguins.csv")
 
 sns.set_theme(style = "whitegrid")
 
@@ -1356,7 +1368,7 @@ squared.summary()
 #
 
 
-penguins_pd = penguins.to_pandas()
+penguins_pd = pd.read_csv('penguins.csv')
 
 
 squared = smf.ols('body_mass_g ~ I(flipper_length_mm**2) + flipper_length_mm + bill_depth_mm', data = penguins_pd).fit()
@@ -1450,9 +1462,11 @@ interacted.summary()
 #
 #
 #
-import pandas as pd
+#| eval: false
+penugins_pl = pl.read_csv('penguins.csv')
 
 penguins_sans_na = penguins.filter((pl.col("sex").is_not_null())).to_pandas()
+
 
 
 with_species = smf.ols('body_mass_g ~ bill_length_mm + flipper_length_mm + species', data = penguins_sans_na).fit()
@@ -1673,6 +1687,11 @@ clean_names(penguins)
 #
 #
 #
+#
+#| echo: false
+
+penguins = pl.read_csv('penguins.csv')
+
 #
 #
 #
