@@ -1,0 +1,693 @@
+---
+title: "R to Python: Just the basics"
+date: last-modified
+date-format: "MMM D, YYYY"
+description: "This is me learning the snake language"
+categories:
+  - r
+  - tidyverse
+  - python
+knitr: 
+   opts_chunk: 
+     warning: false
+     message: false
+---
+
+```{r}
+#| echo: false
+
+reticulate::py_install(c('polars', 'great_tables', 'numpy'))
+
+```
+
+```{python}
+#| label: setput-py
+#| echo: false
+
+import polars as pl 
+import numpy as np
+from great_tables import GT
+
+```
+
+
+The job hunt is in full effect and I am pushing myself to do more and more things in Python out of fear that that there will be no R option at any future job. I feel as if I have a relatively okay handle on Polars and am comfortable enough to do data cleaning when prompted. However, one of the pain points with me is that I generally have a low level of understanding of various things in Python. I am going to use this blog post as a living notebook on Python. I am bascially just going to work through the 'Zero to Python Textbook' and as much as possible translate it to equivalent R syntax. Right now when writing in Python I first have to translate things to R and then back again to make sure to make it make sense. 
+
+# Operators 
+
+So there are only so many ways to compare things in both languages or combine things. For the most part these are very much the same. However there are some key differences to be aware of. For 
+
+:::panel-tabset
+
+## R 
+```{r}
+# polynomial 
+3^2
+
+## floor division 
+5 %/% 2
+
+## remainder division
+
+5 %% 2
+
+```
+
+## Python
+
+```{python}
+# polynomial 
+3**2
+# floor division 
+5//2
+
+# remainder division 
+
+5 % 2
+
+```
+
+:::
+
+### Assignments 
+
+Object assignment definitely differs between both languages as an R user I am a bit of an anomly and use `=` for assignment in R so that was never that big of a transition for me. There are a variety of assignment operators that appear in the wild that I have really only use but don't know the uses for them. The most common one is `+=` but you can do the same thing with any other mathematical operation. Basically the left part will tell python to do math stuff and then assign it so lets look at that 
+
+```{python}
+
+x = 1 
+
+x+= 1 
+
+x *= 2 
+
+x**=2
+
+x /= 2
+
+x //= 2
+
+x 
+```
+
+The streets say that the `:=` or walrus operator was somewhat of a controversial inclusion which seems weird but basically you are expressesing a value while also assigning it 
+
+
+```{python}
+
+x = (y := 2) + 2**2
+
+x
+
+```
+
+
+### Comparisions 
+
+Python has the same basic comparision operators just using words rather than `%operator%` however 
+
+:::panel-tabset
+
+## Python
+
+```{python}
+
+1 == 1 
+
+1 != 1
+
+1 in range(1, 10)
+
+12 not in range(1,10)
+
+```
+
+## R 
+
+```{r}
+
+1 == 1 
+
+1 != 1 
+
+1 %in% 1:10
+
+!12 %in% 1:10
+
+```
+
+:::
+
+## Loops 
+
+One of the things that is incredibly infuriating with python for me is that the indentation thing never made anysense. Why should we care about it other than making our code look pretty. The problem is that python uses indentation to denote code blocks in lieu of using `{}` like R or some general purpose programming languages like Java. So when we are looping over things in R we do 
+
+
+```{r}
+for(i in 1:5){
+
+print(i^2)
+ 
+}
+
+
+```
+
+This works becuase R isn't relying on the spacing to tell it what code is in the loop. Whereas in python if we did 
+
+
+```{python}
+#| error: true
+
+for i in range(1,5):
+print(i**2)
+
+
+```
+
+We get an error. So if we make it a little bit more complicated we are using spacing to tell python what 
+
+```{python}
+
+for i in range(1,6):
+    i = i * 3
+    if i%2 == 0:
+        print(f'{i} is even')
+    else:
+        print(f'{i} is odd')
+
+
+```
+
+One thing I have never really understood is when and how to use `else if` so we should learn how to do this. I think if's are fairly straight forward if something is true do it. Same with else if the if statment isn't met doing something else. The best way I can explain it to myself is that `else if` is colloquilly more equivelent to `or if` 
+
+
+```{python}
+
+vals = [1,3,4,5,56,7,78,9,7]
+
+for i in vals:
+    if i % 2 == 0:
+        print(f'{i} is even')
+    elif i == 5:
+        print(f'{i} triggered the elif')
+    else:
+        print(f'{i} is odd')
+
+
+
+
+```
+
+
+# Data types 
+
+
+So there are two kinds of data types primitives and containers
+
+```{python}
+#| echo: false
+#| label: tbl-data-types
+
+d_types = pl.DataFrame({
+    "Data Type": ['Primitives', 'Containers'],
+    "Explainer": ['Not divisible. So you cannot make a numeric data type into a smaller unit', 'Divisible so you can break off elements into smaller bits'],
+    'Example': ['2 is a numeric', "['hello', 'world']: is a list "]
+})
+
+
+GT(d_types)
+
+
+```
+
+So to make the example for @tbl-data-types a bit more concrete we can just define a simple list with a mix of primitive data types and just index the list. 
+
+
+```{python}
+
+examp_list = ['Hello World', 2332342342342342] 
+
+type(examp_list[0])
+type(examp_list[1])
+
+
+```
+
+
+I am going to skip the section on the various types of primitive data types because they are kind of the same in R. The one exception is that base R doesn't come with f-strings basked in out of the box. Otherwise there are only so many ways to bake the primitive data types. So I will more of my time on containers.
+
+## Tuples and Lists
+
+
+So a tuple is a container that stores an ordered collection of items of the same or different primitives but is not mutable. So lets define a tuple and a list. Both have the same indexing syntax so you can index do regular and negative indexing. 
+
+```{python}
+
+tp = (1, '2', 3, 2*2)
+
+type(tp)
+
+lt = [1,'2', 3, 2 *2 ]
+
+type(lt)
+
+print('This is the first element of the  tuple', tp[0], 'this is the first element of the  list', lt[0])
+
+
+print('this is the last element of the tuple', tp[-1], 'this is the last element of the list', lt[-1])
+
+
+```
+
+Additionally you can use slicing to grab a range of elements. One thing that feels weird as an R user is you can some interesting things like example 2
+
+```{python}
+
+slice_one = lt[1:4]
+
+slice_two = lt[1:2:4]
+
+print(slice_two)
+
+
+```
+
+
+
+However, one of the major differences is if we wanted to change the underlying object. You **can** change the elements of a list but you **cannot** change the elements of a tuple
+
+
+```{python}
+#| error: true
+
+tp[1] = 2
+
+lt[1] = 2
+
+lt
+```
+
+So this will update the second element of the this. If we wanted to add things to a list we can simply do 
+
+
+```{python}
+
+lt.append(5)
+
+
+```
+
+
+If we wanted to remove items from a list we would simply do 
+
+```{python}
+
+del lt[0]
+
+
+
+```
+
+
+The interesting thing about python is that lists are not neccessarily equivelent as vectors in R but we can do stuff we would normally would do with vectors 
+
+:::panel-tabset
+
+## R 
+
+```{r}
+
+vec_one = c(1:10)
+vec_two = c(11:20)
+
+
+sum(c(vec_one, vec_two))
+
+```
+
+## Python 
+
+```{python}
+
+vec_one = list(range(1,11))
+
+vec_two = list(range(11,21))
+
+sum(vec_one + vec_two)
+
+```
+
+:::
+
+## Dictionaries 
+
+Dictionaries in Python hold key values pairs. Which as an R user is a little bit foreign since we don't neccessarily have something that is exactly equivelent. The closest equivelent I could think of would be a named list or a named vector. But that isn't neccessarily the same thing. One of the nice things about dicts is that you can reference things by the key, but something that is a bit weird is that you can't really do it by index position. This is likely for a good reason, but just not someting I am used to. However, if you wanted like the first element of the first key you would just index it like a list since well the value of it is a list.
+
+
+```{python}
+
+my_dict = {'fruits':['apples', 'pears'], 'numbers':[1,2,3]}
+
+my_dict['fruits']
+
+my_dict['numbers']
+
+
+my_dict['fruits'][0]
+
+```
+
+
+So this definetly matters when we go and thing about iterating things. Since we have to use different syntaxes. So if you wanted to print out the all the items in a list then you could do this.
+
+
+```{python}
+
+for i in lt:
+    print(i)
+
+
+
+```
+
+however in a dictionary you only get the keys and not the values which was what I was looking for. You would have to do something like this. 
+
+
+
+```{python}
+
+for key, value in my_dict.items():
+    print(key, value)
+
+```
+
+This also matters when you want to add things or delete things. If we did something like this we are just overwriting the existing dictionary.
+
+```{python}
+
+my_dict['fruits'] = 'mango'
+
+my_dict['numbers'] = 100
+
+
+```
+
+
+If we wanted to actually add things without overwriting an existing dictionary you have lots of options which I will cover in the next sections. However we can start adding new key value pairs like this 
+
+
+```{python}
+
+my_dict['Cities'] = ['Atlanta','New York City', 'San Francisco']
+
+
+my_dict
+
+```
+
+
+You can also update the dictionary using `update` 
+
+```{python}
+
+my_dict.update({'States': ['Georgia', 'New York', 'California']})
+
+print(my_dict)
+
+```
+
+
+
+
+## More efficient appending
+
+### List Compression
+
+I am skipping ahead a little bit but I wanted to learn this since I have only ever implemented but don't have a full understanding of what is going on and when and why to use it. So lets say I wanted to make a new list and fill it with its square. The R user in me would do something like this 
+
+
+```{r}
+
+numbs <- list(1, 2, 3, 4, 5,6,7,8,9,10)
+
+
+numbs = lapply(numbs, \(x) x * x)
+
+numbs
+
+```
+
+You could do a similar thing in python. 
+
+
+```{python}
+
+numbs = []
+
+for i in range(10):
+    numbs.append(i * i)
+
+
+numbs
+```
+
+One of the problems that you can run into is that for a lot of stuff growing a list can take awhile. In R that is why we tend to prefer using functions along with `lapply` or `map` over `for` loops. So if we wanted to convert some temperatures from farenheit to celsius we would generally prefer to write a function and then apply it to a list rather than use a for loop to do this. Python has a few more tricks up its sleeve to accomplish this. If we wanted a straight forward translation from the tidyverse to python we could do.  
+
+
+```{python}
+
+def temp_converter(temp):
+     return (temp-32) *5/9
+
+
+temp_list = [32, 212, 100]
+
+
+c = map(temp_converter, temp_list)
+
+list(c)
+```
+
+this is totally fine! But there are some unncessary intermediate steps and really just more me trying to force it into my tiny little functional programming mind. Instead we can use list comprehesion to speed this process up and is more in line with python. 
+
+
+
+```{python}
+
+c = [temp_converter(temp_list) for temp_list in temp_list]
+
+c
+```
+
+One of the benefits of this is that you can add control flows to really quickly and really flexible change elements of a list. So lets say that some celcius that leaks into our little list. Normally we would want to address this leakage, but for pedagocical purposes lets just add control flows. 
+
+
+
+```{python}
+
+temp_list = [32, 212, 100, 0] 
+
+
+c = [temp_converter(temp_list) for temp_list in temp_list if temp_list not in [0,100]]
+
+
+c
+
+```
+
+
+### Updating dictionaries
+
+
+So in the last section we learned that updating dictionaries is a bit more delicate. One big thing that you have to keep in mind is the types within the dictionary. So our dictionary is really just two little lists with a dictionary trench coat. So we have to use list appending. So lets do that.
+
+
+```{python}
+
+new_dict = {'fruits': ['watermelons', 'strawberries'],  'numbers' : [4,5,6]}
+
+new_dict['fruits'].append('cherry')
+
+new_dict['numbers'].append(7)
+
+
+
+```
+
+This is fine but not neccessarily the most efficient way to do things outside of canned examples. The most likely case is that we have a new dictionary to help us update things. 
+
+
+```{python}
+
+update_dict = {'fruits': ['mangos', 'rasberry', 'jackfruit'], 'numbers':[2,4,5,6,7]}
+
+new_dict['fruits'].extend(update_dict['fruits'])
+
+
+
+```
+
+
+Since our dictionaries hold lists we could also theoretically use list comprehesion like this. 
+
+
+
+```{python}
+
+
+new_dict['numbers'] = [temp_converter(num) for num in new_dict['numbers']]
+
+new_dict
+
+```
+
+
+We can also combine dictionaries using the `|` operator 
+
+
+
+```{python}
+josh_vals = {'Name': 'Josh Allen', 'Location' : 'Atlanta', 'job': 'Grad Student'}
+
+georgia_vals = {'Nickname': 'Peach State', 'mascot': 'White Tailed Dear', 'Power 5 Schools': ['UGA', 'Georgia Tech']}
+
+josh_vals | georgia_vals
+
+```
+
+We can also modify in place using a special operator 
+
+
+
+```{python}
+josh_vals |= georgia_vals
+
+```
+
+
+# Object Orientation
+
+So we went into like basic basics. However, now we are going to spend some time on object orientation. One thing that is really confusing right now is that a lot of stuff that people end up doing in python is that they use classes and objects to do the heavy lifting. While R has this it is a lot more common in replication files to either code literally everything in various scripts or use a more functional oriented approach and targets. 
+
+
+### Object creating 
+
+
+So there are reserved stuff in Python that denote the creation of an object. 
+
+```{python}
+
+dt = pl.DataFrame({'': ['__new__', '__init__', 'classes', 'instances'], 'What it Does': ['Responsible for creating instances of a class. Takes class as the first argument and any other arguments passed to the class constructor', 'Responsible for initializing the state of the new object, and to perform any other neccessary setup', 'defines functions called methods which outline behavior and actions that an object created from the class can perform with its data', 'an object that is built from a class and contains real data']})
+
+
+GT(dt)
+
+```
+
+
+This is a bit dense to get through without examples. So lets create some objects. We can create a list of attributes that define a dog. We could define a dictionary like this 
+
+
+```{python}
+
+dog = {'name': 'Spot', 'age': '7', 'breed': 'Husky', 'color': ['Black', 'White']}
+
+
+```
+
+This is for sure fine for simple applications but is a little cumbersome as our code base grows. Defining classes allows us to good comparisions while allowing us a lot more flexibility. So lets start by defining a class 
+
+```{python}
+
+
+class dog: #<1>
+    def __init__(self, name, age, breed,  color): #<2>
+        self.name = name #<3>
+        self.age = age
+        self.breed = breed
+        self.color = color
+
+```
+
+1. Defines the name of the class
+2. Defines the attributes of the class 
+3. Creates an attribute that assigns the value of name to the parameter
+
+
+The `self.blah` bits created in `__init__` are attributes that all dog objects take but will vary depending on the real data or `instances` as they are formally called. 
+
+
+
+```{python}
+
+mel = dog(name = 'Melonie', age = 6, breed = 'Mixed', color = ['Brown', 'White'])
+
+mel.age
+
+```
+
+
+Now we can update the values of mel dynamically. 
+
+
+
+```{python}
+
+mel.age = 6 * 7
+
+mel.age
+
+```
+
+
+We can now make the dog class a little bit more robust by adding class methods by definining little functions inside of the class. 
+
+
+
+```{python}
+
+class dog:
+    latin_name = 'Canis familiaris'
+    def __init__(self, name: str, age: int):
+        self.name = name
+        self.age = age
+    def description(self):
+        return f'{self.name} is {self.age} years old'
+    def dog_year(self):
+        return f'{self.name} is {self.age * 7} in dog years'
+    def tricks(self, tricks):
+        return f'{self.name} knows {tricks}'
+
+```
+
+
+
+```{python}
+
+mel = dog(name = 'Mel', age = 6)
+
+
+mel.description()
+
+mel.dog_year()
+
+mel.tricks(tricks  = list(['Sit','Stay']))
+
+```
+
+
+This is fine! But we are playing fast and loose with having the class having little to no constraints so we can do bad things like pass strings to things that shouldn't have strings. 
+
+
+
+```{python}
+
+pass_string = dog(name = 'Clifford', age = 'This is a string')
+
+pass_string.dog_year()
+
+```
+
+
+
