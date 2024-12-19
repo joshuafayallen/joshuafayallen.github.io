@@ -13,12 +13,7 @@ knitr:
      message: false
 ---
 
-```{r}
-#| echo: false
 
-reticulate::py_install(c('polars', 'great_tables', 'numpy'))
-
-```
 
 ```{python}
 #| label: setput-py
@@ -165,7 +160,7 @@ print(i**2)
 
 ```
 
-We get an error. So if we make it a little bit more complicated we are using spacing to tell python what 
+We get an error. So if we make it a little bit more complicated we are using spacing to tell python what is inside a loop, function definition, etc 
 
 ```{python}
 
@@ -568,10 +563,10 @@ josh_vals |= georgia_vals
 
 # Object Orientation
 
-So we went into like basic basics. However, now we are going to spend some time on object orientation. One thing that is really confusing right now is that a lot of stuff that people end up doing in python is that they use classes and objects to do the heavy lifting. While R has this it is a lot more common in replication files to either code literally everything in various scripts or use a more functional oriented approach and targets. 
+So we went into like basic basics. However, now we are going to spend some time on object orientation. One thing that is really confusing right now is that a lot of stuff that people end up doing in python is that they use object oriented programming to do the heavy lifting. While R has this it is a lot more common in replication files to either code literally everything in various scripts or use a more functional oriented approach and targets. The "problem" is that when we transfer this approach over to Python is clunky and you are going to look like a weirdo to your colleagues. 
 
 
-### Object creating 
+### Creating Objects
 
 
 So there are reserved stuff in Python that denote the creation of an object. 
@@ -602,8 +597,8 @@ This is for sure fine for simple applications but is a little cumbersome as our 
 
 
 class dog: #<1>
-    def __init__(self, name, age, breed,  color): #<2>
-        self.name = name #<3>
+    def __init__(self, name, age, breed,  color): # <2>
+        self.name = name # <3>
         self.age = age
         self.breed = breed
         self.color = color
@@ -689,5 +684,4 @@ pass_string.dog_year()
 
 ```
 
-
-
+Which creates weird results and we can't rely on future you or a another member of the team to look through every file to figure out what the input.
