@@ -593,31 +593,13 @@ mutate(dog_years = birth_year * 7,
 starwars = pl.read_parquet("starwars.parquet")
 
 starwars.with_columns(dog_years=pl.col("birth_year") * 7).with_columns(dog_years_string=pl.col("dog_years").cast(
-    str)).with_columns(pl.concat([pl.col('name'), pl.lit('is'), pl.col('dog_years'), pl.lit('in dog years')]))
+    str)).with_columns(pl.concat_str([pl.col('name') , pl.lit('is'), pl.col('dog_years_string') , pl.lit('in dog years')]).alias('character_age')).select(pl.col('character_age'))
 
 ```
 
 
 :::
 
-It turns out that the column was actually a string 
-
-
-
-### Converting columns to appropriate type
-
-```{python}
-#| error: true
-
-starwars.glimpse()
-
-starwars.with_columns(dog_years = pl.col("birth_year").str.to_integer(strict = False)*7).with_columns(dog_years_string = pl.col("dog_years").cast(pl.String)).with_columns(comment = pl.col("name") + " is " + pl.col("dog_years_string")  + " in dog years").select(pl.col("name", "dog_years", "comment"))
-
-```
-
-
-
-Lets also do this for penguins but make it fun 
 
 
 
