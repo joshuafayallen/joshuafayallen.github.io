@@ -721,6 +721,8 @@ Object oriented programming in python is a lot easier than doing stuff with pure
 
 
 ```{python}
+#| error: true
+#| label: check
 
 class Dog:
     latin_name = 'Canis familiaris'
@@ -774,7 +776,7 @@ Now our class is a little bit more robust we can't start passing things off that
 
 
 ```{python}
-
+#| error: true
 dog = Dog(age=5, name="Buddy")
 
 dog.description(age = 'five', name = 123)
@@ -787,7 +789,7 @@ One thing that you will notice is that the description doesn't care about these 
 
 
 ```{python}
-
+#| error: true
 class Dog:
     def __init__(self, name:str, age:int):
         if not isinstance(name, str):

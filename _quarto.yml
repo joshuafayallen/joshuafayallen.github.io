@@ -6,8 +6,10 @@ project:
   render:
     - "*.qmd"
     - "*.md"
-
 freeze: auto
+
+
+
 website:
   title: ""
   site-url: "https://joshuafayallen.github.io"
@@ -28,7 +30,7 @@ website:
     right:
       - icon: envelope
         aria-label: email
-        href: "mailto:jallen108@gsu.edu"
+        href: "mailto:joshua.f.allen@gmail.com"
       - icon: twitter
         aria-label: twitter
         href: https://twitter.com/joshuallen17
