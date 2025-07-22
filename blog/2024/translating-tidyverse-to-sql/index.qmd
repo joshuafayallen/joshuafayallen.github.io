@@ -36,6 +36,38 @@ pengs |>
 
 Which will give us a SQL query. Obviously this is a pretty simple query but as we get more and more complex this is going to be helpful.  For the most part `show_query` outputs the right query but can be a little bit difficult to debug because of the limitations of showing things in the R console. 
 
+# The Grammar of SQL 
+
+Whether you are a `dplyr` user, a `data.table` user, or a `polars` user the "grammar" of your query is not neccessarily all that important. Functionally these two queries perform the exact same 
+
+:::panel-tabset
+
+## Query 1 
+
+```{r}
+palmerpenguins::penguins |>
+    select(species, body_mass_g) |>
+    group_by(species) |>
+    summarise(avg_mass = mean(body_mass_g, na.rm = TRUE)) 
+
+
+```
+
+## Query 2 
+
+```{r}
+palmerpenguins::penguins |>
+    mutate(avg_mass = mean(body_mass_g, na.rm = TRUE), .by = species) |>
+    select(species, avg_mass) |>
+    distinct(species, .keep_all = TRUE)
+
+
+
+```
+
+:::
+
+
 # Dplyr
 
 ## Select 

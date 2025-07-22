@@ -38,7 +38,6 @@ py_install(c("polars", "pandas", "pyjanitor", "numpy", "pyarrow", "setuptools", 
 
 
 
-
 ```
 
 
@@ -60,7 +59,7 @@ library(palmerpenguins)
 
 
 ```{python}
-#| eval: false
+
 import polars as pl
 import polars.selectors as cs
 from palmerpenguins import load_penguins
@@ -76,16 +75,6 @@ pl.Config(tbl_rows = 10)
 
 ```
 
-```{python}
-import polars as pl
-import polars.selectors as cs
-
-
-penguins = pl.read_csv('penguins.csv').with_columns(cs.starts_with('bill').cast(pl.Float64, strict = False)).with_columns(cs.starts_with("flipper").cast(pl.Float64, strict = False)).with_columns(body_mass_g := pl.col('body_mass_g').cast(pl.Float64, strict = False))
-
-
-
-```
 
 :::
 
@@ -280,9 +269,10 @@ filter(!species %in% c("Gentoo", "Chinstrap"),
 
 
 ```{python}
-#| error: true
+# | error: true
+# | label: set-filter-not
 
-penguins.filter((pl.col("species").is_in(["Chinstrap", "Gentoo"]).not_()) & 
+penguins.filter((pl.col("species").is_in(["Chinstrap", "Gentoo"]).not_()) &
                 (pl.col("island") != 'Dream'))
 
 
@@ -551,9 +541,10 @@ head(5)
 
 
 ```{python}
+# | label: check
 
-
-penguins.with_columns(female = pl.when(pl.col("sex") == "female").then(True).otherwise(False)).select(["sex", "female"]).head(5)
+penguins.with_columns(female=pl.when(pl.col("sex") == "female").then(
+    True).otherwise(False)).select(["sex", "female"]).head(5)
 
 
 ```
@@ -597,10 +588,12 @@ mutate(dog_years = birth_year * 7,
 
 ```{python}
 #| error: true
+#| label: string-concat
 
 starwars = pl.read_parquet("starwars.parquet")
 
-starwars.with_columns(dog_years = pl.col("birth_year") * 7).with_columns(dog_years_string = pl.col("dog_years").cast(str)).with_columns(comment = pl.col("name") + " is " + pl.col("dog_years_string") + " in dog years ")
+starwars.with_columns(dog_years=pl.col("birth_year") * 7).with_columns(dog_years_string=pl.col("dog_years").cast(
+    str)).with_columns(pl.concat([pl.col('name'), pl.lit('is'), pl.col('dog_years'), pl.lit('in dog years')]))
 
 ```
 
@@ -641,10 +634,11 @@ So one of the rubbing points as a `dplyr` user was that with columns isn't alway
 
 
 ```{python}
+#| label: use-mutate-like-syntax
 
 penguins.with_columns(
-       body_mass_g :=pl.col('body_mass_g')**2,
-       pl.col('body_mass_g').sqrt().alias('bg')
+    body_mass_g := pl.col('body_mass_g')**2,
+    pl.col('body_mass_g').sqrt().alias('bg')
 )
 
 ```
