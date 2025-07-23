@@ -50,6 +50,12 @@ jobs:
         uses: r-lib/actions/setup-renv@v2
         with:
           cache-version: 1
+      - name: Configure Python path for reticulate
+        run: |
+          echo "RETICULATE_PYTHON=$(which python)" >> $GITHUB_ENV
+          echo "RETICULATE_PYTHON_ENV=" >> $GITHUB_ENV
+        shell: bash
+
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
