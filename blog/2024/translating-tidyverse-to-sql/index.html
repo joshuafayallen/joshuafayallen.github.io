@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -66,14 +66,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../../../">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-73ede0c43e336ac127bbf980d3d83637.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-18f506b57f714063b1bc4f552004e8bd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -111,6 +112,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+  </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -226,8 +231,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <p>For the majority of this <code>palmerpenguins</code> dataset not because you really need to use <code>SQL</code> for a dataset this small but copying over the <code>nyc-taxi</code> dataset is incredibly annoying for blogging purposes.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'arrow'</code></pre>
@@ -237,8 +242,8 @@ Attaching package: 'arrow'</code></pre>
 
     timestamp</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
@@ -256,18 +261,18 @@ Attaching package: 'arrow'</code></pre>
 ✖ dplyr::sql()          masks dbplyr::sql()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="ot">=</span> palmerpenguins<span class="sc">::</span>penguins</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="ot">=</span> palmerpenguins<span class="sc">::</span>penguins</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>con <span class="ot">=</span>  <span class="fu">src_memdb</span>()</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>pengs <span class="ot">=</span> <span class="fu">copy_to</span>(con, pengs,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We are going to go back and forth using <code>dbplyr</code> and <code>SQL</code> to query the dataset. What impressed me throughout this process was how seamless <code>dbplyr</code> works with dplyr verbs work. With the exception of some string functions it can work as a drop in replacement for SQL. What really helped throughout this process was writing out my queries and using <code>show_query</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(species) <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">show_query</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;SQL&gt;
 SELECT `species`
@@ -280,14 +285,14 @@ FROM `pengs`</code></pre>
 <h1>The Grammar of SQL</h1>
 <p>Whether you are a <code>dplyr</code> user, a <code>data.table</code> user, or a <code>polars</code> user the “grammar” of your query is not neccessarily all that important. Functionally these two queries perform the exact same</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Query 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Query 2</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Query 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Query 2</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">|&gt;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(species, body_mass_g) <span class="sc">|&gt;</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">avg_mass =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">avg_mass =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 2
   species   avg_mass
@@ -300,10 +305,10 @@ FROM `pengs`</code></pre>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">|&gt;</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">avg_mass =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> species) <span class="sc">|&gt;</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(species, avg_mass) <span class="sc">|&gt;</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">distinct</span>(species, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">distinct</span>(species, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 2
   species   avg_mass
@@ -327,7 +332,7 @@ FROM `pengs`</code></pre>
 <section id="r" class="level2">
 <h2 class="anchored" data-anchor-id="r">R</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pengs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pengs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
 # Database: sqlite 3.50.3 [:memory:]
@@ -346,7 +351,7 @@ FROM `pengs`</code></pre>
 <section id="sql" class="level2">
 <h2 class="anchored" data-anchor-id="sql">SQL</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * FROM pengs"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * FROM pengs"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
 # Database: sqlite 3.50.3 [:memory:]
@@ -370,12 +375,12 @@ FROM `pengs`</code></pre>
 </div>
 <p>For one or multiple variables we are going to use a very similar syntax but were SQL and R differ is where we put the object we are querying from meaning in R we use the pipe to use data as the first argument of <code>select</code> but in SQL we put the object name behind the columns we are selecting like this</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">SQL</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">SQL</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(body_mass_g, flipper_length_mm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(body_mass_g, flipper_length_mm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 2]
 # Database: sqlite 3.50.3 [:memory:]
@@ -397,7 +402,7 @@ FROM `pengs`</code></pre>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT body_mass_g, flipper_length_mm FROM pengs"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT body_mass_g, flipper_length_mm FROM pengs"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 2]
 # Database: sqlite 3.50.3 [:memory:]
@@ -421,9 +426,9 @@ FROM `pengs`</code></pre>
 </div>
 <p>So what if we want to keep all but one column we would do this in R</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>species) <span class="sc">|&gt;</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="at">n =</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="at">n =</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 7]
 # Database: sqlite 3.50.3 [:memory:]
@@ -438,12 +443,12 @@ FROM `pengs`</code></pre>
 <h2 class="anchored" data-anchor-id="filter">Filter</h2>
 <p>The first major difference syntactically between dplyr and SQL is with filter statements aka <code>WHERE</code> statements in SQL. So let’s say we want only penguins that are Adelie penguins.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">SQL</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">SQL</a></li></ul>
 <div class="tab-content">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">'Adelie'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">'Adelie'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
 # Database: sqlite 3.50.3 [:memory:]
@@ -467,10 +472,10 @@ FROM `pengs`</code></pre>
 </div>
 <div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con,<span class="fu">sql</span>( <span class="st">"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con,<span class="fu">sql</span>( <span class="st">"</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT * from pengs</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="st">    WHERE species = 'Adelie'</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
 # Database: sqlite 3.50.3 [:memory:]
@@ -498,12 +503,12 @@ FROM `pengs`</code></pre>
 <p>Some flavors of SQL make you end lines with ‘;’</p>
 </div></div><p>As <code>dplyr</code> users will notice the way we specified the equality position uses the <code>=</code> instead of <code>==</code>. This is going to come up a lot. The same thing goes for negation operations.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">SQL</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">SQL</a></li></ul>
 <div class="tab-content">
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(species <span class="sc">!=</span> <span class="st">'Adelie'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(species <span class="sc">!=</span> <span class="st">'Adelie'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
 # Database: sqlite 3.50.3 [:memory:]
@@ -526,8 +531,8 @@ FROM `pengs`</code></pre>
 </div>
 <div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * from pengs </span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="st">             WHERE NOT species = 'Adelie'"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * from pengs </span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="st">             WHERE NOT species = 'Adelie'"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
 # Database: sqlite 3.50.3 [:memory:]
@@ -552,12 +557,12 @@ FROM `pengs`</code></pre>
 </div>
 <p>If we want multiple conditions in our where statements instead of <code>|</code> or <code>&amp;/,</code> we actually just use the words <code>or</code> and <code>and</code></p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">SQL</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false" href="">SQL</a></li></ul>
 <div class="tab-content">
 <div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">'Chinstrap'</span> <span class="sc">|</span> species <span class="sc">==</span> <span class="st">'Adelie'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">'Chinstrap'</span> <span class="sc">|</span> species <span class="sc">==</span> <span class="st">'Adelie'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
 # Database: sqlite 3.50.3 [:memory:]
@@ -581,8 +586,8 @@ FROM `pengs`</code></pre>
 </div>
 <div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * from pengs </span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="st">            WHERE species = 'Adelie' OR species = 'Chinstrap'"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * from pengs </span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="st">            WHERE species = 'Adelie' OR species = 'Chinstrap'"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
 # Database: sqlite 3.50.3 [:memory:]
@@ -607,12 +612,12 @@ FROM `pengs`</code></pre>
 </div>
 <p>You could easily sub in <code>AND</code> but that feels a bit excessive to continue this process for each possible combination. One thing that I do all the time is use sets to subset my data.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">SQL</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false" href="">SQL</a></li></ul>
 <div class="tab-content">
 <div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(species <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Chinstrap'</span>, <span class="st">"Gentoo"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(species <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Chinstrap'</span>, <span class="st">"Gentoo"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
 # Database: sqlite 3.50.3 [:memory:]
@@ -636,8 +641,8 @@ FROM `pengs`</code></pre>
 </div>
 <div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * from pengs</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="st">            WHERE species IN ('Chinstrap', 'Gentoo')"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * from pengs</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="st">            WHERE species IN ('Chinstrap', 'Gentoo')"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
 # Database: sqlite 3.50.3 [:memory:]
@@ -662,8 +667,8 @@ FROM `pengs`</code></pre>
 </div>
 <p>in this case we define a set in a similar way. If we wanted to negate this statement all we would do is</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * from pengs</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="st">            WHERE NOT species IN ('Chinstrap', 'Gentoo')"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * from pengs</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="st">            WHERE NOT species IN ('Chinstrap', 'Gentoo')"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
 # Database: sqlite 3.50.3 [:memory:]
@@ -685,8 +690,8 @@ FROM `pengs`</code></pre>
 </div>
 <p>Lets say we want to find penguins that are less than the average body mass in R this is fairly straightforward</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(body_mass_g <span class="sc">&lt;</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(body_mass_g <span class="sc">&lt;</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
 # Database: sqlite 3.50.3 [:memory:]
@@ -708,7 +713,7 @@ FROM `pengs`</code></pre>
 </div>
 <p>However when we do this in some flavor of <code>SQL</code> it is not as straightforward. These are aggregation functions that <code>where</code> can’t handle because thats not its job. So if we did</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="st">"SELECT * from pengs WHERE body_mass_g &lt; AVG(body_mass_g)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="st">"SELECT * from pengs WHERE body_mass_g &lt; AVG(body_mass_g)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in `db_query_fields.DBIConnection()` at rlang/R/eval.R:96:3:
 ! Can't query fields.
@@ -720,9 +725,9 @@ Caused by error:
 </div>
 <p>We get an error. If we wanted to use aggregation functions we have to change how we do this</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(body_mass_g <span class="sc">&lt;</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">show_query</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;SQL&gt;
 SELECT
@@ -743,8 +748,8 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 </div>
 <p>What is this <code>OVER</code> thing? <code>OVER</code> in SQL is a window function. There is a more technical way to explain this but heuristically when we pass <code>AVG</code> to <code>WHERE</code> we are effectively doing this. So there is not really anything to compare it too.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 1]
 # Database: sqlite 3.50.3 [:memory:]
@@ -755,10 +760,10 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 </div>
 <p>If we wanted to filter penguins that are less than the average body mass we have to prevent this aggregation process by creating a column and then creating a less than statement like this</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * FROM(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * FROM(</span></span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="st">              SELECT pengs .*, AVG(body_mass_g) OVER () AS avg</span></span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="st">               FROM pengs)</span></span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="st">              WHERE (body_mass_g &lt; avg)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="st">              WHERE (body_mass_g &lt; avg)"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 9]
 # Database: sqlite 3.50.3 [:memory:]
@@ -780,12 +785,12 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 </div>
 <p>It is a little clunky but the tl;dr is that we basically have two <code>FROM</code> statements so if we wanted all penguins between the minimum and the average we could do</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false">SQL</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true" href="">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false" href="">SQL</a></li></ul>
 <div class="tab-content">
 <div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">|&gt;</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">between</span>(body_mass_g, <span class="at">left =</span> <span class="fu">min</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">right =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>palmerpenguins<span class="sc">::</span>penguins <span class="sc">|&gt;</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">between</span>(body_mass_g, <span class="at">left =</span> <span class="fu">min</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">right =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 193 × 8
    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
@@ -807,10 +812,10 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 </div>
 <div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * FROM(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * FROM(</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="st">             SELECT pengs .*, AVG(body_mass_g) OVER() AS avg, MIN(body_mass_g) OVER() AS min</span></span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs)</span></span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="st">            WHERE body_mass_g BETWEEN min AND avg"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="st">            WHERE body_mass_g BETWEEN min AND avg"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 10]
 # Database: sqlite 3.50.3 [:memory:]
@@ -835,8 +840,8 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 </div>
 <p>If you notice in all our examples, we have lots and lots of missing values. This is one of the most common tasks in like any data science task. Let’s say that we can safely ignore the missing valus. In R we have a lot of options whether we are using filter or <code>drop_na</code> from tidyr. However, in SQL missing values are usually represented by <code>NULL</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECt * FROM pengs </span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="st">                WHERE NOT sex IS NULL"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECt * FROM pengs </span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="st">                WHERE NOT sex IS NULL"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
 # Database: sqlite 3.50.3 [:memory:]
@@ -861,8 +866,8 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 <h2 class="anchored" data-anchor-id="rename">Rename</h2>
 <p>The <code>AS</code> function is kind the work horse for the next few sections. The naming convention differs a little bit so instead of <code>new_name = old_name</code> we do <code>SELECT old_name as new_name</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT species AS kinds_of_penguins</span></span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="st">          FROM pengs"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT species AS kinds_of_penguins</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="st">          FROM pengs"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 1]
 # Database: sqlite 3.50.3 [:memory:]
@@ -886,8 +891,8 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 <h2 class="anchored" data-anchor-id="mutate">Mutate</h2>
 <p>As lots of things go we need to be able to create our own variables. So to do this in R we do this</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">sqr_body_mass =</span> body_mass_g<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">sqr_body_mass =</span> body_mass_g<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 9]
 # Database: sqlite 3.50.3 [:memory:]
@@ -909,8 +914,8 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 </div>
 <p>In SQL to get the equivalent statement we use <code>SELECT transformation AS new_var_name</code> when we need to do things that are not in the dataset. So we basically need to define the column before we do anything.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT pengs .*, POWER(body_mass_g,2) AS sqr_body_mass</span></span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT pengs .*, POWER(body_mass_g,2) AS sqr_body_mass</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 9]
 # Database: sqlite 3.50.3 [:memory:]
@@ -932,8 +937,8 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 </div>
 <p>So if we needed wanted to make a ratio of bill depth to bill length we would do</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT pengs .*, bill_depth_mm/bill_length_mm AS ratio </span></span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT pengs .*, bill_depth_mm/bill_length_mm AS ratio </span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 9]
 # Database: sqlite 3.50.3 [:memory:]
@@ -958,9 +963,9 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 <section id="r-7" class="level2">
 <h2 class="anchored" data-anchor-id="r-7">R</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">male =</span> <span class="fu">ifelse</span>(sex <span class="sc">==</span> <span class="st">'Male'</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">show_query</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;SQL&gt;
 SELECT
@@ -971,8 +976,8 @@ FROM `pengs`</code></pre>
 </div>
 <p>So to make an indicator variable we would just do</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT pengs.*, CASE WHEN (sex = 'male') THEN 1.0 WHEN not (sex = 'male') THEN 0.0 END AS male</span></span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="st">             FROM pengs"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT pengs.*, CASE WHEN (sex = 'male') THEN 1.0 WHEN not (sex = 'male') THEN 0.0 END AS male</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="st">             FROM pengs"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 9]
 # Database: sqlite 3.50.3 [:memory:]
@@ -994,20 +999,20 @@ FROM `pengs`</code></pre>
 </div>
 <p>Let’s combine our window functions with our friend case_when</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * FROM(SELECT pengs .*,</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * FROM(SELECT pengs .*,</span></span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="st">           AVG(body_mass_g) AS avg, MIN(body_mass_g) AS min, MAX(body_mass_g) AS max,</span></span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="st">            CASE WHEN (body_mass_g = min) THEN 'This penguins is small' WHEN (body_mass_g = avg) THEN 'This is an average sized penguin' WHEN (body_mass_g = max) THEN 'this is a really big penguin' END AS note </span></span>
-<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs)"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>I will spare you the long output of the error message. But needless to say this was wrong. If we translate what I was trying to do into dplyr we get this</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">note =</span> <span class="fu">case_when</span>(</span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>            body_mass_g <span class="sc">==</span> <span class="fu">min</span>(body_mass_g) <span class="sc">~</span> <span class="st">'This is a small peng'</span>,</span>
 <span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>            body_mass_g <span class="sc">==</span> <span class="fu">mean</span>(body_mass_g) <span class="sc">~</span> <span class="st">'Average sized peng'</span>,</span>
 <span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>            body_mass_g <span class="sc">==</span> <span class="fu">max</span>(body_mass_g) <span class="sc">~</span> <span class="st">'Big sized peng'</span>,</span>
 <span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">.default =</span> <span class="st">'Penguin is some size'</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">show_query</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Missing values are always removed in SQL aggregation functions.
 Use `na.rm = TRUE` to silence this warning
@@ -1029,7 +1034,7 @@ WINDOW `win1` AS ()</code></pre>
 </div>
 <p>So it looks like we need to change the window function</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>check <span class="ot">=</span> <span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT pengs .*,</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>check <span class="ot">=</span> <span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT pengs .*,</span></span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="st">              CASE</span></span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="st">            WHEN (body_mass_g &gt;= MIN(body_mass_g) OVER win1) THEN 'this is a small penguin'</span></span>
 <span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="st">            WHEN (body_mass_g = AVG(body_mass_g) OVER win1) THEN 'this is an average sized penguin'</span></span>
@@ -1038,11 +1043,11 @@ WINDOW `win1` AS ()</code></pre>
 <span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a><span class="st">            END AS note</span></span>
 <span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs </span></span>
 <span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a><span class="st">            WINDOW win1 AS ()"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>                <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>                <span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Lets look at this a little closer to make sure this worked. We would probably want to make this a little more robust. So lets go ahead and define a range.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT pengs .*,</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT pengs .*,</span></span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="st">              CASE</span></span>
 <span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="st">            WHEN (body_mass_g &gt;= MIN(body_mass_g) OR body_mass_g &lt; AVG(body_mass_g)  OVER win1) THEN 'this is a small penguin'</span></span>
 <span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="st">            WHEN (body_mass_g &gt;= AVG(body_mass_g) OR body_mass_g &lt; MAX(body_mass_G) OVER win1) THEN 'this is an average sized penguin'</span></span>
@@ -1050,7 +1055,7 @@ WINDOW `win1` AS ()</code></pre>
 <span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a><span class="st">            ELSE 'This penguin is not big, small or average'</span></span>
 <span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="st">            END AS note</span></span>
 <span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs </span></span>
-<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a><span class="st">            WINDOW win1 AS ()"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a><span class="st">            WINDOW win1 AS ()"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 9]
 # Database: sqlite 3.50.3 [:memory:]
@@ -1065,8 +1070,8 @@ WINDOW `win1` AS ()</code></pre>
 <h2 class="anchored" data-anchor-id="group-by-and-summarize">Group by and summarize</h2>
 <p>As established earlier we can use SQL to summarize like this.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">'SELECT AVG(bill_depth_mm) AS avg</span></span>
-<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="st">           FROM pengs'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">'SELECT AVG(bill_depth_mm) AS avg</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="st">           FROM pengs'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 1]
 # Database: sqlite 3.50.3 [:memory:]
@@ -1077,9 +1082,9 @@ WINDOW `win1` AS ()</code></pre>
 </div>
 <p>But the actual practical utility is somewhat limited. Often we want group specific differences. Oddly enough I expected this to be a window function thing, but we actually delay computing of the mean by different groups to the end. I guess this makes sense if we are dealing with big data</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT species, AVG(body_mass_g) AS avg_body_mass</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT species, AVG(body_mass_g) AS avg_body_mass</span></span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs</span></span>
-<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="st">            GROUP BY species"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="st">            GROUP BY species"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 2]
 # Database: sqlite 3.50.3 [:memory:]
@@ -1092,9 +1097,9 @@ WINDOW `win1` AS ()</code></pre>
 </div>
 <p>So if we wanted to count of the species we would do something along this line</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT species, COUNT(species) AS total</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT species, COUNT(species) AS total</span></span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs </span></span>
-<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a><span class="st">            GROUP BY species"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a><span class="st">            GROUP BY species"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 2]
 # Database: sqlite 3.50.3 [:memory:]
@@ -1107,9 +1112,9 @@ WINDOW `win1` AS ()</code></pre>
 </div>
 <p>For multiple grouping variables we would define the grouping variables the same way as we would in <code>dplyr</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT species, sex, COUNT(species) AS total</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT species, sex, COUNT(species) AS total</span></span>
 <span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs </span></span>
-<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a><span class="st">            GROUP BY species, sex"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a><span class="st">            GROUP BY species, sex"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 3]
 # Database: sqlite 3.50.3 [:memory:]
@@ -1127,9 +1132,9 @@ WINDOW `win1` AS ()</code></pre>
 </div>
 <p>The same would go for multiple summary functions</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT species, COUNT(species) AS total, AVG(bill_depth_mm) AS avg_bill_depth, MEDIAN(bill_depth_mm) AS median_bill_depth</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT species, COUNT(species) AS total, AVG(bill_depth_mm) AS avg_bill_depth, MEDIAN(bill_depth_mm) AS median_bill_depth</span></span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="st">             FROM pengs </span></span>
-<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="st">             GROUP BY sex"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="st">             GROUP BY sex"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 4]
 # Database: sqlite 3.50.3 [:memory:]
@@ -1150,7 +1155,7 @@ WINDOW `win1` AS ()</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>pengs_top <span class="ot">=</span> palmerpenguins<span class="sc">::</span>penguins <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>pengs_top <span class="ot">=</span> palmerpenguins<span class="sc">::</span>penguins <span class="sc">|&gt;</span></span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">172</span>)</span>
 <span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>pengs_bottom <span class="ot">=</span> palmerpenguins<span class="sc">::</span>penguins <span class="sc">|&gt;</span></span>
@@ -1162,14 +1167,14 @@ WINDOW `win1` AS ()</code></pre>
 <span id="cb87-10"><a href="#cb87-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb87-11"><a href="#cb87-11" aria-hidden="true" tabindex="-1"></a>pengs_top <span class="ot">=</span> <span class="fu">copy_to</span>(con2, pengs_top)</span>
 <span id="cb87-12"><a href="#cb87-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb87-13"><a href="#cb87-13" aria-hidden="true" tabindex="-1"></a>pengs_bottom <span class="ot">=</span> <span class="fu">copy_to</span>(con3, pengs_bottom)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb87-13"><a href="#cb87-13" aria-hidden="true" tabindex="-1"></a>pengs_bottom <span class="ot">=</span> <span class="fu">copy_to</span>(con3, pengs_bottom)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>For whatever reason <code>show_query</code> is not working with this so we are going to have to consult the interwebs. The <code>SQL</code> equivalent of <code>bind_rows</code> is <code>UNION</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con2, <span class="fu">sql</span>(<span class="st">"SELECT * FROM pengs_top</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con2, <span class="fu">sql</span>(<span class="st">"SELECT * FROM pengs_top</span></span>
 <span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="st">             UNION ALL </span></span>
-<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a><span class="st">             SELECT * FROM pengs_bottom"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a><span class="st">             SELECT * FROM pengs_bottom"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
 # Database: sqlite 3.50.3 [:memory:]
@@ -1193,20 +1198,20 @@ WINDOW `win1` AS ()</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con2, <span class="fu">sql</span>(<span class="st">"SELECt * FROM pengs_top </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con2, <span class="fu">sql</span>(<span class="st">"SELECt * FROM pengs_top </span></span>
 <span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="st">              UNION </span></span>
 <span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="st">              SELECT * FROM pengs_top"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
-<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">nrow</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 172</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con2,<span class="fu">sql</span>(<span class="st">"SELECT * FROM pengs_top"</span>) ) <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con2,<span class="fu">sql</span>(<span class="st">"SELECT * FROM pengs_top"</span>) ) <span class="sc">|&gt;</span></span>
 <span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
-<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nrow</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 172</code></pre>
@@ -1219,7 +1224,7 @@ WINDOW `win1` AS ()</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>national_data <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>national_data <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
 <span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>state, <span class="sc">~</span>year, <span class="sc">~</span>unemployment, <span class="sc">~</span>inflation, <span class="sc">~</span>population,</span>
 <span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"GA"</span>,   <span class="dv">2018</span>,  <span class="dv">5</span>,             <span class="dv">2</span>,          <span class="dv">100</span>,</span>
 <span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"GA"</span>,   <span class="dv">2019</span>,  <span class="fl">5.3</span>,           <span class="fl">1.8</span>,        <span class="dv">200</span>,</span>
@@ -1248,14 +1253,14 @@ WINDOW `win1` AS ()</code></pre>
 <span id="cb94-27"><a href="#cb94-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb94-28"><a href="#cb94-28" aria-hidden="true" tabindex="-1"></a>national_data <span class="ot">=</span> <span class="fu">copy_to</span>(con4, national_data, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb94-29"><a href="#cb94-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-30"><a href="#cb94-30" aria-hidden="true" tabindex="-1"></a>national_libraries <span class="ot">=</span> <span class="fu">copy_to</span>(con3, national_libraries, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb94-30"><a href="#cb94-30" aria-hidden="true" tabindex="-1"></a>national_libraries <span class="ot">=</span> <span class="fu">copy_to</span>(con3, national_libraries, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>So we have some fake national level data that we would like to join in to the dataset. We could do something like this but what we notice is that it is going to decide the join keys for us and probably create some headaches for us later on. To solve this we need to use our keys if we expose the underlying logic</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>national_data <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>national_data <span class="sc">|&gt;</span></span>
 <span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(national_libraries, <span class="fu">join_by</span>(state, year)) <span class="sc">|&gt;</span></span>
-<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">show_query</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;SQL&gt;
 SELECT `national_data`.*, `libraries`, `schools`
@@ -1269,7 +1274,7 @@ LEFT JOIN `national_libraries`
 </div>
 <p>We will notice that <code>join_by</code> is shorthand for equality joins. What changes is that instead of <code>left_key = right_key</code> we have to specify what is coming from what table using <code>.</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>db_con <span class="ot">=</span> con4<span class="sc">$</span>con</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>db_con <span class="ot">=</span> con4<span class="sc">$</span>con</span>
 <span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>query <span class="ot">=</span> <span class="st">"SELECT *</span></span>
 <span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a><span class="st">             FROM national_data</span></span>
@@ -1280,7 +1285,7 @@ LEFT JOIN `national_libraries`
 <span id="cb97-9"><a href="#cb97-9" aria-hidden="true" tabindex="-1"></a><span class="st">             )</span></span>
 <span id="cb97-10"><a href="#cb97-10" aria-hidden="true" tabindex="-1"></a><span class="st">             "</span></span>
 <span id="cb97-11"><a href="#cb97-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb97-12"><a href="#cb97-12" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(db_con, <span class="fu">sql</span>(query))       </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb97-12"><a href="#cb97-12" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(db_con, <span class="fu">sql</span>(query))       </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  state year unemployment inflation population state year libraries schools
 1    GA 2018          5.0       2.0        100  &lt;NA&gt;   NA        NA      NA
@@ -1299,7 +1304,7 @@ LEFT JOIN `national_libraries`
 <p>For whatever reason with <code>SQLite</code> gets a little grumpy with the join syntax.</p>
 </div></div><p>If we wanted to do various other joins like inner and anti joins we would do a similar thing.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>query <span class="ot">=</span> <span class="st">"SELECT * </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>query <span class="ot">=</span> <span class="st">"SELECT * </span></span>
 <span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="st">        FROM national_data</span></span>
 <span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a><span class="st">    INNER JOIN national_libraries </span></span>
 <span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a><span class="st">    ON(</span></span>
@@ -1308,7 +1313,7 @@ LEFT JOIN `national_libraries`
 <span id="cb99-7"><a href="#cb99-7" aria-hidden="true" tabindex="-1"></a><span class="st">    )</span></span>
 <span id="cb99-8"><a href="#cb99-8" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
 <span id="cb99-9"><a href="#cb99-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb99-10"><a href="#cb99-10" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(db_con, <span class="fu">sql</span>(query))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb99-10"><a href="#cb99-10" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(db_con, <span class="fu">sql</span>(query))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  state year unemployment inflation population state year libraries schools
 1    CO 2018          4.7       2.7        200    CO 2018       230     470
@@ -1324,7 +1329,7 @@ LEFT JOIN `national_libraries`
 <h3 class="anchored" data-anchor-id="inequality-joins">Inequality joins</h3>
 <p>Confession I have never really understood how inequality joins work in regular dplyr but I am sure at some point I am going to need them and now when the stakes are so low is a good time to do it. So lets just take the data from the <code>dplyr</code> 1.1.0 announcement to do this since we know what the output should be.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>companies <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>companies <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
 <span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"B"</span>),</span>
 <span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">since =</span> <span class="fu">c</span>(<span class="dv">1973</span>, <span class="dv">2009</span>, <span class="dv">2022</span>),</span>
 <span id="cb101-4"><a href="#cb101-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Patagonia"</span>, <span class="st">"RStudio"</span>, <span class="st">"Posit"</span>)</span>
@@ -1340,12 +1345,12 @@ LEFT JOIN `national_libraries`
 <span id="cb101-14"><a href="#cb101-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb101-15"><a href="#cb101-15" aria-hidden="true" tabindex="-1"></a>transactions <span class="ot">=</span> <span class="fu">copy_to</span>(con4, transactions, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb101-16"><a href="#cb101-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb101-17"><a href="#cb101-17" aria-hidden="true" tabindex="-1"></a>db_con <span class="ot">=</span> con3<span class="sc">$</span>con</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb101-17"><a href="#cb101-17" aria-hidden="true" tabindex="-1"></a>db_con <span class="ot">=</span> con3<span class="sc">$</span>con</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>So the main idea of an inequality join is that we can join by a key in this case company but only keep records from a certain date. The blog post kind of equates it with a <code>filter/WHERE</code> that happens during the join phase. So we would see something like this</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>transactions <span class="sc">|&gt;</span></span>
-<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(companies, <span class="fu">join_by</span>(company <span class="sc">==</span> id, year <span class="sc">&gt;=</span> since)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>transactions <span class="sc">|&gt;</span></span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(companies, <span class="fu">join_by</span>(company <span class="sc">==</span> id, year <span class="sc">&gt;=</span> since)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 5]
 # Database: sqlite 3.50.3 [:memory:]
@@ -1360,7 +1365,7 @@ LEFT JOIN `national_libraries`
 </div>
 <p>Instead of two equality statements we would effectively use the same syntax just swapping out the <code>=</code> with <code>&gt;=</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>query <span class="ot">=</span> <span class="st">"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>query <span class="ot">=</span> <span class="st">"</span></span>
 <span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="st">      SELECT * FROM transactions</span></span>
 <span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a><span class="st">      INNER JOIN companies </span></span>
 <span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a><span class="st">      ON(</span></span>
@@ -1370,7 +1375,7 @@ LEFT JOIN `national_libraries`
 <span id="cb104-8"><a href="#cb104-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb104-9"><a href="#cb104-9" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
 <span id="cb104-10"><a href="#cb104-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb104-11"><a href="#cb104-11" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(db_con, <span class="fu">sql</span>(query))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb104-11"><a href="#cb104-11" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(db_con, <span class="fu">sql</span>(query))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  company year revenue id since      name
 1       A 2019      50  A  1973 Patagonia
@@ -1392,11 +1397,11 @@ LEFT JOIN `national_libraries`
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>con5 <span class="ot">=</span> <span class="fu">src_memdb</span>()</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>con5 <span class="ot">=</span> <span class="fu">src_memdb</span>()</span>
 <span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>relig <span class="ot">=</span> <span class="fu">copy_to</span>(con5, relig_income, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(relig_income, <span class="at">n =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(relig_income, <span class="at">n =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 11
@@ -1410,12 +1415,12 @@ LEFT JOIN `national_libraries`
 </div>
 <p>To make our data “long” we use <code>pivot_longer</code> and to make data “wide” we use <code>pivot_wider</code> each has their own quirks but the general idea is that we have to tell these functions where to put the old names/where to get the new names and where to put the old values/where to get the new values. So if we wanted to make our data longer we would do something like this.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>long <span class="ot">=</span> relig_income <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>long <span class="ot">=</span> relig_income <span class="sc">|&gt;</span></span>
 <span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="sc">-</span>religion,</span>
 <span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">names_to =</span> <span class="st">'income_bracket'</span>,</span>
 <span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">values_to =</span> <span class="st">'income'</span>)</span>
 <span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb108-6"><a href="#cb108-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(long, <span class="at">n =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb108-6"><a href="#cb108-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(long, <span class="at">n =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 3
   religion income_bracket income
@@ -1426,23 +1431,23 @@ LEFT JOIN `national_libraries`
 </div>
 <p>If we wanted to make this wide again all we would do is reverse this with <code>pivot_wider</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>wide <span class="ot">=</span> long <span class="sc">|&gt;</span></span>
-<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> income_bracket, <span class="at">values_from =</span> income)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>wide <span class="ot">=</span> long <span class="sc">|&gt;</span></span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> income_bracket, <span class="at">values_from =</span> income)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 <div class="no-row-height column-margin column-container"><div class="margin-aside">
 <p>There are ton of additional functionality that will not be covered like dealing with not uniquely identified columns.</p>
 </div></div><p>To get a sense of how to do this let’s consult our old friend <code>show_query</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>relig <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>relig <span class="sc">|&gt;</span></span>
 <span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="sc">-</span>religion,</span>
 <span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">names_to =</span> <span class="st">'income_bracket'</span>,</span>
 <span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">values_to =</span> <span class="st">'income'</span>) <span class="sc">|&gt;</span></span>
-<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">show_query</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We are not going to actually show the results because it is quite the query. The summary of what is happening is that <code>SQLite</code> doesn’t have a perfect equivalent of <code>pivot_longer</code>. Basically, what you need to do is to keep appending smaller and smaller data frames to each other until you get to a long data frame. In other flavors of SQL this process is a lot more humane with explicit <code>PIVOT</code> and <code>UNPIVOT</code> but I am not in one of those flavors. To spare myself a bit I am just going to do two columns</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con5, <span class="fu">sql</span>(<span class="st">"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con5, <span class="fu">sql</span>(<span class="st">"</span></span>
 <span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT religion, '&lt;$10k' AS income_bracket, '&lt;$10k' AS income</span></span>
 <span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM relig_income </span></span>
 <span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1457,7 +1462,7 @@ LEFT JOIN `national_libraries`
 <span id="cb112-13"><a href="#cb112-13" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM relig_income</span></span>
 <span id="cb112-14"><a href="#cb112-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb112-15"><a href="#cb112-15" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
-<span id="cb112-16"><a href="#cb112-16" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb112-16"><a href="#cb112-16" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 3]
 # Database: sqlite 3.50.3 [:memory:]
@@ -1478,20 +1483,20 @@ LEFT JOIN `national_libraries`
 </div>
 <p>I am a little scared to see what this looks for <code>pivot_wider</code> but we should at least give it a go.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>long <span class="ot">=</span> relig <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>long <span class="ot">=</span> relig <span class="sc">|&gt;</span></span>
 <span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="sc">-</span>religion,</span>
 <span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">'income_bracket'</span>,</span>
 <span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">'income'</span>)</span>
 <span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a>long <span class="sc">|&gt;</span></span>
 <span id="cb114-7"><a href="#cb114-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> income_bracket, <span class="at">values_from =</span> income) <span class="sc">|&gt;</span></span>
-<span id="cb114-8"><a href="#cb114-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb114-8"><a href="#cb114-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">show_query</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Okay again this is a little unwieldy to show. Basically what happens is that we are creating a big case_when condition and then from there we are going to use the same binding trick and then group the data. So lets go ahead and copy and paste some of this.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>query <span class="ot">=</span> <span class="st">"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>query <span class="ot">=</span> <span class="st">"</span></span>
 <span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
 <span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a><span class="st">    religion,</span></span>
 <span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a><span class="st">    MAX(CASE WHEN (income_bracket = '&lt;$10k') THEN income END) AS '&lt;$10K',</span></span>
@@ -1514,7 +1519,7 @@ LEFT JOIN `national_libraries`
 <span id="cb115-21"><a href="#cb115-21" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY religion</span></span>
 <span id="cb115-22"><a href="#cb115-22" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
 <span id="cb115-23"><a href="#cb115-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb115-24"><a href="#cb115-24" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con5, <span class="fu">sql</span>(query))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb115-24"><a href="#cb115-24" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con5, <span class="fu">sql</span>(query))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 4]
@@ -1546,11 +1551,11 @@ LEFT JOIN `national_libraries`
 <h2 class="anchored" data-anchor-id="unnesta-brief-aside">Unnest/a brief aside</h2>
 <p>So one thing that you come across from time to time in R and python data wrangling are list columns. These happen for a variety of reasons and are pretty innocuous to handle.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>list_starwars <span class="ot">=</span> starwars <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>list_starwars <span class="ot">=</span> starwars <span class="sc">|&gt;</span></span>
 <span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(name, films)</span>
 <span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb117-4"><a href="#cb117-4" aria-hidden="true" tabindex="-1"></a> list_starwars <span class="sc">|&gt;</span></span>
-<span id="cb117-5"><a href="#cb117-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest_longer</span>(films)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb117-5"><a href="#cb117-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest_longer</span>(films)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 173 × 2
    name           films                  
@@ -1577,8 +1582,8 @@ LEFT JOIN `national_libraries`
 <h2 class="anchored" data-anchor-id="ranking">Ranking</h2>
 <p>There are lots of different ways to rank things in R if we want to return the min/max you can do</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
-<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_max</span>(bill_length_mm, <span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>pengs <span class="sc">|&gt;</span></span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_max</span>(bill_length_mm, <span class="at">n =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
 # Database: sqlite 3.50.3 [:memory:]
@@ -1592,7 +1597,7 @@ LEFT JOIN `national_libraries`
 </div>
 <p>There are also various ranking functions.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a>example <span class="ot">=</span> <span class="fu">tribble</span>(<span class="sc">~</span>id, <span class="sc">~</span>col1,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a>example <span class="ot">=</span> <span class="fu">tribble</span>(<span class="sc">~</span>id, <span class="sc">~</span>col1,</span>
 <span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a>                   <span class="dv">1</span>, <span class="dv">1</span>,</span>
 <span id="cb121-3"><a href="#cb121-3" aria-hidden="true" tabindex="-1"></a>                   <span class="dv">2</span>, <span class="dv">2</span>,</span>
 <span id="cb121-4"><a href="#cb121-4" aria-hidden="true" tabindex="-1"></a>                   <span class="dv">3</span>, <span class="dv">2</span>,</span>
@@ -1601,7 +1606,7 @@ LEFT JOIN `national_libraries`
 <span id="cb121-7"><a href="#cb121-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb121-8"><a href="#cb121-8" aria-hidden="true" tabindex="-1"></a>example <span class="sc">|&gt;</span></span>
 <span id="cb121-9"><a href="#cb121-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">rank_one =</span> <span class="fu">dense_rank</span>(col1),</span>
-<span id="cb121-10"><a href="#cb121-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">rank_two =</span> <span class="fu">min_rank</span>(col1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb121-10"><a href="#cb121-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">rank_two =</span> <span class="fu">min_rank</span>(col1))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 4
      id  col1 rank_one rank_two
@@ -1616,13 +1621,13 @@ LEFT JOIN `national_libraries`
 <p>Like our <code>dplyr</code> join functions the <code>dense_rank</code> and <code>min_rank</code> function actually takes inspiration from <code>SQL</code>. So in our example where the two functions differ is how they handle ties. So in <code>dense_rank</code> and <code>min_rank</code> both id 2 and 3 get assigned the same rank where they differ is <code>dense_rank</code> will assign id 4 the rank of 3 and <code>min_rank</code> will assign id 4 the rank of 4.</p>
 <p>So how would we do this in <code>SQL</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>con7 <span class="ot">=</span> <span class="fu">src_memdb</span>()</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>con7 <span class="ot">=</span> <span class="fu">src_memdb</span>()</span>
 <span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb123-3"><a href="#cb123-3" aria-hidden="true" tabindex="-1"></a>team_rankings <span class="ot">=</span> <span class="fu">copy_to</span>(con7, example)</span>
 <span id="cb123-4"><a href="#cb123-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb123-5"><a href="#cb123-5" aria-hidden="true" tabindex="-1"></a>team_rankings <span class="sc">|&gt;</span></span>
 <span id="cb123-6"><a href="#cb123-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">rank_one =</span> <span class="fu">dense_rank</span>(col1)) <span class="sc">|&gt;</span></span>
-<span id="cb123-7"><a href="#cb123-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb123-7"><a href="#cb123-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">show_query</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;SQL&gt;
 SELECT
@@ -1635,14 +1640,14 @@ FROM `example`</code></pre>
 </div>
 <p>This is deceptively a bit more complex. So lets break it down.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con7, <span class="fu">sql</span>(<span class="st">"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con7, <span class="fu">sql</span>(<span class="st">"</span></span>
 <span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
 <span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a><span class="st">example .*,</span></span>
 <span id="cb125-4"><a href="#cb125-4" aria-hidden="true" tabindex="-1"></a><span class="st">    CASE </span></span>
 <span id="cb125-5"><a href="#cb125-5" aria-hidden="true" tabindex="-1"></a><span class="st">WHEN (NOT((col1 is NULL))) THEN DENSE_RANK() OVER (PARTITION BY (CASE WHEN ((col1 is NULL)) THEN 1 ELSE 0 END) ORDER BY col1)</span></span>
 <span id="cb125-6"><a href="#cb125-6" aria-hidden="true" tabindex="-1"></a><span class="st">END AS rank_one</span></span>
 <span id="cb125-7"><a href="#cb125-7" aria-hidden="true" tabindex="-1"></a><span class="st">FROM example</span></span>
-<span id="cb125-8"><a href="#cb125-8" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb125-8"><a href="#cb125-8" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 3]
 # Database: sqlite 3.50.3 [:memory:]
@@ -1657,7 +1662,7 @@ FROM `example`</code></pre>
 </div>
 <p>So basically the <code>PARTITION BY</code> bit is used to divide the data into groups before we rank them. The <code>CASE WHEN</code> handles when we have missing values. Then the window function is applying dense rank over these partions. This was a somewhat silly example so lets do something a bit more realistic. Lets say we actually want to rank the penguins by average bill length and then return the penguins in the top 3.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(</span>
 <span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span></span>
 <span id="cb127-3"><a href="#cb127-3" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT</span></span>
 <span id="cb127-4"><a href="#cb127-4" aria-hidden="true" tabindex="-1"></a><span class="st">    ranked_pengs .*,</span></span>
@@ -1670,7 +1675,7 @@ FROM `example`</code></pre>
 <span id="cb127-11"><a href="#cb127-11" aria-hidden="true" tabindex="-1"></a><span class="st">     AS ranked_pengs </span></span>
 <span id="cb127-12"><a href="#cb127-12" aria-hidden="true" tabindex="-1"></a><span class="st">     LIMIT 3</span></span>
 <span id="cb127-13"><a href="#cb127-13" aria-hidden="true" tabindex="-1"></a><span class="st">    "</span></span>
-<span id="cb127-14"><a href="#cb127-14" aria-hidden="true" tabindex="-1"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb127-14"><a href="#cb127-14" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 10]
 # Database: sqlite 3.50.3 [:memory:]
@@ -1684,7 +1689,7 @@ FROM `example`</code></pre>
 </div>
 <p>We could also do this by groups by just inserting a group by statement before the limit bit</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(</span>
 <span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span></span>
 <span id="cb129-3"><a href="#cb129-3" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT</span></span>
 <span id="cb129-4"><a href="#cb129-4" aria-hidden="true" tabindex="-1"></a><span class="st">    ranked_pengs .*,</span></span>
@@ -1698,7 +1703,7 @@ FROM `example`</code></pre>
 <span id="cb129-12"><a href="#cb129-12" aria-hidden="true" tabindex="-1"></a><span class="st">     GROUP BY species</span></span>
 <span id="cb129-13"><a href="#cb129-13" aria-hidden="true" tabindex="-1"></a><span class="st">     LIMIT 3</span></span>
 <span id="cb129-14"><a href="#cb129-14" aria-hidden="true" tabindex="-1"></a><span class="st">    "</span></span>
-<span id="cb129-15"><a href="#cb129-15" aria-hidden="true" tabindex="-1"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb129-15"><a href="#cb129-15" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 10]
 # Database: sqlite 3.50.3 [:memory:]
@@ -1715,12 +1720,12 @@ FROM `example`</code></pre>
 <h2 class="anchored" data-anchor-id="distinct-values">Distinct Values</h2>
 <p>Duplicates are a fact of life but depending on your question or what information you are trying to show repeated records may not be desirable. We handle these with the same function but kind of like <code>mutate</code> we have to let select handle these. If we wanted one row per column without having to specify every column in our dataset than we could do something like this</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT *</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT *</span></span>
 <span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM(</span></span>
 <span id="cb131-3"><a href="#cb131-3" aria-hidden="true" tabindex="-1"></a><span class="st">            SELECT pengs .*,</span></span>
 <span id="cb131-4"><a href="#cb131-4" aria-hidden="true" tabindex="-1"></a><span class="st">            ROW_NUMBER() OVER (PARTITION BY species ORDER BY species) AS id </span></span>
 <span id="cb131-5"><a href="#cb131-5" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM PENGS) AS small_pengs</span></span>
-<span id="cb131-6"><a href="#cb131-6" aria-hidden="true" tabindex="-1"></a><span class="st">            WHERE id = 1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb131-6"><a href="#cb131-6" aria-hidden="true" tabindex="-1"></a><span class="st">            WHERE id = 1"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 9]
 # Database: sqlite 3.50.3 [:memory:]
@@ -1734,8 +1739,8 @@ FROM `example`</code></pre>
 </div>
 <p>However if we have a slightly less complex query than we can feed distinct multiple columns</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT DISTINCT species, island</span></span>
-<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT DISTINCT species, island</span></span>
+<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 2]
 # Database: sqlite 3.50.3 [:memory:]
@@ -1809,13 +1814,14 @@ FROM `example`</code></pre>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
