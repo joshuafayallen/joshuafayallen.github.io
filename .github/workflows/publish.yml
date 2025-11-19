@@ -60,6 +60,11 @@ jobs:
           VENV_PYTHON=$(realpath .venv/bin/python)
           echo "QUARTO_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
           echo "RETICULATE_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
+      - name: Configure reticulate
+        run: |
+          Rscript -e "install.packages('reticulate', repos='https://cloud.r-project.org')"
+          VENV_PYTHON=$(realpath .venv/bin/python)
+          Rscript -e "reticulate::use_python('$VENV_PYTHON', required = TRUE)"
   
 
 
@@ -69,3 +74,5 @@ jobs:
           target: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          QUARTO_PYTHON: ${{ env.QUARTO_PYTHON }}
+          RETICULATE_PYTHON: ${{ env.RETICULATE_PYTHON }}
