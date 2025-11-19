@@ -14,20 +14,6 @@ categories:
 execute: 
   warning: false
   message: false
-filters:
-  - webr
-webr: 
-  packages: 
-    - ggplot2
-    - dplyr
-    - tidyr 
-    - stringr
-    - forcats
-    - ggdist
-    - arrow
-    - glue
-    - vctrs
-
 ---
 
 
@@ -522,6 +508,7 @@ An ordered categorical likelihood seems kind of like a weird fit since we are re
 
 ```{r}
 #| label: tbl-total_tds
+#| echo: false
 
 empirical_dat |>
   group_by(rec_tds_game) |>
@@ -534,6 +521,7 @@ Additionally, while there is no technical upper bound to the number of touchdown
 
 ```{r}
 #| label: fig-lumped-tds
+#| echo: false
 
 hist_dat = empirical_dat |>
   mutate(binary = ifelse(rec_tds >= 1, 1, 0)) |>
@@ -567,10 +555,10 @@ For the in-season prior I started by thinking about how much carryover we would 
 
 
 ```{python}
-# | echo: false
-# | message: false
-# | warning: false
-# | label: fig-short-term-form-prior
+#| echo: false
+#| message: false
+#| warning: false
+#| label: fig-short-term-form-prior
 
 short_term_form, ax = pz.maxent(pz.InverseGamma(), lower=2, upper=5)
 lg = ax.legend()
@@ -1600,7 +1588,7 @@ replacement = players_stats |>
   pull(player_display_name)
 
 
-posterior_predictive = open_dataset('writeup-dat/posterior-predicitive.parquet')
+posterior_predictive = arrow::read_parquet('https://github.com/joshuafayallen/joshuafayallen.github.io/releases/download/latest/posterior-predicitive.parquet')
 
 elite_df = posterior_predictive |>
   filter(receiver_full_name %in% elite, season == 2023) |>
@@ -1972,17 +1960,24 @@ plt.suptitle(f"{player.title()}\nTDs Probabilities per Season", fontsize=18)
 ```{r}
 #| code-fold: true
 
-implied_probs_data = open_dataset('writeup-dat/implied_probs.parquet') |>
-  rename(
-    #n_tds = tds_scored_probs_dim_1,
-    .chain = chain,
-    .iteration = draw
-  ) |>
-  select(-(contains('index_level')))
+link_builder = \(season){
+  link = glue::glue("https://github.com/joshuafayallen/joshuafayallen.github.io/releases/download/latest/implied-probs-{season}-season.parquet")
+  return(link)
+}
+
+download_data = \(season){
+  links_to_read = link_builder(season = season)
+
+  td_data = vctrs::list_unchop(lapply(links_to_read, \(x) arrow::read_parquet(x)))
+
+}
+
+
+implied_probs_data = download_data(season = c(2021:2024))
+
 
 amon_ra = implied_probs_data |>
   filter(receiver_full_name == 'Amon-Ra St. Brown') |>
-  collect() |>
   mutate(.draw = row_number(), n_tds = as.factor(event))
 
 
@@ -2046,9 +2041,10 @@ join_these = players_stats |>
   distinct(player_display_name, .keep_all = TRUE) |>
   select(receiver_full_name = player_display_name, position_group)
 
+implied_probs_data = download_data(season = c(2002:2024))
+
 plot_data = implied_probs_data |>
   filter(receiver_full_name %in% players_interested_in) |>
-  collect() |>
   left_join(join_these) |>
   mutate(
     n_tds = as.factor(event),
@@ -2091,17 +2087,9 @@ active_p / retired_p + plot_layout(axis_titles = 'collect', guides = 'collect')
 ```
 
 
-If there are a group of players that you are interested feel free to play around with the data in the web-r code block! 
+If there are a group of players that you are interested I have uploaded the implied probabilities data for each season to my Github releases. You can use these helper functions to read in the data if need be!
 
-
-```{webr-r}
-library(ggdist)
-library(ggplot2)
-library(forcats)
-library(ggdist)
-library(tidyr)
-library(dplyr)
-
+```{r}
 link_builder = \(season){
   link = glue::glue("https://github.com/joshuafayallen/joshuafayallen.github.io/releases/download/latest/implied-probs-{season}-season.parquet")
   return(link)
@@ -2113,10 +2101,5 @@ download_data = \(season){
   td_data = vctrs::list_unchop(lapply(links_to_read, \(x) read_parquet(x)))
 
 }
-
-example_season = download_data(season = 2023)
-
-
-
 
 ```
