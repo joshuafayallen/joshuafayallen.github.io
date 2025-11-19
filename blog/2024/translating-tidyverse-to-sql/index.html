@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../../site_libs/bootstrap/bootstrap-18f506b57f714063b1bc4f552004e8bd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -112,10 +112,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
-    </a>
-  </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -246,11 +242,11 @@ Attaching package: 'arrow'</code></pre>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+✔ dplyr     1.1.4     ✔ readr     2.1.6
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.1     ✔ tibble    3.3.0
 ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.1.0     </code></pre>
+✔ purrr     1.2.0     </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -335,7 +331,7 @@ FROM `pengs`</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pengs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
   &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
 1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -354,7 +350,7 @@ FROM `pengs`</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT * FROM pengs"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -383,7 +379,7 @@ FROM `pengs`</code></pre>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(body_mass_g, flipper_length_mm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 2]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    body_mass_g flipper_length_mm
          &lt;int&gt;             &lt;int&gt;
  1        3750               181
@@ -405,7 +401,7 @@ FROM `pengs`</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="fu">sql</span>(<span class="st">"SELECT body_mass_g, flipper_length_mm FROM pengs"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 2]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    body_mass_g flipper_length_mm
          &lt;int&gt;             &lt;int&gt;
  1        3750               181
@@ -431,7 +427,7 @@ FROM `pengs`</code></pre>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(<span class="at">n =</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 7]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
   island  bill_length_mm bill_depth_mm flipper_length_mm body_mass_g sex    year
   &lt;chr&gt;            &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt; &lt;chr&gt; &lt;int&gt;
 1 Torger…           39.1          18.7               181        3750 male   2007
@@ -451,7 +447,7 @@ FROM `pengs`</code></pre>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">'Adelie'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -478,7 +474,7 @@ FROM `pengs`</code></pre>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -511,7 +507,7 @@ FROM `pengs`</code></pre>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(species <span class="sc">!=</span> <span class="st">'Adelie'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Gentoo  Biscoe           46.1          13.2               211        4500
@@ -535,7 +531,7 @@ FROM `pengs`</code></pre>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="st">             WHERE NOT species = 'Adelie'"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Gentoo  Biscoe           46.1          13.2               211        4500
@@ -565,7 +561,7 @@ FROM `pengs`</code></pre>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">'Chinstrap'</span> <span class="sc">|</span> species <span class="sc">==</span> <span class="st">'Adelie'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -590,7 +586,7 @@ FROM `pengs`</code></pre>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="st">            WHERE species = 'Adelie' OR species = 'Chinstrap'"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -620,7 +616,7 @@ FROM `pengs`</code></pre>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(species <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Chinstrap'</span>, <span class="st">"Gentoo"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Gentoo  Biscoe           46.1          13.2               211        4500
@@ -645,7 +641,7 @@ FROM `pengs`</code></pre>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="st">            WHERE species IN ('Chinstrap', 'Gentoo')"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Gentoo  Biscoe           46.1          13.2               211        4500
@@ -671,7 +667,7 @@ FROM `pengs`</code></pre>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="st">            WHERE NOT species IN ('Chinstrap', 'Gentoo')"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -694,7 +690,7 @@ FROM `pengs`</code></pre>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(body_mass_g <span class="sc">&lt;</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -715,7 +711,7 @@ FROM `pengs`</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl</span>(con, <span class="st">"SELECT * from pengs WHERE body_mass_g &lt; AVG(body_mass_g)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
-<pre><code>Error in `db_query_fields.DBIConnection()` at rlang/R/eval.R:96:3:
+<pre><code>Error in `db_query_fields.DBIConnection()`:
 ! Can't query fields.
 ℹ Using SQL: SELECT * FROM `SELECT * from pengs WHERE body_mass_g &lt;
   AVG(body_mass_g)` AS `q01` WHERE (0 = 1)
@@ -752,7 +748,7 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 1]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
   `mean(body_mass_g, na.rm = TRUE)`
                               &lt;dbl&gt;
 1                             4202.</code></pre>
@@ -766,7 +762,7 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="st">              WHERE (body_mass_g &lt; avg)"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 9]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -818,7 +814,7 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 <span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="st">            WHERE body_mass_g BETWEEN min AND avg"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 10]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -844,7 +840,7 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="st">                WHERE NOT sex IS NULL"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -870,7 +866,7 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="st">          FROM pengs"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 1]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    kinds_of_penguins
    &lt;chr&gt;            
  1 Adelie           
@@ -895,7 +891,7 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">sqr_body_mass =</span> body_mass_g<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 9]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -918,7 +914,7 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 9]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -941,7 +937,7 @@ WHERE (`body_mass_g` &lt; `col01`)</code></pre>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 9]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -980,7 +976,7 @@ FROM `pengs`</code></pre>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="st">             FROM pengs"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 9]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -1058,7 +1054,7 @@ WINDOW `win1` AS ()</code></pre>
 <span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a><span class="st">            WINDOW win1 AS ()"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 9]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
   species   island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
   &lt;chr&gt;     &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
 1 Chinstrap Dream            46.9          16.6               192        2700
@@ -1074,7 +1070,7 @@ WINDOW `win1` AS ()</code></pre>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="st">           FROM pengs'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 1]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
     avg
   &lt;dbl&gt;
 1  17.2</code></pre>
@@ -1087,7 +1083,7 @@ WINDOW `win1` AS ()</code></pre>
 <span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="st">            GROUP BY species"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 2]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
   species   avg_body_mass
   &lt;chr&gt;             &lt;dbl&gt;
 1 Adelie            3701.
@@ -1102,7 +1098,7 @@ WINDOW `win1` AS ()</code></pre>
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a><span class="st">            GROUP BY species"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 2]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
   species   total
   &lt;chr&gt;     &lt;int&gt;
 1 Adelie      152
@@ -1117,7 +1113,7 @@ WINDOW `win1` AS ()</code></pre>
 <span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a><span class="st">            GROUP BY species, sex"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 3]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
   species   sex    total
   &lt;chr&gt;     &lt;chr&gt;  &lt;int&gt;
 1 Adelie    &lt;NA&gt;       6
@@ -1137,7 +1133,7 @@ WINDOW `win1` AS ()</code></pre>
 <span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="st">             GROUP BY sex"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 4]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
   species total avg_bill_depth median_bill_depth
   &lt;chr&gt;   &lt;int&gt;          &lt;dbl&gt;             &lt;dbl&gt;
 1 Adelie     11           16.6              17.1
@@ -1177,7 +1173,7 @@ WINDOW `win1` AS ()</code></pre>
 <span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a><span class="st">             SELECT * FROM pengs_bottom"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
  1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -1353,7 +1349,7 @@ LEFT JOIN `national_libraries`
 <span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(companies, <span class="fu">join_by</span>(company <span class="sc">==</span> id, year <span class="sc">&gt;=</span> since)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 5]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
   company  year revenue since name     
   &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    
 1 A        2019      50  1973 Patagonia
@@ -1465,7 +1461,7 @@ LEFT JOIN `national_libraries`
 <span id="cb112-16"><a href="#cb112-16" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 3]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    religion                income_bracket income
    &lt;chr&gt;                   &lt;chr&gt;          &lt;chr&gt; 
  1 Agnostic                &lt;$10k          &lt;$10k 
@@ -1523,7 +1519,7 @@ LEFT JOIN `national_libraries`
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 4]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
    religion                `&lt;$10K` `$10-20k` `$20-30k`
    &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;    
  1 Agnostic                &lt;$10k   $10-20k   $20-30k  
@@ -1586,7 +1582,7 @@ LEFT JOIN `national_libraries`
 <span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_max</span>(bill_length_mm, <span class="at">n =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 8]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
   species   island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
   &lt;chr&gt;     &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
 1 Gentoo    Biscoe           59.6          17                 230        6050
@@ -1650,7 +1646,7 @@ FROM `example`</code></pre>
 <span id="cb125-8"><a href="#cb125-8" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 3]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
      id  col1 rank_one
   &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt;
 1     1     1        1
@@ -1678,7 +1674,7 @@ FROM `example`</code></pre>
 <span id="cb127-14"><a href="#cb127-14" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 10]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
   &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
 1 Adelie  Torgersen           39.1          18.7               181        3750
@@ -1706,7 +1702,7 @@ FROM `example`</code></pre>
 <span id="cb129-15"><a href="#cb129-15" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 10]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
   species   island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
   &lt;chr&gt;     &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
 1 Adelie    Torgersen           39.1          18.7               181        3750
@@ -1728,7 +1724,7 @@ FROM `example`</code></pre>
 <span id="cb131-6"><a href="#cb131-6" aria-hidden="true" tabindex="-1"></a><span class="st">            WHERE id = 1"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 9]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
   species   island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
   &lt;chr&gt;     &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
 1 Adelie    Torgersen           39.1          18.7               181        3750
@@ -1743,7 +1739,7 @@ FROM `example`</code></pre>
 <span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM pengs"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 2]
-# Database: sqlite 3.50.3 [:memory:]
+# Database: sqlite 3.51.0 [:memory:]
   species   island   
   &lt;chr&gt;     &lt;chr&gt;    
 1 Adelie    Torgersen
