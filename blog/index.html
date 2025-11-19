@@ -127,6 +127,34 @@ ul.task-list li input[type="checkbox"] {
       window['quarto-listing-loaded']();
     }
   })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-posts_2025 .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-project','listing-freeze','listing-website','listing-format','listing-language','listing-title','listing-engine','listing-date-format','listing-description','listing-categories','listing-execute','listing-filters','listing-webr','listing-path','listing-outputHref','listing-author','listing-filename','listing-file-modified','listing-reading-time','listing-word-count',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
+      
+      searchColumns: ["listing-project","listing-freeze","listing-website","listing-format","listing-language","listing-title","listing-engine","listing-date-format","listing-description","listing-categories","listing-execute","listing-filters","listing-webr","listing-path","listing-outputHref","listing-author","listing-filename","listing-file-modified","listing-reading-time","listing-word-count"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-posts_2025'] = new List('listing-posts_2025', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
   </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
@@ -231,7 +259,7 @@ window.Quarto = {
   <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2">2025</a></li>
   </ul>
 </nav>
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(4)</span></div><div class="category" data-category="cG9sYXJz">polars <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cHl0aG9u">python <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cg==">r <span class="quarto-category-count">(3)</span></div><div class="category" data-category="dGlkeXZlcnNl">tidyverse <span class="quarto-category-count">(2)</span></div><div class="category" data-category="enNo">zsh <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(5)</span></div><div class="category" data-category="YmF5ZXM=">bayes <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cG9sYXJz">polars <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cHltYw==">pymc <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cHl0aG9u">python <span class="quarto-category-count">(3)</span></div><div class="category" data-category="cg==">r <span class="quarto-category-count">(4)</span></div><div class="category" data-category="dGlkeXZlcnNl">tidyverse <span class="quarto-category-count">(3)</span></div><div class="category" data-category="enNo">zsh <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
@@ -259,7 +287,7 @@ window.Quarto = {
 <div id="listing-posts_2022" class="quarto-listing quarto-listing-container-custom">
 <div class="list blog">
     
-    <div class="blog-entry" data-index="0" data-categories="ciUyQ3pzaA==" data-listing-date-sort="1640995200000" data-listing-file-modified-sort="1763574858782" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="458">
+    <div class="blog-entry" data-index="0" data-categories="ciUyQ3pzaA==" data-listing-date-sort="1640995200000" data-listing-file-modified-sort="1763578849888" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="458">
         <div class="metadata">          
             <p class="date listing-date">January 1, 2022</p>
         </div>
@@ -294,7 +322,7 @@ window.Quarto = {
 <div id="listing-posts_2024" class="quarto-listing quarto-listing-container-custom">
 <div class="list blog">
     
-    <div class="blog-entry" data-index="0" data-listing-file-modified-sort="1763574858784" data-listing-reading-time-sort="27" data-listing-word-count-sort="5357">
+    <div class="blog-entry" data-index="0" data-listing-file-modified-sort="1763578849890" data-listing-reading-time-sort="27" data-listing-word-count-sort="5357">
         <div class="metadata">          
             <p class="date listing-date"></p>
         </div>
@@ -308,7 +336,7 @@ window.Quarto = {
         
     </div>
     
-    <div class="blog-entry" data-index="1" data-categories="ciUyQ3RpZHl2ZXJzZSUyQ3B5dGhvbg==" data-listing-date-sort="1763574858000" data-listing-file-modified-sort="1763574858783" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3300">
+    <div class="blog-entry" data-index="1" data-categories="ciUyQ3RpZHl2ZXJzZSUyQ3B5dGhvbg==" data-listing-date-sort="1763578849000" data-listing-file-modified-sort="1763578849889" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3300">
         <div class="metadata">          
             <p class="date listing-date">November 19, 2025</p>
         </div>
@@ -338,7 +366,7 @@ window.Quarto = {
         
     </div>
     
-    <div class="blog-entry" data-index="2" data-categories="ciUyQ3RpZHl2ZXJzZSUyQ3B5dGhvbiUyQ3BvbGFycw==" data-listing-date-sort="1763574858000" data-listing-file-modified-sort="1763574858783" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22" data-listing-word-count-sort="4295">
+    <div class="blog-entry" data-index="2" data-categories="ciUyQ3RpZHl2ZXJzZSUyQ3B5dGhvbiUyQ3BvbGFycw==" data-listing-date-sort="1763578849000" data-listing-file-modified-sort="1763578849889" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22" data-listing-word-count-sort="4295">
         <div class="metadata">          
             <p class="date listing-date">November 19, 2025</p>
         </div>
@@ -378,8 +406,53 @@ window.Quarto = {
 </section>
 <section id="section-2" class="level2">
 <h2 class="anchored" data-anchor-id="section-2">2025</h2>
-<div id="posts_2025">
+<div id="listing-posts_2025" class="quarto-listing quarto-listing-container-custom">
+<div class="list blog">
+    
+    <div class="blog-entry" data-index="0" data-categories="ciUyQ3B5dGhvbiUyQ2JheWVzJTJDdGlkeXZlcnNlJTJDcHltYyUyQ3BvbGFycw==" data-listing-file-modified-sort="1763578849891" data-listing-reading-time-sort="61" data-listing-word-count-sort="12163">
+        <div class="metadata">          
+            <p class="date listing-date"></p>
+        </div>
+        <div class="body">
+            <p class="title listing-title"><a href="../blog/2025/passing-td-factor-model/index.html">Modeling Receiver Ability Bayesiansly</a></p>
 
+            
+            <div class="post-categories listing-categories">
+                
+                <div class="post-category listing-category" onclick="window.quartoListingCategory('r'); return false;">
+                    r
+                </div>
+                
+                <div class="post-category listing-category" onclick="window.quartoListingCategory('python'); return false;">
+                    python
+                </div>
+                
+                <div class="post-category listing-category" onclick="window.quartoListingCategory('bayes'); return false;">
+                    bayes
+                </div>
+                
+                <div class="post-category listing-category" onclick="window.quartoListingCategory('tidyverse'); return false;">
+                    tidyverse
+                </div>
+                
+                <div class="post-category listing-category" onclick="window.quartoListingCategory('pymc'); return false;">
+                    pymc
+                </div>
+                
+                <div class="post-category listing-category" onclick="window.quartoListingCategory('polars'); return false;">
+                    polars
+                </div>
+                
+            </div>
+            
+
+            <p class="description listing-description">How Good is Your Favorite Wide Receiver?</p>
+        </div>
+        
+    </div>
+    
+</div>
+<div class="listing-no-matching d-none">No matching items</div>
 </div>
 
 
