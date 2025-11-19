@@ -602,6 +602,7 @@ dependencies = [
     { name = "numpy" },
     { name = "numpyro" },
     { name = "nutpie", extra = ["pymc"] },
+    { name = "palmerpenguins" },
     { name = "plotnine" },
     { name = "polars" },
     { name = "preliz", extra = ["full", "lab"] },
@@ -610,9 +611,13 @@ dependencies = [
     { name = "pymc" },
     { name = "pymc-extras" },
     { name = "scikit-learn" },
+    { name = "scipy" },
     { name = "seaborn" },
+    { name = "setuptools" },
+    { name = "statsmodels" },
     { name = "typing" },
     { name = "wheel" },
+    { name = "xarray" },
 ]
 
 [package.metadata]
@@ -630,6 +635,7 @@ requires-dist = [
     { name = "numpy", specifier = ">=2.2.6" },
     { name = "numpyro", specifier = ">=0.19.0" },
     { name = "nutpie", extras = ["pymc"], specifier = ">=0.15.2" },
+    { name = "palmerpenguins", specifier = ">=0.1.4" },
     { name = "plotnine", specifier = ">=0.15.0" },
     { name = "polars", specifier = "==1.35.2" },
     { name = "preliz", extras = ["full", "lab"], specifier = "==0.23.0" },
@@ -638,9 +644,13 @@ requires-dist = [
     { name = "pymc", specifier = "==5.26.1" },
     { name = "pymc-extras", specifier = ">=0.5.0" },
     { name = "scikit-learn", specifier = ">=1.7.2" },
+    { name = "scipy", specifier = ">=1.16.1" },
     { name = "seaborn", specifier = ">=0.13.2" },
+    { name = "setuptools", specifier = ">=80.9.0" },
+    { name = "statsmodels", specifier = ">=0.14.5" },
     { name = "typing", specifier = ">=3.10.0.0" },
     { name = "wheel", specifier = ">=0.45.1" },
+    { name = "xarray", specifier = ">=2025.8.0" },
 ]
 
 [[package]]
@@ -1903,6 +1913,19 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/a1/d4/1fc4078c65507b51b96ca8f8c3ba19e6a61c8253c72794544580a7b6c24d/packaging-25.0.tar.gz", hash = "sha256:d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f", size = 165727 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/20/12/38679034af332785aac8774540895e234f4d07f7545804097de4b666afd8/packaging-25.0-py3-none-any.whl", hash = "sha256:29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484", size = 66469 },
+]
+
+[[package]]
+name = "palmerpenguins"
+version = "0.1.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+    { name = "pandas" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/67/6a/5f701d151baa94985cfebf56697f3c6f86546e96f75362b15f5b758251bd/palmerpenguins-0.1.4.tar.gz", hash = "sha256:d04d9064930e053fb0805261fe2aa26b4581fdabacaa54d393ddd65bb93bbaf2", size = 5626 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/23/78/d81191d1faf9c41e8707eb0c08dc6d489157bfa42faad62e0ab90c37ebbc/palmerpenguins-0.1.4-py3-none-any.whl", hash = "sha256:63c904db3dcef10e4ff1372f9b7f50a8f44c7364cc03f27f9a487fe5762d159c", size = 17523 },
 ]
 
 [[package]]

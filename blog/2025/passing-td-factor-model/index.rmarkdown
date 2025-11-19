@@ -1588,7 +1588,7 @@ replacement = players_stats |>
   pull(player_display_name)
 
 
-posterior_predictive = open_dataset('writeup-dat/posterior-predicitive.parquet')
+posterior_predictive = arrow::read_parquet('https://github.com/joshuafayallen/joshuafayallen.github.io/releases/download/latest/posterior-predicitive.parquet')
 
 elite_df = posterior_predictive |>
   filter(receiver_full_name %in% elite, season == 2023) |>
@@ -2087,7 +2087,7 @@ active_p / retired_p + plot_layout(axis_titles = 'collect', guides = 'collect')
 ```
 
 
-If there are a group of players that you are interested I have uploaded the implied probabilities data for each season to my GitHub releases. You can use these helper functions to read in the data if need be!
+If there are a group of players that you are interested I have uploaded the implied probabilities data for each season to my Github releases. You can use these helper functions to read in the data if need be!
 
 ```{r}
 link_builder = \(season){
