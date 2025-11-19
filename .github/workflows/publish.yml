@@ -24,7 +24,7 @@ jobs:
         run: uv add polars
       - name: add jupyter via uv 
         run: |
-          uv add jupyter jupyter-client
+          uv add jupyter jupyter-client ipykernel
           uv run python -m jupyter --version
 
       - name: Install R
@@ -57,12 +57,10 @@ jobs:
           cache-version: 1
       - name: Configure Python for reticulate
         run: |
-          PYTHON_PATH=$(uv run which python)
-          echo "RETICULATE_PYTHON=$PYTHON_PATH" >> $GITHUB_ENV
-          echo "Python path: $PYTHON_PATH"
+          VENV_PYTHON=$(realpath .venv/bin/python)
+          echo "QUARTO_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
+          echo "RETICULATE_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
   
-       
-
 
 
       - name: Render and Publish
