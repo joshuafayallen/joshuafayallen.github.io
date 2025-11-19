@@ -35,8 +35,8 @@ I got interested in [Alex Andora and Maximilian Göbel's Soccer Factor Model](ht
 
 ```{r}
 #| label: r-setup
-#| echo: false
-library(AllenMisc)
+#| code-fold: true
+
 library(patchwork)
 library(arrow)
 library(ggdist)
@@ -47,9 +47,11 @@ library(MetBrewer)
 library(reticulate)
 knitr::opts_chunk$set(fig.pos = 'H')
 
+# normally this lives in library(AllenMisc)
+# but fighting renv is exhausting
+source('scripts/theme-allen-minimal.R')
+
 set_theme(theme_allen_minimal())
-
-
 
 games_dat = rvest::read_html(
   'https://en.wikipedia.org/wiki/NFL_regular_season'
@@ -90,7 +92,7 @@ summary_stats = empirical_dat |>
 
 ```{python}
 #| label: python-setup
-#| echo: false
+#| code-fold: true
 
 import preliz as pz 
 import pymc as pm 
@@ -116,6 +118,9 @@ plt.style.use('matplot-style.mplstyle')
 #| label: fig-goals-tds-comparision
 #| fig-cap: "Touchdowns v.s. Goals"
 #| echo: false
+
+
+
 goals_data = read_csv(
   'https://raw.githubusercontent.com/AlexAndorra/football-modeling/refs/heads/main/01_SFM/10_data/101_SFM/SFM_data_byPlayer.csv'
 )
