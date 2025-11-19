@@ -58,7 +58,18 @@ jobs:
           VENV_PYTHON=$(realpath .venv/bin/python)
           echo "QUARTO_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
           echo "RETICULATE_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
-          $VENV_PYTHON -c "import polars; print(f'Polars: {polars.__version__}')"
+      - name: Verify Python setup
+        run: |
+          VENV_PYTHON=$(realpath .venv/bin/python)
+          echo "=== Python environment ==="
+          echo "Python: $VENV_PYTHON"
+          $VENV_PYTHON --version
+          echo ""
+          echo "=== Checking for required packages ==="
+          $VENV_PYTHON -c "import polars; print(f'✓ Polars {polars.__version__}')" || echo "✗ Polars not found"
+          $VENV_PYTHON -c "import jupyter; print(f'✓ Jupyter')" || echo "✗ Jupyter not found"
+          $VENV_PYTHON -c "import ipykernel; print(f'✓ IPykernel')" || echo "✗ IPykernel not found"
+
       - name: Configure reticulate
         run: |
           Rscript -e "install.packages('reticulate', repos='https://cloud.r-project.org')"
