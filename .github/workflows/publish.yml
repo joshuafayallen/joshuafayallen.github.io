@@ -60,6 +60,7 @@ jobs:
           VENV_PYTHON=$(realpath .venv/bin/python)
           echo "QUARTO_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
           echo "RETICULATE_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
+          $VENV_PYTHON -c "import polars; print(f'Polars: {polars.__version__}')"
       - name: Configure reticulate
         run: |
           Rscript -e "install.packages('reticulate', repos='https://cloud.r-project.org')"
@@ -69,10 +70,11 @@ jobs:
 
 
       - name: Render and Publish
-        uses: quarto-dev/quarto-actions/publish@v2
+        run: |
+          export QUARTO_PYTHON="${{ env.QUARTO_PYTHON }}"
+          export RETICULATE_PYTHON="${{ env.RETICULATE_PYTHON }}"
+          quarto publish gh-pages --no-prompt --no-browser
         with:
           target: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          QUARTO_PYTHON: ${{ env.QUARTO_PYTHON }}
-          RETICULATE_PYTHON: ${{ env.RETICULATE_PYTHON }}
