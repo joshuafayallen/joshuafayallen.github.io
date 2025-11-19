@@ -78,9 +78,16 @@ summary_stats = empirical_dat |>
   mutate(score = (avg_targets * 0.5) + (avg_receiving * 0.1)) |>
   pull(score)
 
+```
+
+```{r}
+#| include: false
+#| echo: false
+
+
 # get reticulate to not be a pain to work with
-py_install(c('matplotlib', 'preliz', 'pymc', 'polars', 'pandas', 'pymc', 'arviz', 'seaborn', 'xarray', 'scipy', 'pytensor'))
-reticulate::py_config()
+py_install(c('matplotlib', 'preliz', 'pymc', "polars", 'pandas', 'pymc', 'arviz', 'seaborn', 'xarray', 'scipy', 'pytensor'))
+
 ```
 
 
