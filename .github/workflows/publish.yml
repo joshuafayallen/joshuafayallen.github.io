@@ -71,7 +71,7 @@ jobs:
           echo "RETICULATE_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
       - name: Verify Python setup
         run: |
-          VENV_PYTHON=$(realpath .venv/bin/python)
+          VENV_PYTHON=$(uv run which python)
           echo "=== Python environment ==="
           echo "Python: $VENV_PYTHON"
           $VENV_PYTHON --version
@@ -90,8 +90,13 @@ jobs:
 
 
       - name: Render and Publish
-        uses: quarto-dev/quarto-actions/publish@v2
-        with:
-          target: gh-pages
+        run: |
+          export QUARTO_PYTHON="${{ env.QUARTO_PYTHON }}"
+          export RETICULATE_PYTHON="${{ env.RETICULATE_PYTHON }}"
+          
+          echo "QUARTO_PYTHON: $QUARTO_PYTHON"
+          echo "RETICULATE_PYTHON: $RETICULATE_PYTHON"
+          
+          quarto publish gh-pages --no-prompt --no-browser
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
