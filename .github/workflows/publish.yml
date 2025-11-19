@@ -22,6 +22,7 @@ jobs:
         run: uv sync --locked --all-extras --dev
       - name: make sure polars is installed
         run: uv add polars
+      - name: uv add jupyter
 
       - name: Install R
         uses: r-lib/actions/setup-r@v2
