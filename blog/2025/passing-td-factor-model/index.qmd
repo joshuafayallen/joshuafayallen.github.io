@@ -1,7 +1,6 @@
 ---
 title: Modeling Receiver Ability Bayesiansly
 format: html
-engine: knitr
 date-format: "MMM D, YYYY"
 description: "How Good is Your Favorite Wide Receiver?"
 categories:
@@ -14,6 +13,7 @@ categories:
 execute: 
   warning: false
   message: false
+jupyter: python3
 ---
 
 
