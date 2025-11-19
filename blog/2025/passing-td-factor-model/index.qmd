@@ -1,9 +1,16 @@
 ---
-title: Receiving TDs Model
+title: Modeling Receiver Ability Bayesiansly
 format: html
 engine: knitr
-author: Josh Allen
-date: last-modified
+date-format: "MMM D, YYYY"
+description: "How Good is Your Favorite Wide Receiver?"
+categories:
+  - r
+  - python
+  - bayes
+  - tidyverse
+  - pymc
+  - polars
 execute: 
   warning: false
   message: false
