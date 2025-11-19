@@ -74,7 +74,5 @@ jobs:
           export QUARTO_PYTHON="${{ env.QUARTO_PYTHON }}"
           export RETICULATE_PYTHON="${{ env.RETICULATE_PYTHON }}"
           quarto publish gh-pages --no-prompt --no-browser
-        with:
-          target: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
