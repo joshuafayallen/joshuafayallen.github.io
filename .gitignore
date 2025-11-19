@@ -6,3 +6,16 @@
 /.luarc.json
 .venv
 .DS_Store
+blog/2025/passing-td-factor-model/writeup-dat/
+
+blog/2025/passing-td-factor-model/roster-data/
+
+blog/2025/passing-td-factor-model/pbp-data/
+
+blog/2025/passing-td-factor-model/pb-upload/
+
+blog/2025/passing-td-factor-model/processed_data/
+
+blog/2025/passing-td-factor-model/models/idata_compelete.nc
+
+blog/2025/passing-td-factor-model/ordbeta/
