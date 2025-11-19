@@ -20,8 +20,6 @@ jobs:
 
       - name: Install the project
         run: uv sync --locked --all-extras --dev
-      - name: make sure polars is installed
-        run: uv add polars
       - name: add jupyter via uv 
         run: |
           uv add jupyter jupyter-client ipykernel
