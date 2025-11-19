@@ -23,7 +23,9 @@ jobs:
       - name: make sure polars is installed
         run: uv add polars
       - name: add jupyter via uv 
-        run: uv add jupyter 
+        run: |
+          uv add jupyter jupyter-client
+          uv run python -m jupyter --version
 
       - name: Install R
         uses: r-lib/actions/setup-r@v2
