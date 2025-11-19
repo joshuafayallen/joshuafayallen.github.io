@@ -20,6 +20,8 @@ jobs:
 
       - name: Install the project
         run: uv sync --locked --all-extras --dev
+      - name: make sure polars is installed
+        run: uv add polars
 
       - name: Install R
         uses: r-lib/actions/setup-r@v2
@@ -49,6 +51,13 @@ jobs:
         uses: r-lib/actions/setup-renv@v2
         with:
           cache-version: 1
+      - name: Configure Python for reticulate
+        run: |
+          PYTHON_PATH=$(uv run which python)
+          echo "RETICULATE_PYTHON=$PYTHON_PATH" >> $GITHUB_ENV
+          echo "Python path: $PYTHON_PATH"
+  
+       
 
 
 
