@@ -80,6 +80,7 @@ summary_stats = empirical_dat |>
 
 # get reticulate to not be a pain to work with
 py_install(c('matplotlib', 'preliz', 'pymc', 'polars', 'pandas', 'pymc', 'arviz', 'seaborn', 'xarray', 'scipy', 'pytensor'))
+reticulate::py_config()
 ```
 
 
