@@ -20,10 +20,21 @@ jobs:
 
       - name: Install the project
         run: uv sync --locked --all-extras --dev
-      - name: add jupyter via uv 
+      
+      - name: Verify venv and packages
         run: |
-          uv add jupyter jupyter-client ipykernel
-          uv run python -m jupyter --version
+          echo "=== Checking .venv directory ==="
+          ls -la .venv/ || echo ".venv does not exist!"
+          ls -la .venv/bin/ || echo ".venv/bin does not exist!"
+          
+          echo ""
+          echo "=== Using uv run to check packages ==="
+          uv run python --version
+          uv run python -c "import sys; print(f'Python executable: {sys.executable}')"
+          uv run python -c "import polars; print(f'✓ Polars {polars.__version__}')"
+          uv run python -c "import jupyter; print('✓ Jupyter')" 2>/dev/null || echo "✗ Jupyter not found"
+          uv run python -c "import ipykernel; print('✓ IPykernel')" 2>/dev/null || echo "✗ IPykernel not found"
+
 
       - name: Install R
         uses: r-lib/actions/setup-r@v2
