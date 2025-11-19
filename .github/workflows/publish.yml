@@ -43,7 +43,8 @@ jobs:
             libharfbuzz-dev \
             libfribidi-dev \
             libfreetype6-dev \
-            libfontconfig1-dev
+            libfontconfig1-dev \
+            libmagick++-dev
 
 
       - name: Install R Dependencies
