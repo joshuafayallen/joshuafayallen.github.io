@@ -9,8 +9,10 @@ import arviz as az
 import nflreadpy as nfl
 import xarray as xr
 import seaborn as sns
+import json 
 import os
 from scipy.stats import norm
+
 
 os.environ["JAX_PLATFORMS"] = "cpu"
 os.environ["XLA_FLAGS"] = "--xla_force_host_platform_device_count=18"
@@ -561,6 +563,8 @@ az.ess(idata).min().to_pandas().sort_values().round()
 
 az.plot_energy(idata)
 
+
+
 with rec_tds_era_adjusted:
     idata.extend(
         pm.sample_posterior_predictive(idata,compile_kwargs={"mode":"NUMBA"})
@@ -569,3 +573,21 @@ with rec_tds_era_adjusted:
 az.plot_ppc(idata)
 
 az.to_netcdf(idata, "models/idata_compelete.nc")
+
+idata = az.from_netcdf('models/idata_compelete.nc')
+
+with rec_tds_era_adjusted:
+    idata.extend(
+        pm.sample_posterior_predictive(idata, compile_kwargs={"mode":'NUMBA'})
+    )
+
+
+conv = idata.to_datatree()
+conv.to_zarr('idata')
+
+check = xr.open_datatree('idata', engine = 'zarr')
+
+check2 = az.from_datatree(check)
+
+
+check3 = az.from_datatree(xr.open_datatree('idata', engine ='zarr'))
