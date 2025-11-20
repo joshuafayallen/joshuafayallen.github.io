@@ -45,7 +45,7 @@ format:
 knitr: 
   opts_chunk: 
     engine.path:
-      python: `r file.path(here::here(), '.venv', 'bin', "python")
+      python: `r file.path(here::here(), '.venv', 'bin', "python")`
 
 
 
