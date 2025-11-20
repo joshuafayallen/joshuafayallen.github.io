@@ -5,6 +5,12 @@ resolution-markers = [
     "python_full_version < '3.14'",
 ]
 
+[manifest]
+members = [
+    "passing-td-factor-model",
+    "quarto-website",
+]
+
 [[package]]
 name = "annotated-types"
 version = "0.7.0"
@@ -2213,6 +2219,43 @@ wheels = [
 ]
 
 [[package]]
+name = "passing-td-factor-model"
+version = "0.1.0"
+source = { virtual = "blog/2025/passing-td-factor-model" }
+dependencies = [
+    { name = "arviz" },
+    { name = "matplotlib" },
+    { name = "nflreadpy" },
+    { name = "nutpie" },
+    { name = "palmerpenguins" },
+    { name = "pandas" },
+    { name = "polars" },
+    { name = "pymc" },
+    { name = "pytensor" },
+    { name = "scipy" },
+    { name = "seaborn" },
+    { name = "xarray" },
+    { name = "zarr" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "arviz", specifier = ">=0.22.0" },
+    { name = "matplotlib", specifier = ">=3.10.7" },
+    { name = "nflreadpy", specifier = ">=0.1.5" },
+    { name = "nutpie", specifier = ">=0.16.3" },
+    { name = "palmerpenguins", specifier = ">=0.1.4" },
+    { name = "pandas", specifier = ">=2.3.3" },
+    { name = "polars", specifier = ">=1.35.2" },
+    { name = "pymc", specifier = ">=5.26.1" },
+    { name = "pytensor", specifier = ">=2.35.1" },
+    { name = "scipy", specifier = ">=1.16.3" },
+    { name = "seaborn", specifier = ">=0.13.2" },
+    { name = "xarray", specifier = ">=2025.11.0" },
+    { name = "zarr", specifier = ">=3.1.3" },
+]
+
+[[package]]
 name = "patsy"
 version = "1.0.2"
 source = { registry = "https://pypi.org/simple" }
@@ -2838,6 +2881,7 @@ dependencies = [
     { name = "typing" },
     { name = "wheel" },
     { name = "xarray" },
+    { name = "zarr" },
 ]
 
 [package.metadata]
@@ -2874,6 +2918,7 @@ requires-dist = [
     { name = "typing", specifier = ">=3.10.0.0" },
     { name = "wheel", specifier = ">=0.45.1" },
     { name = "xarray", specifier = ">=2025.8.0" },
+    { name = "zarr", specifier = ">=3.1.3" },
 ]
 
 [[package]]

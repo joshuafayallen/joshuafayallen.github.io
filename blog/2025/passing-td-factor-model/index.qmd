@@ -13,7 +13,6 @@ categories:
 execute: 
   warning: false
   message: false
-jupyter: python3
 ---
 
 
@@ -106,6 +105,7 @@ import arviz as az
 import numpy as np
 import seaborn as sns
 import xarray as xr
+import json
 
 seed = sum(map(ord, "receivingyardsproject"))
 rng = np.random.default_rng(seed)
@@ -1058,23 +1058,28 @@ az.plot_ppc(idata, group = 'prior', observed = True)
 
 ```
 
-Now lets look at the GPs to make sure they are 
+
 
 ### Diagnostics 
 
-Unfortunately even with some pretty permissive sampling setting we still get 3 divergences which is not the end of the world but it is not zero. 
+As a good Bayesian lets take a look at whether the model sampled well. Normally we would just load in a saved model from a netcdf file and then just read in everything using `az.from_netcdf` and then just access everything more pythonically. Unfortunately, these netcdf files are massive and GitHub has a pretty strict file size limitation even with git large file storage. So we have to use a few parlor tricks to get around this limitation. 
+
 ```{python}
 #| message: true
-idata = az.from_netcdf(
-    'models/idata_compelete.nc'
-)
+
+idata = az.from_datatree(xr.open_datatree('idata', engine = 'zarr'))
+
+with rec_tds_era_adjusted:
+  idata.extend(
+    pm.sample_posterior_predictive(idata, compile_kwargs={"mode":'NUMBA'})
+  )
+
 
 idata.sample_stats.diverging.sum().data
 
-
 ```
 
-Most if not all of our proposals were accepted which is goo! 
+Most if not all of our proposals were accepted which is go! 
 
 ```{python}
 #| message: true
@@ -1094,7 +1099,6 @@ The Rhats for our HSGPs are at or really close to one, indicating that they are 
 az.rhat(
     idata, var_names=["basis_coeffs_season", "basis_coeffs_games"]
 ).max().to_pandas().round(2)
-
 
 
 ```
@@ -1180,20 +1184,20 @@ ggplot(
 
 For the most part these look pretty good everything looks wiggly and jumbled, which is generally a good sign for how well the sampler is doing. The slopes and HSGPs are a little less like a jumply mess. For the most part things are looking pretty good. 
 
+We can also examine how well the NUTS sampler explored the posterior distribution by plotting the energy transition against the marginal energy distribution against the energy transition distribution. In an ideal scenario these two distributions are almost indistinguishable. The energy plot below is not the worse one I have seen when building this model, but there is still some room for improvement. 
+
+```{python}
+az.plot_energy(idata)
+
+```
 
 Moving on if we look at the posterior predictive distribution, the model does well capturing the observed data. The posterior predictive mean is a little lower than the observed rate of 0's and 1's, but you kind of have to squint to be able to tell. The other encouraging sign is that all the posterior predictive draws are clustered right on or at least right near the observed values, and we are not getting some wild, implausible predictions. 
 
 
 ```{python}
 #| code-fold: true
-idata = az.from_netcdf('models/idata_compelete.nc')
 
-with rec_tds_era_adjusted:
-    idata.extend(
-        pm.sample_posterior_predictive(idata, compile_kwargs={"mode":'NUMBA'})
-    )
-
-az.plot_ppc(idata, num_pp_samples=100)
+az.plot_ppc(idata)
 
 
 ```
@@ -1208,6 +1212,7 @@ Now when we go to look at the posteriors for the GPs we do get a few odd random 
 ```{python}
 #| code-fold: true
 #| label: posterior-hsgp-check
+
 
 f_within_posterior = idata.posterior["f_games"]
 f_long_posterior = idata.posterior["f_season"]
