@@ -1062,7 +1062,9 @@ az.plot_ppc(idata, group = 'prior', observed = True)
 
 ### Diagnostics 
 
-As a good Bayesian lets take a look at whether the model sampled well. Normally we would just load in a saved model from a netcdf file and then just read in everything using `az.from_netcdf` and then just access everything more pythonically. Unfortunately, these netcdf files are massive and GitHub has a pretty strict file size limitation even with git large file storage. So we have to use a few parlor tricks to get around this limitation. 
+As a good Bayesian we always need to look at whether the model sampled well. Normally we would just load in a saved model from a netcdf file and then just read in everything using `az.from_netcdf` and then just access everything more pythonically. Unfortunately, these netcdf files are massive and GitHub has a pretty strict file size limitation even with git large file storage. 
+
+Fortunately for us we can just use `zarr` to make a ton of tiny files. Unfortunately for me this required a ton of manual pushes to GitHub because some of the small files are actually a bit bigger than you would anticipate. So after nearly a full day of figuring out how to do this I learned a valuable lesson of the shell. 
 
 ```{python}
 #| message: true
