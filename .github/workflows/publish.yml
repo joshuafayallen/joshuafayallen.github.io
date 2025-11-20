@@ -64,25 +64,35 @@ jobs:
         uses: r-lib/actions/setup-renv@v2
         with:
           cache-version: 1
-          
-      - name: Verify Python setup
+      - name: Setup Jupyter kernel
         run: |
-          VENV_PYTHON=$(uv run which python)
-          echo "=== Python environment ==="
-          echo "Python: $VENV_PYTHON"
-          $VENV_PYTHON --version
-          echo ""
-          echo "=== Checking for required packages ==="
-          $VENV_PYTHON -c "import polars; print(f'✓ Polars {polars.__version__}')" || echo "✗ Polars not found"
-          $VENV_PYTHON -c "import jupyter; print(f'✓ Jupyter')" || echo "✗ Jupyter not found"
-          $VENV_PYTHON -c "import ipykernel; print(f'✓ IPykernel')" || echo "✗ IPykernel not found"
-      - name: Configure Python for reticulate
+          .venv/bin/python -m ipykernel install --user --name python3
+          
+      
+      - name: Configure reticulate and install Python packages
+        run: |
+          Rscript -e '
+            library(reticulate)
+            use_virtualenv(".venv", required = TRUE)
+            cat("Python executable:", py_config()$python, "\n")
+            py_install(c("polars", "jupyter", "ipykernel", "jupyter-client"), pip = TRUE, envname = ".venv")
+            cat("Verifying polars...\n")
+            py_run_string("import polars; print(f\"Polars {polars.__version__}\")")
+          '
+      - name: Set environment variables
         run: |
           VENV_PYTHON=$(realpath .venv/bin/python)
           echo "QUARTO_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
           echo "RETICULATE_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
-          ${{ env.QUARTO_PYTHON }} -c "import polars; print('✓ Polars available')"
+          echo "Python path: $VENV_PYTHON"
           
+      - name: Verify environment
+        run: |
+          echo "QUARTO_PYTHON: ${{ env.QUARTO_PYTHON }}"
+          echo "RETICULATE_PYTHON: ${{ env.RETICULATE_PYTHON }}"
+
+        
+
       - name: Render and Publish
         run: |
           export QUARTO_PYTHON="${{ env.QUARTO_PYTHON }}"
