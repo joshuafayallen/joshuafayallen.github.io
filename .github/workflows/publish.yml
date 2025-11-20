@@ -2,7 +2,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-
+    
 name: Quarto Publish
 
 jobs:
@@ -11,35 +11,24 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4 
-
+        
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         
+      # Python setup
       - name: Install uv
         uses: astral-sh/setup-uv@v6
-
-      - name: Install the project
-        run: uv sync --locked --all-extras --dev
-      
-      - name: Verify venv and packages
+        
+      - name: Create Python environment
         run: |
-          echo "=== Checking .venv directory ==="
-          ls -la .venv/ || echo ".venv does not exist!"
-          ls -la .venv/bin/ || echo ".venv/bin does not exist!"
+          uv sync --locked --all-extras --dev
           
-          echo ""
-          echo "=== Using uv run to check packages ==="
-          uv run python --version
-          uv run python -c "import sys; print(f'Python executable: {sys.executable}')"
-          uv run python -c "import polars; print(f'✓ Polars {polars.__version__}')"
-          uv run python -c "import jupyter; print('✓ Jupyter')" 2>/dev/null || echo "✗ Jupyter not found"
-          uv run python -c "import ipykernel; print('✓ IPykernel')" 2>/dev/null || echo "✗ IPykernel not found"
-
-
+      # R setup
       - name: Install R
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: '4.5.1'
+          
       - name: Install system dependencies
         run: |
           sudo apt-get update
@@ -58,27 +47,42 @@ jobs:
             libfreetype6-dev \
             libfontconfig1-dev \
             libmagick++-dev
-
-
+            
       - name: Install R Dependencies
         uses: r-lib/actions/setup-renv@v2
         with:
           cache-version: 1
+          
+      - name: Configure reticulate and install Python packages
+        run: |
+          Rscript -e "
+            library(reticulate)
+            
+            # Use absolute path to .venv
+            venv_path <- normalizePath('.venv', mustWork = TRUE)
+            cat('Using venv at:', venv_path, '\n')
+            
+            # Use use_python with the python executable directly
+            python_exe <- file.path(venv_path, 'bin', 'python')
+            cat('Python executable:', python_exe, '\n')
+            use_python(python_exe, required = TRUE)
+            
+            # Verify configuration
+            py_config()
+            
+            # Install packages
+            cat('Installing Python packages...\n')
+            py_install(c('polars', 'jupyter', 'ipykernel', 'jupyter-client'), pip = TRUE)
+            
+            # Verify installation
+            cat('Verifying polars installation...\n')
+            py_run_string('import polars; print(f\"Polars {polars.__version__}\")')
+          "
+          
       - name: Setup Jupyter kernel
         run: |
           .venv/bin/python -m ipykernel install --user --name python3
           
-      
-      - name: Configure reticulate and install Python packages
-        run: |
-          Rscript -e '
-            library(reticulate)
-            use_virtualenv(".venv", required = TRUE)
-            cat("Python executable:", py_config()$python, "\n")
-            py_install(c("polars", "jupyter", "ipykernel", "jupyter-client"), pip = TRUE, envname = ".venv")
-            cat("Verifying polars...\n")
-            py_run_string("import polars; print(f\"Polars {polars.__version__}\")")
-          '
       - name: Set environment variables
         run: |
           VENV_PYTHON=$(realpath .venv/bin/python)
@@ -90,17 +94,12 @@ jobs:
         run: |
           echo "QUARTO_PYTHON: ${{ env.QUARTO_PYTHON }}"
           echo "RETICULATE_PYTHON: ${{ env.RETICULATE_PYTHON }}"
-
-        
-
+          ${{ env.QUARTO_PYTHON }} -c "import polars; print('✓ Polars available')"
+          
       - name: Render and Publish
         run: |
-          export QUARTO_PYTHON="${{ env.QUARTO_PYTHON }}"
-          export RETICULATE_PYTHON="${{ env.RETICULATE_PYTHON }}"
-          
-          echo "QUARTO_PYTHON: $QUARTO_PYTHON"
-          echo "RETICULATE_PYTHON: $RETICULATE_PYTHON"
-          
           quarto publish gh-pages --no-prompt --no-browser
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          QUARTO_PYTHON: ${{ env.QUARTO_PYTHON }}
+          RETICULATE_PYTHON: ${{ env.RETICULATE_PYTHON }}
