@@ -19,9 +19,23 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v6
         
-      - name: Create Python environment
+      - name: Create Python environment and install packages
         run: |
+          # Sync from lock file
           uv sync --locked --all-extras --dev
+          
+          # Ensure critical packages are installed
+          uv pip install polars jupyter ipykernel jupyter-client
+          
+          # Verify installation
+          echo "=== Verifying Python packages ==="
+          .venv/bin/python -c "import polars; print(f'Polars {polars.__version__}')"
+          .venv/bin/python -c "import jupyter; print('Jupyter OK')"
+          .venv/bin/python -c "import ipykernel; print('IPykernel OK')"
+          
+      - name: Setup Jupyter kernel
+        run: |
+          .venv/bin/python -m ipykernel install --user --name python3
           
       # R setup
       - name: Install R
@@ -53,48 +67,32 @@ jobs:
         with:
           cache-version: 1
           
-      - name: Configure reticulate and install Python packages
+      - name: Configure and verify reticulate
         run: |
           Rscript -e "
             library(reticulate)
             
-            # Use absolute path to .venv
-            venv_path <- normalizePath('.venv', mustWork = TRUE)
-            cat('Using venv at:', venv_path, '\n')
-            
-            # Use use_python with the python executable directly
-            python_exe <- file.path(venv_path, 'bin', 'python')
-            cat('Python executable:', python_exe, '\n')
+            # Point to the venv python
+            python_exe <- normalizePath('.venv/bin/python')
+            cat('Using Python:', python_exe, '\n')
             use_python(python_exe, required = TRUE)
             
-            # Verify configuration
+            # Show configuration
             py_config()
             
-            # Install packages
-            cat('Installing Python packages...\n')
-            py_install(c('polars', 'jupyter', 'ipykernel', 'jupyter-client'), pip = TRUE)
-            
-            # Verify installation
-            cat('Verifying polars installation...\n')
-            py_run_string('import polars; print(f\"Polars {polars.__version__}\")')
+            # Test that we can import polars
+            cat('\nTesting polars import...\n')
+            py_run_string('import polars')
+            py_run_string('print(f\"Polars version: {polars.__version__}\")')
+            cat('✓ Reticulate can access polars\n')
           "
-          
-      - name: Setup Jupyter kernel
-        run: |
-          .venv/bin/python -m ipykernel install --user --name python3
           
       - name: Set environment variables
         run: |
           VENV_PYTHON=$(realpath .venv/bin/python)
           echo "QUARTO_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
           echo "RETICULATE_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
-          echo "Python path: $VENV_PYTHON"
-          
-      - name: Verify environment
-        run: |
-          echo "QUARTO_PYTHON: ${{ env.QUARTO_PYTHON }}"
-          echo "RETICULATE_PYTHON: ${{ env.RETICULATE_PYTHON }}"
-          ${{ env.QUARTO_PYTHON }} -c "import polars; print('✓ Polars available')"
+          echo "Python configured: $VENV_PYTHON"
           
       - name: Render and Publish
         run: |
