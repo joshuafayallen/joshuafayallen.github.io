@@ -21,17 +21,12 @@ jobs:
         
       - name: Create Python environment and install packages
         run: |
-          # Sync from lock file
           uv sync --locked --all-extras --dev
-          
-          # Ensure critical packages are installed
           uv pip install polars jupyter ipykernel jupyter-client
           
-          # Verify installation
           echo "=== Verifying Python packages ==="
           .venv/bin/python -c "import polars; print(f'Polars {polars.__version__}')"
           .venv/bin/python -c "import jupyter; print('Jupyter OK')"
-          .venv/bin/python -c "import ipykernel; print('IPykernel OK')"
           
       - name: Setup Jupyter kernel
         run: |
@@ -67,32 +62,28 @@ jobs:
         with:
           cache-version: 1
           
-      - name: Configure and verify reticulate
+      - name: Set environment variables with absolute paths
+        run: |
+          # Get absolute path to venv python
+          VENV_PYTHON="${GITHUB_WORKSPACE}/.venv/bin/python"
+          echo "QUARTO_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
+          echo "RETICULATE_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
+          
+          # Also set WORKON_HOME to prevent reticulate from looking elsewhere
+          echo "WORKON_HOME=${GITHUB_WORKSPACE}" >> $GITHUB_ENV
+          
+          echo "Python configured: $VENV_PYTHON"
+          
+      - name: Verify reticulate configuration
         run: |
           Rscript -e "
             library(reticulate)
-            
-            # Point to the venv python
-            python_exe <- normalizePath('.venv/bin/python')
-            cat('Using Python:', python_exe, '\n')
-            use_python(python_exe, required = TRUE)
-            
-            # Show configuration
-            py_config()
-            
-            # Test that we can import polars
-            cat('\nTesting polars import...\n')
-            py_run_string('import polars')
-            py_run_string('print(f\"Polars version: {polars.__version__}\")')
-            cat('✓ Reticulate can access polars\n')
+            use_python(Sys.getenv('RETICULATE_PYTHON'), required = TRUE)
+            cat('Python config:\n')
+            print(py_config())
+            cat('\nTesting polars...\n')
+            py_run_string('import polars; print(f\"Polars {polars.__version__}\")')
           "
-          
-      - name: Set environment variables
-        run: |
-          VENV_PYTHON=$(realpath .venv/bin/python)
-          echo "QUARTO_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
-          echo "RETICULATE_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
-          echo "Python configured: $VENV_PYTHON"
           
       - name: Render and Publish
         run: |
@@ -101,3 +92,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           QUARTO_PYTHON: ${{ env.QUARTO_PYTHON }}
           RETICULATE_PYTHON: ${{ env.RETICULATE_PYTHON }}
+          WORKON_HOME: ${{ env.WORKON_HOME }}

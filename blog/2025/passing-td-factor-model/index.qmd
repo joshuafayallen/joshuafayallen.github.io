@@ -86,7 +86,7 @@ summary_stats = empirical_dat |>
 
 
 # get reticulate to not be a pain to work with
-use_virtualenv(".venv", required = TRUE)
+use_python(Sys.getenv("RETICULATE_PYTHON"), required = TRUE)
 
 ```
 

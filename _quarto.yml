@@ -42,6 +42,10 @@ format:
     theme: 
       - allen.scss
     toc: true
+knitr: 
+  opts_chunk: 
+    engine.path:
+      python: `r file.path(here::here(), '.venv', 'bin', "python")
 
 
 
