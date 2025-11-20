@@ -1,7 +1,7 @@
 on:
   workflow_dispatch:
   push:
-    branches: main
+    branches: [main]
 
 name: Quarto Publish
 
@@ -64,11 +64,7 @@ jobs:
         uses: r-lib/actions/setup-renv@v2
         with:
           cache-version: 1
-      - name: Configure Python for reticulate
-        run: |
-          VENV_PYTHON=$(realpath .venv/bin/python)
-          echo "QUARTO_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
-          echo "RETICULATE_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
+          
       - name: Verify Python setup
         run: |
           VENV_PYTHON=$(uv run which python)
@@ -80,15 +76,13 @@ jobs:
           $VENV_PYTHON -c "import polars; print(f'✓ Polars {polars.__version__}')" || echo "✗ Polars not found"
           $VENV_PYTHON -c "import jupyter; print(f'✓ Jupyter')" || echo "✗ Jupyter not found"
           $VENV_PYTHON -c "import ipykernel; print(f'✓ IPykernel')" || echo "✗ IPykernel not found"
-
-      - name: Configure reticulate
+      - name: Configure Python for reticulate
         run: |
-          Rscript -e "install.packages('reticulate', repos='https://cloud.r-project.org')"
           VENV_PYTHON=$(realpath .venv/bin/python)
-          Rscript -e "reticulate::use_python('$VENV_PYTHON', required = TRUE)"
-  
-
-
+          echo "QUARTO_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
+          echo "RETICULATE_PYTHON=$VENV_PYTHON" >> $GITHUB_ENV
+          ${{ env.QUARTO_PYTHON }} -c "import polars; print('✓ Polars available')"
+          
       - name: Render and Publish
         run: |
           export QUARTO_PYTHON="${{ env.QUARTO_PYTHON }}"
