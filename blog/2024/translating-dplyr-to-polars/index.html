@@ -248,7 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">Nov 19, 2025</p>
+      <p class="date">Nov 21, 2025</p>
     </div>
   </div>
   
@@ -285,7 +285,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>pl.Config(tbl_rows <span class="op">=</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;polars.config.Config object at 0x30c51e660&gt;</code></pre>
+<pre><code>&lt;polars.config.Config object at 0x7f0ce6e1cad0&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -512,11 +512,11 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 Columns: 8
 $ species           &lt;str&gt; 'Adelie', 'Adelie', 'Adelie', 'Adelie', 'Adelie', 'Adelie', 'Adelie', 'Adelie', 'Adelie', 'Adelie'
 $ island            &lt;str&gt; 'Torgersen', 'Torgersen', 'Torgersen', 'Torgersen', 'Torgersen', 'Torgersen', 'Torgersen', 'Torgersen', 'Torgersen', 'Torgersen'
-$ bill_length_mm    &lt;f64&gt; 39.1, 39.5, 40.3, None, 36.7, 39.3, 38.9, 39.2, 34.1, 42.0
-$ bill_depth_mm     &lt;f64&gt; 18.7, 17.4, 18.0, None, 19.3, 20.6, 17.8, 19.6, 18.1, 20.2
-$ flipper_length_mm &lt;f64&gt; 181.0, 186.0, 195.0, None, 193.0, 190.0, 181.0, 195.0, 193.0, 190.0
-$ body_mass_g       &lt;f64&gt; 3750.0, 3800.0, 3250.0, None, 3450.0, 3650.0, 3625.0, 4675.0, 3475.0, 4250.0
-$ sex               &lt;str&gt; 'male', 'female', 'female', None, 'female', 'male', 'female', 'male', None, None
+$ bill_length_mm    &lt;f64&gt; 39.1, 39.5, 40.3, null, 36.7, 39.3, 38.9, 39.2, 34.1, 42.0
+$ bill_depth_mm     &lt;f64&gt; 18.7, 17.4, 18.0, null, 19.3, 20.6, 17.8, 19.6, 18.1, 20.2
+$ flipper_length_mm &lt;f64&gt; 181.0, 186.0, 195.0, null, 193.0, 190.0, 181.0, 195.0, 193.0, 190.0
+$ body_mass_g       &lt;f64&gt; 3750.0, 3800.0, 3250.0, null, 3450.0, 3650.0, 3625.0, 4675.0, 3475.0, 4250.0
+$ sex               &lt;str&gt; 'male', 'female', 'female', null, 'female', 'male', 'female', 'male', null, null
 $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007</code></pre>
 </div>
 </div>
@@ -2176,12 +2176,12 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </thead>
 <tbody>
 <tr class="odd">
-<td>"Adelie"</td>
-<td>152</td>
-</tr>
-<tr class="even">
 <td>"Gentoo"</td>
 <td>124</td>
+</tr>
+<tr class="even">
+<td>"Adelie"</td>
+<td>152</td>
 </tr>
 <tr class="odd">
 <td>"Chinstrap"</td>
@@ -2226,22 +2226,22 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </thead>
 <tbody>
 <tr class="odd">
-<td>"Adelie"</td>
-<td>152</td>
-<td>189.953642</td>
-<td>190.0</td>
-</tr>
-<tr class="even">
 <td>"Chinstrap"</td>
 <td>68</td>
 <td>195.823529</td>
 <td>196.0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>"Gentoo"</td>
 <td>124</td>
 <td>217.186992</td>
 <td>216.0</td>
+</tr>
+<tr class="odd">
+<td>"Adelie"</td>
+<td>152</td>
+<td>189.953642</td>
+<td>190.0</td>
 </tr>
 </tbody>
 </table>
@@ -2292,9 +2292,9 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </thead>
 <tbody>
 <tr class="odd">
-<td>"Chinstrap"</td>
-<td>48.833824</td>
-<td>18.420588</td>
+<td>"Gentoo"</td>
+<td>47.504878</td>
+<td>14.982114</td>
 </tr>
 <tr class="even">
 <td>"Adelie"</td>
@@ -2302,9 +2302,9 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <td>18.346358</td>
 </tr>
 <tr class="odd">
-<td>"Gentoo"</td>
-<td>47.504878</td>
-<td>14.982114</td>
+<td>"Chinstrap"</td>
+<td>48.833824</td>
+<td>18.420588</td>
 </tr>
 </tbody>
 </table>
@@ -2343,25 +2343,25 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </thead>
 <tbody>
 <tr class="odd">
-<td>"Chinstrap"</td>
-<td>48.833824</td>
-<td>18.420588</td>
-<td>49.55</td>
-<td>18.45</td>
-</tr>
-<tr class="even">
 <td>"Gentoo"</td>
 <td>47.504878</td>
 <td>14.982114</td>
 <td>47.3</td>
 <td>15.0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>"Adelie"</td>
 <td>38.791391</td>
 <td>18.346358</td>
 <td>38.8</td>
 <td>18.4</td>
+</tr>
+<tr class="odd">
+<td>"Chinstrap"</td>
+<td>48.833824</td>
+<td>18.420588</td>
+<td>49.55</td>
+<td>18.45</td>
 </tr>
 </tbody>
 </table>
@@ -3051,19 +3051,19 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <tr class="odd">
 <td>"Torgersen"</td>
 <td>189025.0</td>
-<td>null</td>
-<td>null</td>
+<td>0.0</td>
+<td>0.0</td>
 </tr>
 <tr class="even">
 <td>"Biscoe"</td>
 <td>163225.0</td>
 <td>624350.0</td>
-<td>null</td>
+<td>0.0</td>
 </tr>
 <tr class="odd">
 <td>"Dream"</td>
 <td>206550.0</td>
-<td>null</td>
+<td>0.0</td>
 <td>253850.0</td>
 </tr>
 </tbody>
@@ -3449,14 +3449,14 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-67-7.png" class="img-fluid figure-img" width="297"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-67-7.png" class="img-fluid figure-img" width="299"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-67-8.png" class="img-fluid figure-img" width="596"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-67-8.png" class="img-fluid figure-img" width="603"></p>
 </figure>
 </div>
 </div>
@@ -3474,14 +3474,14 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-68-11.png" class="img-fluid figure-img" width="296"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-68-11.png" class="img-fluid figure-img" width="299"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-68-12.png" class="img-fluid figure-img" width="596"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-68-12.png" class="img-fluid figure-img" width="603"></p>
 </figure>
 </div>
 </div>
@@ -3495,14 +3495,14 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-69-15.png" class="img-fluid figure-img" width="307"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-69-15.png" class="img-fluid figure-img" width="311"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-69-16.png" class="img-fluid figure-img" width="596"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-69-16.png" class="img-fluid figure-img" width="603"></p>
 </figure>
 </div>
 </div>
@@ -3574,13 +3574,13 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Date:</th>
-<td>Tue, 22 Jul 2025</td>
+<td>Fri, 21 Nov 2025</td>
 <th data-quarto-table-cell-role="th">Prob (F-statistic):</th>
 <td>4.37e-107</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Time:</th>
-<td>16:52:35</td>
+<td>16:24:33</td>
 <th data-quarto-table-cell-role="th">Log-Likelihood:</th>
 <td>-2528.4</td>
 </tr>
@@ -3722,13 +3722,13 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Date:</th>
-<td>Tue, 22 Jul 2025</td>
+<td>Fri, 21 Nov 2025</td>
 <th data-quarto-table-cell-role="th">Prob (F-statistic):</th>
 <td>4.23e-106</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Time:</th>
-<td>16:52:35</td>
+<td>16:24:34</td>
 <th data-quarto-table-cell-role="th">Log-Likelihood:</th>
 <td>-2527.0</td>
 </tr>
@@ -3897,13 +3897,13 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Date:</th>
-<td>Tue, 22 Jul 2025</td>
+<td>Fri, 21 Nov 2025</td>
 <th data-quarto-table-cell-role="th">Prob (F-statistic):</th>
 <td>4.07e-124</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Time:</th>
-<td>16:52:36</td>
+<td>16:24:34</td>
 <th data-quarto-table-cell-role="th">Log-Likelihood:</th>
 <td>-2472.3</td>
 </tr>
