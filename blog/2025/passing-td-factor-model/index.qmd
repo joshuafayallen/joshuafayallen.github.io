@@ -1914,30 +1914,8 @@ all_timers = c(
   'Calvin Johnson', 
   "Marshall Faulk"
   )
-players_interested_in = c(all_timers, active_player)
 
-
-join_these = players_stats |>
-  filter(player_display_name %in% players_interested_in, position_group %in% c('RB', 'WR', 'TE')) |>
-  distinct(player_display_name, .keep_all = TRUE) |>
-  select(receiver_full_name = player_display_name, position_group)
-
-
-raw_dat = implied_probs_data |>
-  filter(receiver_full_name %in% players_interested_in) |>
-  collect() |>
-  mutate(n_tds = as.factor(event)) 
-
-
-plot_data = raw_dat |>
-  group_by(receiver_full_name, n_tds) |>
-  median_qi(tds_scored_probs, .width = c(0.65, 0.95 )) |>
-  left_join(join_these) |>
-  mutate(
-    pos_num = case_match(position_group, 'RB' ~ 1, 'TE' ~ 2, 'WR' ~ 3),
-    active = ifelse(receiver_full_name %in% active_player, 'Active Player', 'Retired Player')
-  )
-
+plot_data = read_parquet('writeup-dat/modern-v-retired.parquet')
 
 
 active_p = ggplot(
