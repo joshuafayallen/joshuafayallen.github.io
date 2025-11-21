@@ -25,3 +25,7 @@ blog/2025/passing-td-factor-model/writeup-dat/model_stats.parquet
 blog/2025/passing-td-factor-model/pb-upload/
 
 blog/2025/passing-td-factor-model/writeup-dat/posterior-predicitive.parquet
+
+blog/2025/passing-td-factor-model/writeup-dat/posterior-predicitive-small.parquet
+
+blog/2025/passing-td-factor-model/writeup-dat/implied_probs_small.parquet

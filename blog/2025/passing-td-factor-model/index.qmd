@@ -1465,8 +1465,8 @@ replacement = players_stats |>
   pull(player_display_name)
 
 
-posterior_predictive = arrow::read_parquet('writeup-dat/posterior-predicitive-small.parquet')
-
+posterior_predictive = open_dataset('post-preds-subset') |>
+  collect() 
 
 elite_df = posterior_predictive |>
   filter(receiver_full_name %in% elite, season == 2023) |>
@@ -1860,11 +1860,14 @@ download_data = \(season){
 }
 
 
-implied_probs_data = read_parquet('writeup-dat/implied_probs_small.parquet')
+implied_probs_data = open_dataset('implied-probs') 
+
+
 
 amon_ra = implied_probs_data |>
   filter(receiver_full_name == 'Amon-Ra St. Brown') |>
-  mutate(.draw = row_number(), n_tds = as.factor(event))
+  mutate(.draw = row_number(), n_tds = as.factor(event)) |>
+  collect()
 
 
 ggplot(amon_ra, aes(x = games_played, y = tds_scored_probs, fill = n_tds)) +
@@ -1927,10 +1930,10 @@ join_these = players_stats |>
   distinct(player_display_name, .keep_all = TRUE) |>
   select(receiver_full_name = player_display_name, position_group)
 
-implied_probs_data = download_data(season = c(2002:2024))
 
 plot_data = implied_probs_data |>
   filter(receiver_full_name %in% players_interested_in) |>
+  collect() |>
   left_join(join_these) |>
   mutate(
     n_tds = as.factor(event),
