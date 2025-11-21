@@ -1846,6 +1846,7 @@ plt.suptitle(f"{player.title()}\nTDs Probabilities per Season", fontsize=18)
 
 ```{r}
 #| code-fold: true
+#| amon-ra-plot-r 
 
 link_builder = \(season){
   link = glue::glue("https://github.com/joshuafayallen/joshuafayallen.github.io/releases/download/latest/implied-probs-{season}-season.parquet")
@@ -1866,9 +1867,8 @@ implied_probs_data = open_dataset('implied-probs')
 
 amon_ra = implied_probs_data |>
   filter(receiver_full_name == 'Amon-Ra St. Brown') |>
-  mutate(.draw = row_number(), n_tds = as.factor(event)) |>
-  collect()
-
+  collect() |>
+  mutate(.draw = row_number(), n_tds = as.factor(event)) 
 
 ggplot(amon_ra, aes(x = games_played, y = tds_scored_probs, fill = n_tds)) +
   stat_lineribbon(aes(fill_ramp = after_stat(level))) +
