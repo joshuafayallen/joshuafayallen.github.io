@@ -41,9 +41,9 @@ knitr::opts_chunk$set(fig.pos = 'H')
 
 # normally this lives in library(AllenMisc)
 # but fighting renv is exhausting
-source('scripts/theme-allen-minimal.R')
 
-set_theme(theme_allen_minimal())
+
+set_theme(theme_minimal())
 
 games_dat = rvest::read_html(
   'https://en.wikipedia.org/wiki/NFL_regular_season'
