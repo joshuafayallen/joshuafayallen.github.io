@@ -1846,7 +1846,7 @@ plt.suptitle(f"{player.title()}\nTDs Probabilities per Season", fontsize=18)
 
 ```{r}
 #| code-fold: true
-#| amon-ra-plot-r 
+#| label: amon-ra-plot-r
 
 link_builder = \(season){
   link = glue::glue("https://github.com/joshuafayallen/joshuafayallen.github.io/releases/download/latest/implied-probs-{season}-season.parquet")
