@@ -86,10 +86,10 @@ jobs:
           "
           
       - name: Render and Publish
-        run: |
-          quarto publish gh-pages --no-prompt --no-browser
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           QUARTO_PYTHON: ${{ env.QUARTO_PYTHON }}
           RETICULATE_PYTHON: ${{ env.RETICULATE_PYTHON }}
-          WORKON_HOME: ${{ env.WORKON_HOME }}
