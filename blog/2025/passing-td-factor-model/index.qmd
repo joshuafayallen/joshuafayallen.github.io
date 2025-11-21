@@ -1465,15 +1465,15 @@ replacement = players_stats |>
   pull(player_display_name)
 
 
-posterior_predictive = arrow::read_parquet('writeup-dat/posterior-predicitive.parquet')
+posterior_predictive = arrow::read_parquet('writeup-dat/posterior-predicitive-small.parquet')
+
 
 elite_df = posterior_predictive |>
   filter(receiver_full_name %in% elite, season == 2023) |>
   summarise(
     rec_td_probs = mean(tds_scored),
     .by = c(receiver_full_name, draw)
-  ) |>
-  collect()
+  ) 
 
 replacement_df = posterior_predictive |>
   filter(receiver_full_name %in% replacement, season == 2023) |>
@@ -1603,8 +1603,7 @@ elite_df = posterior_predictive |>
   summarise(
     rec_td_probs = mean(tds_scored),
     .by = c(receiver_full_name, draw)
-  ) |>
-  collect()
+  ) 
 
 replacement_df = posterior_predictive |>
   filter(receiver_full_name %in% replacement) |>
@@ -1861,8 +1860,7 @@ download_data = \(season){
 }
 
 
-implied_probs_data = download_data(season = c(2021:2024))
-
+implied_probs_data = read_parquet('writeup-dat/implied_probs_small.parquet')
 
 amon_ra = implied_probs_data |>
   filter(receiver_full_name == 'Amon-Ra St. Brown') |>
