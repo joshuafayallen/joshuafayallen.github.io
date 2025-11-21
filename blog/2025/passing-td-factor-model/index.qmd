@@ -1202,7 +1202,7 @@ Moving on if we look at the posterior predictive distribution, the model does we
 #| code-fold: true
 #| label: post-preds-check
 
-az.plot_ppc(idata)
+az.plot_ppc(idata, num_pp_samples=100)
 
 
 ```
@@ -1210,154 +1210,7 @@ az.plot_ppc(idata)
 
 Now when we go to look at the posteriors for the GPs we do get a few odd random draws but for the most part all three of the GPs do a good job over their respective ranges which is good! 
 
-:::{.panel-tabset}
 
-## Python
-
-```{python}
-#| code-fold: true
-#| label: posterior-hsgp-check
-
-
-f_within_posterior = idata.posterior["f_games"]
-f_long_posterior = idata.posterior["f_season"]
-
-#check = f_within_posterior.to_dataframe().reset_index()
-#
-#check2 = f_long_posterior.to_dataframe().reset_index()
-#
-#games_hsgp = pl.from_dataframe(check)
-#
-#games_hsgp.write_parquet('writeup-dat/games-hsgp.parquet')
-
-
-index = pd.MultiIndex.from_product(
-    [unique_seasons, unique_games],
-    names=["season_nbr", "gameday"],
-)
-unique_combinations = pd.DataFrame(index=index).reset_index()
-
-f_long_posterior_aligned = f_long_posterior.sel(
-    seasons=unique_combinations["season_nbr"].to_numpy()
-).rename({"seasons": "timestamp"})
-
-f_long_posterior_aligned["timestamp"] = unique_combinations.index
-
-f_within_posterior_aligned = f_within_posterior.sel(
-    gameday=unique_combinations["gameday"].to_numpy()
-).rename({"gameday": "timestamp"})
-
-f_within_posterior_aligned["timestamp"] = unique_combinations.index
-
-
-f_total_posterior = f_long_posterior_aligned + f_within_posterior_aligned
-
-
-
-#total_post = pl.from_dataframe(f_total_posterior.to_dataframe().reset_index()
-#total_post.write_parquet('writeup-dat/total_hsgp.parquet')
-
-some_draws = rng.choice(f_total_posterior.draw, size=100, replace=True)
-
-_, axes = plt.subplot_mosaic(
-    """
-    AB
-    CC
-    """,
-    figsize=(12, 7.5),
-    layout="constrained",
-)
-
-axes["A"].plot(
-    f_within_posterior.gameday,
-    az.extract(f_within_posterior)["f_games"].isel(sample=0),
-    color="#70133A",
-    alpha=0.3,
-    lw=1.5,
-    label="random draws",
-)
-
-
-axes["A"].plot(
-    f_within_posterior.gameday,
-    az.extract(f_within_posterior)["f_games"].isel(sample=some_draws),
-    color="#70133A",
-    alpha=0.3,
-    lw=1.5,
-)
-az.plot_hdi(
-    x=f_within_posterior.gameday,
-    y=f_within_posterior,
-    hdi_prob=0.83,
-    color="#AAC4E6",
-    fill_kwargs={"alpha": 0.9, "label": r"$83\%$ HDI"},
-    ax=axes["A"],
-    smooth=False,
-)
-axes["A"].plot(
-    f_within_posterior.gameday,
-    f_within_posterior.mean(("chain", "draw")),
-    color="#FBE64D",
-    lw=2.5,
-    label="Mean",
-)
-axes["A"].set(
-    xlabel="Gameday", ylabel="Nbr TDs", title="Within season variation\nShort GP"
-)
-axes["A"].legend(fontsize=10, frameon=True, ncols=3)
-
-axes["B"].plot(
-    f_long_posterior.seasons,
-    az.extract(f_long_posterior)["f_season"].isel(sample=some_draws),
-    color="#70133A",
-    alpha=0.3,
-    lw=1.5,
-)
-az.plot_hdi(
-    x=f_long_posterior.seasons,
-    y=f_long_posterior,
-    hdi_prob=0.83,
-    color="#AAC4E6",
-    fill_kwargs={"alpha": 0.9},
-    ax=axes["B"],
-    smooth=False,
-)
-axes["B"].plot(
-    f_long_posterior.seasons,
-    f_long_posterior.mean(("chain", "draw")),
-    color="#FBE64D",
-    lw=2.5,
-)
-axes["B"].set(
-    xlabel="Season", ylabel="Nbr TDs", title="Across seasons variation\nAging curve"
-)
-
-axes["C"].plot(
-    f_total_posterior.timestamp,
-    az.extract(f_total_posterior)["x"].isel(sample=some_draws),
-    color="#70133A",
-    alpha=0.3,
-    lw=1.5,
-)
-az.plot_hdi(
-    x=f_total_posterior.timestamp,
-    y=f_total_posterior,
-    hdi_prob=0.83,
-    color="#AAC4E6",
-    fill_kwargs={"alpha": 0.9},
-    ax=axes["C"],
-    smooth=False,
-)
-axes["C"].plot(
-    f_total_posterior.timestamp,
-    f_total_posterior.mean(("chain", "draw")),
-    color="#FBE64D",
-    lw=2.5,
-)
-axes["C"].set(xlabel="Timestamp", ylabel="Nbr TDS", title="Total GP")
-plt.suptitle("Posterior GPs", fontsize=18)
-
-```
 
 ## R 
 
@@ -1442,7 +1295,7 @@ Let’s first look at the season-level information about play above replacement.
 
 ```{python}
 #| code-fold: true
-#| label: par-plot
+#| label: par-plot-py
 
 mindex_coords = xr.Coordinates.from_pandas_multiindex(
     cumulative_stats_pd.set_index(
@@ -1457,7 +1310,7 @@ mindex_coords = xr.Coordinates.from_pandas_multiindex(
     "obs_id",
 )
 
-idata.posterior_predictive = idata.posterior_predictive.assign_coords(mindex_coords)
+idata = idata.assign_coords(mindex_coords)
 
 
 replacement_list = (
@@ -1574,6 +1427,7 @@ plt.show()
 
 ```{r}
 #| code-fold: true
+#| label: par-plot-r
 players_stats = load_player_stats(seasons = c(2002:2024))
 
 elite = players_stats |>
@@ -1668,6 +1522,7 @@ What happens when we disregard the season-specific parameter? We do see some big
 
 ```{python}
 #| code-fold: true
+#| label: par-py-2
 rpl_pef = post_preds["tds_scored"].where(
     (
         (post_preds["receiver_full_name"].isin(replacement_list))
@@ -1740,6 +1595,7 @@ plt.show()
 
 ```{r}
 #| code-fold: true
+#| label: par-r-2
 elite_df = posterior_predictive |>
   filter(receiver_full_name %in% elite) |>
   summarise(
@@ -1797,6 +1653,7 @@ To do this we are just going to take the posterior contrasts. I am particularly 
 
 ```{python}
 #| code-fold: true
+#| label: det-plot-py
 
 players_2022 = cumulative_stats.filter(
     (pl.col('posteam') == 'DET') & (pl.col('season') == 2022)
@@ -1902,6 +1759,7 @@ If we want to see the evolution of a pass catcher's ability, we can just plot th
 
 ```{python}
 #| code-fold: true
+#| label: amon-ra-plot-py
 
 
 # this looks pretty gross so I am just going to do this in ggplot
