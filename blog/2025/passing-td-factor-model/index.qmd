@@ -1925,8 +1925,8 @@ join_these = players_stats |>
 
 raw_dat = implied_probs_data |>
   filter(receiver_full_name %in% players_interested_in) |>
-  mutate(n_tds = as.factor(event)) |>
-  collect() 
+  collect() |>
+  mutate(n_tds = as.factor(event)) 
 
 
 plot_data = raw_dat |>
