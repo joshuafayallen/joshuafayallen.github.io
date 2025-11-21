@@ -1428,7 +1428,9 @@ plt.show()
 ```{r}
 #| code-fold: true
 #| label: par-plot-r
-players_stats = load_player_stats(seasons = c(2002:2024))
+
+
+players_stats = read_parquet('writeup-dat/player-stats.parquet')
 
 elite = players_stats |>
   filter(position_group %in% c('RB', 'WR', 'TE')) |>
@@ -1463,7 +1465,7 @@ replacement = players_stats |>
   pull(player_display_name)
 
 
-posterior_predictive = arrow::read_parquet('https://github.com/joshuafayallen/joshuafayallen.github.io/releases/download/latest/posterior-predicitive.parquet')
+posterior_predictive = arrow::read_parquet('writeup-dat/posterior-predicitive.parquet')
 
 elite_df = posterior_predictive |>
   filter(receiver_full_name %in% elite, season == 2023) |>
@@ -1610,7 +1612,6 @@ replacement_df = posterior_predictive |>
     rep_td_probs = mean(tds_scored),
     .by = c(receiver_full_name, draw)
   ) |>
-  collect() |>
   select(-receiver_full_name)
 
 par_df = elite_df |>
