@@ -42,6 +42,14 @@ knitr::opts_chunk$set(fig.pos = 'H')
 # normally this lives in library(AllenMisc)
 # but fighting renv is exhausting
 
+showtext::showtext_auto()
+sysfonts::font_add(
+  'Assistant',
+  regular = 'Assistant/Assistant-Regular.ttf'
+)
+
+source('scripts/theme-allen-minimal.R')
+
 
 set_theme(theme_minimal())
 
@@ -1848,17 +1856,6 @@ plt.suptitle(f"{player.title()}\nTDs Probabilities per Season", fontsize=18)
 #| code-fold: true
 #| label: amon-ra-plot-r
 
-link_builder = \(season){
-  link = glue::glue("https://github.com/joshuafayallen/joshuafayallen.github.io/releases/download/latest/implied-probs-{season}-season.parquet")
-  return(link)
-}
-
-download_data = \(season){
-  links_to_read = link_builder(season = season)
-
-  td_data = vctrs::list_unchop(lapply(links_to_read, \(x) arrow::read_parquet(x)))
-
-}
 
 
 implied_probs_data = open_dataset('implied-probs') 
@@ -1895,6 +1892,7 @@ Players kind towards the end of their careers and at the beginning get short cha
 
 ```{r}
 #| code-fold: true
+#| label: all-timers-plot
 active_player = c(
   'Travis Kelce',
   'George Kittle', 
@@ -1931,25 +1929,34 @@ join_these = players_stats |>
   select(receiver_full_name = player_display_name, position_group)
 
 
-plot_data = implied_probs_data |>
+raw_dat = implied_probs_data |>
   filter(receiver_full_name %in% players_interested_in) |>
-  collect() |>
+  mutate(n_tds = as.factor(event)) |>
+  collect() 
+
+
+plot_data = raw_dat |>
+  group_by(receiver_full_name, n_tds) |>
+  median_qi(tds_scored_probs, .width = c(0.65, 0.95 )) |>
   left_join(join_these) |>
   mutate(
-    n_tds = as.factor(event),
     pos_num = case_match(position_group, 'RB' ~ 1, 'TE' ~ 2, 'WR' ~ 3),
     active = ifelse(receiver_full_name %in% active_player, 'Active Player', 'Retired Player')
   )
+
+
 
 active_p = ggplot(
   data = filter(plot_data, active == 'Active Player'),
   aes(
       x = tds_scored_probs,
       y = fct_reorder(receiver_full_name, pos_num),
-      color = n_tds
+      color = n_tds, 
+      xmin = .lower, 
+      xmax = .upper
    )
 ) +
-    stat_pointinterval(linewidth = 0.5, size = 0.5) +
+    geom_pointinterval(linewidth = 0.5, size = 0.5) +
     scale_color_met_d(name = 'Lakota') +
     labs(x = 'TD Scoring Probabilities',
         title = 'Active Players',
@@ -1958,12 +1965,16 @@ active_p = ggplot(
 
 retired_p = ggplot(
   data = filter(plot_data, active == 'Retired Player'),
-  aes(
+   aes(
       x = tds_scored_probs,
       y = fct_reorder(receiver_full_name, pos_num),
-      color = n_tds
-)
+      color = n_tds, 
+      xmin = .lower, 
+      xmax = .upper,
+      linewidth = .width
+   )
 ) +
+    geom_pointinterval(linewidth = 0.5, size = 0.5) + 
     stat_pointinterval(linewidth = 0.5, size = 0.5) +
     scale_color_met_d(name = 'Lakota') +
     labs(x = 'TD Scoring Probabilities',
@@ -1973,12 +1984,15 @@ retired_p = ggplot(
 active_p / retired_p + plot_layout(axis_titles = 'collect', guides = 'collect')
 
 
+
 ```
 
 
 If there are a group of players that you are interested I have uploaded the implied probabilities data for each season to my Github releases. You can use these helper functions to read in the data if need be!
 
 ```{r}
+#| eval: false
+#| label: realease-funs
 link_builder = \(season){
   link = glue::glue("https://github.com/joshuafayallen/joshuafayallen.github.io/releases/download/latest/implied-probs-{season}-season.parquet")
   return(link)
