@@ -42,7 +42,6 @@ knitr::opts_chunk$set(fig.pos = 'H')
 # normally this lives in library(AllenMisc)
 # but fighting renv is exhausting
 
-showtext::showtext_auto()
 sysfonts::font_add(
   'Assistant',
   regular = 'Assistant/Assistant-Regular.ttf'
