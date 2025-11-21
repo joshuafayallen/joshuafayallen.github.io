@@ -658,6 +658,7 @@ Before we introduce our model to the data lets go and look at what our predictio
 
 ```{python}
 #| code-fold: true
+#| label: build-model
 
 cumulative_stats = pl.read_parquet("writeup-dat/cleaned-data.parquet")
 
@@ -888,6 +889,7 @@ Let’s check how the HSGPs are looking. Admittedly, we do get some pretty wonky
 
 ```{python}
 #| code-fold: true
+#| label: check-prior-gps
 
 f_within_prior = idata.prior["f_games"]
 f_long_prior = idata.prior["f_season"]
@@ -1018,6 +1020,7 @@ Let’s go and look at the implied predictions from the model. The model is a li
 
 ```{python}
 #| code-fold: true
+#| label: check-implied-probs
 implied_cats = az.extract(idata.prior_predictive, var_names='tds_scored')
 
 
@@ -1054,6 +1057,7 @@ We can see that a little bit more clearly when we visualize the prior predictive
 
 ```{python}
 #| echo: false
+#| label: prior-preds-check
 az.plot_ppc(idata, group = 'prior', observed = True)
 
 ```
@@ -1066,6 +1070,7 @@ As a good Bayesian we always need to look at whether the model sampled well. Wit
 
 ```{python}
 #| message: true
+#| label: readin-post-preds
 
 idata = az.from_netcdf('postpreds.nc')
 
@@ -1077,6 +1082,7 @@ Most if not all of our proposals were accepted which is good!
 
 ```{python}
 #| message: true
+#| label: check-acceptance
 
 idata.sample_stats.acceptance_rate.mean().data.round(2)
 
@@ -1088,6 +1094,8 @@ The Rhats for our HSGPs are at or really close to one, indicating that they are 
 
 
 ```{r}
+#| label: check-rhats
+#| echo: false
 
 read_parquet('writeup-dat/rhats.parquet') |>
   tinytable::tt()
@@ -1100,6 +1108,7 @@ Personally, I would have really liked everybody to be above 1,000. The sigma for
 
 ```{r}
 #| code-fold: true
+#| label: check-ess
 ess = read_parquet('writeup-dat/ess.parquet') |>
   mutate(
     Variable = str_replace_all(Variable, '_', ' '),
@@ -1130,6 +1139,7 @@ Working with the posteriors from this model is not necessarily difficult but bec
 
 ```{r}
 #| code-fold: true
+#| label: bad-trace-plots
 posteriors_dat = open_dataset(
   'trace-plot-data'
 ) |>
@@ -1180,6 +1190,7 @@ For the most part these look pretty good everything looks wiggly and jumbled, wh
 We can also examine how well the NUTS sampler explored the posterior distribution by plotting the energy transition against the marginal energy distribution against the energy transition distribution. In an ideal scenario these two distributions are almost indistinguishable. The energy plot below is not the worse one I have seen when building this model, but there is still some room for improvement. 
 
 ```{python}
+#| label: energy-plot
 az.plot_energy(idata)
 
 ```
@@ -1189,6 +1200,7 @@ Moving on if we look at the posterior predictive distribution, the model does we
 
 ```{python}
 #| code-fold: true
+#| label: post-preds-check
 
 az.plot_ppc(idata)
 
@@ -1430,6 +1442,7 @@ Let’s first look at the season-level information about play above replacement.
 
 ```{python}
 #| code-fold: true
+#| label: par-plot
 
 mindex_coords = xr.Coordinates.from_pandas_multiindex(
     cumulative_stats_pd.set_index(
