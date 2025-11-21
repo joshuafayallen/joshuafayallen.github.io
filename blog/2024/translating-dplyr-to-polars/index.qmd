@@ -34,7 +34,7 @@ pacman::p_load(reticulate, rmarkdown, janitor, arrow )
 
 
 
-py_install(c("polars", "pandas", "pyjanitor", "numpy", "pyarrow", "setuptools", "statsmodels", "seaborn", "matplotlib"))
+use_python(Sys.getenv("RETICULATE_PYTHON"), required = TRUE)
 
 
 

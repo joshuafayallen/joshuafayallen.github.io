@@ -1062,26 +1062,18 @@ az.plot_ppc(idata, group = 'prior', observed = True)
 
 ### Diagnostics 
 
-As a good Bayesian we always need to look at whether the model sampled well. Normally we would just load in a saved model from a netcdf file and then just read in everything using `az.from_netcdf` and then just access everything more pythonically. Unfortunately, these netcdf files are massive and GitHub has a pretty strict file size limitation even with git large file storage. 
-
-Fortunately for us we can just use `zarr` to make a ton of tiny files. Unfortunately for me this required a ton of manual pushes to GitHub because some of the small files are actually a bit bigger than you would anticipate. So after nearly a full day of figuring out how to do this I learned a valuable lesson of the shell. 
+As a good Bayesian we always need to look at whether the model sampled well. With some pretty permissive settings for our NUTS sampler we get zero divergences. That is always a good sign. 
 
 ```{python}
 #| message: true
 
-idata = az.from_datatree(xr.open_datatree('idata', engine = 'zarr'))
-
-with rec_tds_era_adjusted:
-  idata.extend(
-    pm.sample_posterior_predictive(idata, compile_kwargs={"mode":'NUMBA'})
-  )
-
+idata = az.from_netcdf('postpreds.nc')
 
 idata.sample_stats.diverging.sum().data
 
 ```
 
-Most if not all of our proposals were accepted which is go! 
+Most if not all of our proposals were accepted which is good! 
 
 ```{python}
 #| message: true
@@ -1095,12 +1087,11 @@ idata.sample_stats.acceptance_rate.mean().data.round(2)
 The Rhats for our HSGPs are at or really close to one, indicating that they are sampling pretty well!  
 
 
-```{python}
-#| message: true
+```{r}
 
-az.rhat(
-    idata, var_names=["basis_coeffs_season", "basis_coeffs_games"]
-).max().to_pandas().round(2)
+read_parquet('writeup-dat/rhats.parquet') |>
+  tinytable::tt()
+
 
 
 ```
@@ -1427,7 +1418,9 @@ This has some utility if we think that we are underestimating a pass catcher’s
 
 ### Posterior Estimates 
 
-Now to the fun part, plotting the data. When constructing the list of elite players, I tried to keep it simple by choosing the top 5 touchdown scorers for each position group. Then for the replacement level players, I just went with a host of players who scored 0 receiving touchdowns. I chose the 2023 season mostly because the 49ers’ offense was healthy and a juggernaut. 
+Now to the fun part, plotting the data. When constructing the list of elite players, I tried to keep it simple by choosing the top 5 touchdown scorers for each position group. Then for the replacement level players, I just went with a host of players who scored 0 receiving touchdowns. I chose the 2023 season mostly because the 49ers’ offense was healthy and a juggernaut.
+
+Due to the size of the full model I only work with subset of the posterior because GitHub has a pretty strict file size limit. I found that `zarr` actually works quite well when working with a model of this size, but it produces a ton of files that kind of overwhelmed my GitHub action. So I settled with writing smaller `.nc` files. With all the caveats aside lets look at the data.
 
 Let’s first look at the season-level information about play above replacement. What is genuinely interesting to me is that, as a receiving scoring threat, Christian McCaffrey is mostly replaceable despite scoring 7 receiving touchdowns, which was a career high. Interestingly, we don't have a ton of TEs that are super valuable despite a lot of LaPorta's fantasy production coming from TDs in his rookie season. Interestingly, the RBs all have their Performance Above replacement, like right on the line. I think that this may just be telling us that as pass catchers, there probably isn't a ton of additional value. 
 
@@ -1450,7 +1443,7 @@ mindex_coords = xr.Coordinates.from_pandas_multiindex(
     ).index,
     "obs_id",
 )
-idata.posterior = idata.posterior.assign_coords(mindex_coords)
+
 idata.posterior_predictive = idata.posterior_predictive.assign_coords(mindex_coords)
 
 
@@ -1900,17 +1893,25 @@ If we want to see the evolution of a pass catcher's ability, we can just plot th
 
 # this looks pretty gross so I am just going to do this in ggplot
 player = "Amon-Ra St. Brown"
-idata.posterior = idata.posterior.rename({"tds_scored_probs_dim_1": "event"})
 
-
-implied_probs = (
-    idata.posterior["tds_scored_probs"]
-    .rename({"tds_scored_probs_dim_0": "obs_id"})
-    .assign_coords(mindex_coords)
+just_amon_ra = cumulative_stats_pd[cumulative_stats_pd['receiver_full_name'] == player]
+amon_ra_coords = xr.Coordinates.from_pandas_multiindex(
+    just_amon_ra.set_index(
+        [
+            "receiver_full_name",
+            "number_of_seasons_played",
+            "games_played",
+            "season",
+            "receiver_position"
+        ]
+    ).index,
+    "obs_id",
 )
 
 
-player_probs_post = implied_probs.sel(receiver_full_name=player)
+
+player_probs_post = xr.open_dataarray('amon-ra-probs.nc').assign_coords(amon_ra_coords)
+
 colors = plt.cm.viridis(np.linspace(0.05, 0.95, 4))
 
 cols = 2
