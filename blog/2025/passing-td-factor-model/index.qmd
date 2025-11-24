@@ -1070,7 +1070,7 @@ az.plot_ppc(idata, group = 'prior', observed = True)
 
 ### Diagnostics 
 
-As a good Bayesian we always need to look at whether the model sampled well. With some pretty permissive settings for our NUTS sampler we get zero divergences. That is always a good sign. 
+As a good Bayesian we always need to look at whether the model sampled well. With some pretty permissive settings we still get one divergence which is not the end of the world, but we would like it to be zero.
 
 ```{python}
 #| message: true
@@ -1113,7 +1113,7 @@ read_parquet('writeup-dat/rhats.parquet') |>
 
 ```
 
-Personally, I would have really liked everybody to be above 1,000. But have a respectable number of effective samples for each parameter.
+Personally, I would have really liked everybody to be above 1,000, but each parameter is well above the threshold where `PyMC` will yell at you which is good!
 
 ```{r}
 #| code-fold: true
@@ -1380,7 +1380,7 @@ s = ggplot(seasons_hsgp, aes(x = timestamp, y = f_season)) +
   stat_lineribbon(.width = (0.89), alpha = 0.4, fill = clrs[1]) +
   labs(x = 'Number of Seasons Played', y = 'Number of TDs')
 
-t = ggplot(total_hsgp, aes(x = timestamp, y = x)) +
+t = ggplot(total_hsgp, aes(x = timestamp, y = td_probs)) +
   geom_smooth(
     aes(group = .iteration),
     se = FALSE,
@@ -1407,7 +1407,7 @@ This has some utility if we think that we are underestimating a pass catcher’s
 
 Now to the fun part, plotting the data. When constructing the list of elite players, I tried to keep it simple by choosing the top 5 touchdown scorers for each position group. Then for the replacement level players, I just went with a host of players who scored 0 receiving touchdowns. I chose the 2023 season mostly because the 49ers’ offense was healthy and a juggernaut.
 
-Due to the size of the full model I only work with subset of the posterior because GitHub has a pretty strict file size limit. I found that `zarr` actually works quite well when working with a model of this size, but it produces a ton of files that kind of overwhelmed my GitHub action. So I settled with writing smaller `.nc` files. With all the caveats aside lets look at the data.
+Due to the size of the full model I only work with subset of the posterior because GitHub has a pretty strict file size limit. I found that `zarr` actually works quite well when working with a model of this size, but it produces a ton of files that kind of overwhelmed my GitHub action. So I settled with writing smaller `.nc` files or writing things to parquet. With all the caveats aside lets look at the data.
 
 Let’s first look at the season-level information about play above replacement. What is genuinely interesting to me is that, as a receiving scoring threat, Christian McCaffrey is mostly replaceable despite scoring 7 receiving touchdowns, which was a career high. Interestingly, we don't have a ton of TEs that are super valuable despite a lot of LaPorta's fantasy production coming from TDs in his rookie season. Interestingly, the RBs all have their Performance Above replacement, like right on the line. I think that this may just be telling us that as pass catchers, there probably isn't a ton of additional value. 
 
@@ -1491,7 +1491,6 @@ plt.show()
 ```{r}
 #| code-fold: true
 #| label: par-plot-r
-
 
 
 
