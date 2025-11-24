@@ -1580,7 +1580,7 @@ ggplot(
   stat_halfeye() +
   scale_fill_met_d(name = 'Lakota') +
   geom_vline(xintercept = 0, linetype = 'dashed') +
-  labs(y = NULL, x = 'Play Above Replacement') +
+  labs(y = NULL, x = 'Performance Above Replacement') +
   theme(legend.position = 'none')
 
 
@@ -1697,7 +1697,7 @@ ggplot(
   stat_halfeye() +
   scale_fill_met_d(name = 'Lakota') +
   geom_vline(xintercept = 0, linetype = 'dashed') +
-  labs(y = NULL, x = 'Play Above Replacement') +
+  labs(y = NULL, x = 'Performance Above Replacement') +
   theme(legend.position = 'none')
 
 ```
