@@ -105,8 +105,7 @@ rec_data_full = (
         ),
     )
     .filter(
-        (pl.col("yards_after_catch").is_not_null())
-        & (pl.col("receiver_position").is_in(["RB", "TE", "WR"]))
+        (pl.col("receiver_position").is_in(["RB", "TE", "WR"]))
     )
     .with_columns(
         pl.col("complete_pass")
@@ -122,6 +121,7 @@ rec_data_full = (
         (pl.col("epa") * -1).alias("defensive_epa"),
     )
 )
+
 
 
 agg_full_seasons = (
@@ -181,6 +181,10 @@ agg_full_seasons = (
         .alias("rec_tds_season"),
         pl.when(pl.col("season") >= 2018).then(1).otherwise(0).alias("era"),
     )
+)
+
+agg_full_seasons.filter(
+    pl.col("receiver_full_name") == 'Marshall Faulk'
 )
 
 cumulative_stats = (
@@ -276,6 +280,7 @@ cumulative_stats = (
     .sort(["receiver_full_name", "season", "game_id"])
     .fill_null(0)
 )
+
 
 
 factors_numeric = [
@@ -470,7 +475,7 @@ with pm.Model(coords=coords) as rec_tds_era_adjusted:
         player_effect[player_id] + f_season[season_id] + f_games[games_id],
         dims="obs_id",
     )
-    slope = pm.Normal("slope", sigma=0.5, dims="factors")
+    slope = pm.Normal("slope", sigma=0.25, dims="factors")
 
     eta = pm.Deterministic(
         "eta", alpha + pm.math.dot(factor_data, slope), dims="obs_id"
@@ -508,7 +513,7 @@ with pm.Model(coords=coords) as rec_tds_era_adjusted:
 
 
 with rec_tds_era_adjusted:
-    idata = pm.sample_prior_predictive()
+    idata = pm.sample_prior_predictive(compile_kwargs={'mode':'NUMBA'})
 
 implied_cats = az.extract(idata.prior_predictive, var_names=["tds_scored"])
 
@@ -559,6 +564,8 @@ az.rhat(
 
 az.ess(idata).min().to_pandas().sort_values().round()
 
+ess_data =  pl.from_pandas(az.ess(idata).min().to_pandas().sort_values().round())
+
 az.plot_energy(idata)
 
 with rec_tds_era_adjusted:
@@ -570,15 +577,292 @@ az.plot_ppc(idata)
 
 az.to_netcdf(idata, "models/idata_compelete.nc")
 
+idata = az.from_netcdf("models/idata_compelete.nc")
 
-idata = az.from_netcdf('models/idata_compelete.nc')
-
-conv = idata.to_datatree()
-
-conv.to_zarr('idata')
-
-
-check = xr.open_datatree('idata', engine = 'zarr')
+with rec_tds_era_adjusted:
+    idata.extend(
+        pm.sample_posterior_predictive(idata,compile_kwargs={"mode":"NUMBA"})
+    )
 
 
-check2 = az.InferenceData.from_datatree(check)
+mindex_coords = xr.Coordinates.from_pandas_multiindex(
+    cumulative_stats_pd.set_index(
+        [
+            "receiver_full_name",
+            "number_of_seasons_played",
+            "games_played",
+            "season",
+            "receiver_position"
+        ]
+    ).index,
+    "obs_id",
+)
+
+idata.posterior = idata.posterior.assign_coords(mindex_coords)
+idata.posterior_predictive = idata.posterior_predictive.assign_coords(mindex_coords)
+
+
+implied_probs_post = (
+    idata.posterior["tds_scored_probs"]
+    .rename({"tds_scored_probs_dim_0": "obs_id", "tds_scored_probs_dim_1": "event"})
+    .assign_coords(mindex_coords)
+)
+
+
+replacement_list = (
+    cumulative_stats.unique(["receiver_full_name", "season"])
+    .with_columns(
+        pl.col("rec_tds_season")
+        .rank(method="ordinal")
+        .over(["receiver_position", "season"])
+        .alias("position_rank")
+    )
+    .filter((pl.col("position_rank") <= 5) & (pl.col("season") == 2023))[
+        "receiver_full_name"
+    ].to_list()
+)
+
+elite_list = (
+    cumulative_stats.unique(["receiver_full_name", "season"])
+    .with_columns(
+        pl.col("rec_tds_season")
+        .rank(method="ordinal", descending=True)
+        .over(["receiver_position", "season"])
+        .alias("position_rank")
+    )
+    .filter((pl.col("position_rank") <= 5) & (pl.col("season") == 2023))
+    .sort(["receiver_position", "position_rank"])["receiver_full_name"].to_list()
+)
+
+
+players_2022 = cumulative_stats.filter(
+    (pl.col('posteam') == 'DET') & (pl.col('season') == 2022)
+).select(
+    pl.col('receiver_full_name').unique()
+)['receiver_full_name'].to_list()
+
+players_2024 = cumulative_stats.filter(
+    (pl.col('posteam') == 'DET') & (pl.col('season') == 2024)
+).select(
+    pl.col('receiver_full_name').unique()
+)['receiver_full_name'].to_list()
+
+active_player = [
+    'Travis Kelce',
+    'George Kittle', 
+    'Davante Adams',
+    'Mike Evans',
+    'Justin Jefferson', 
+    "Ja'Marr Chase",
+    'Christian McCaffrey',
+    'Austin Ekeler',
+    'Alvin Kamara',
+    'Saquon Barkley',
+    'Amon-Ra St. Brown'
+]
+
+
+all_timers = [
+    'Jimmy Graham',
+    'Rob Gronkowski',
+    'Tony Gonzalez',
+    'Jason Witten',
+    'Terrell Owens', 
+    'Antonio Gates',
+    'Randy Moss',
+    'Larry Fitzgerald', 
+    'Julio Jones',
+    'Calvin Johnson', 
+    'Marshall Faulk'
+]
+
+def parquet_writer(seasons):
+    print(f"writing data for {seasons} season")
+    d = implied_probs_post.sel(season=seasons)
+    d_pl = pl.from_dataframe(d.to_dataframe())
+    d_pl.write_parquet(f"implied-probs/implied_probs={seasons}-season.parquet", use_pyarrow=True, pyarrow_options={'compression': 'zstd'})
+    return print(f"Done writing data for {seasons} season")
+
+
+s = range(2002, 2025)
+
+
+
+for i in s:
+    parquet_writer(ar = implied_probs_post,seasons = i)
+
+
+posterior = idata.posterior.assign_coords(mindex_coords)
+
+for i in s:
+    parquet_writer(ar = posterior, seasons= i)
+
+
+posterior_predictive = idata.posterior_predictive.assign_coords(mindex_coords)
+
+
+def parquet_writer(seasons):
+    print(f"writing data for {seasons} season")
+    d = posterior_predictive.sel(season=seasons)
+    d_pl = pl.from_dataframe(d.to_dataframe())
+    d_pl.write_parquet(f"posterior-predictive/posterior-predictive-{seasons}-season.parquet", use_pyarrow=True, pyarrow_options={'compression': 'zstd'})
+    return print(f"Done writing data for {seasons} season")
+
+for i in s:
+    parquet_writer(seasons = i)
+
+
+
+f_within_post = idata.posterior['f_games']
+f_seasons = idata.posterior['f_season']
+
+index = pd.MultiIndex.from_product(
+    [unique_seasons, unique_games],
+    names = ['season_nbr', 'weeks'],
+)
+unique_combos = pd.DataFrame(index = index).reset_index()
+
+f_long_post_aligned = f_seasons.sel(
+    seasons = unique_combos['season_nbr'].to_numpy()
+).rename({'seasons': 'timestamp'})
+
+f_long_post_aligned['timestamp'] = unique_combos.index
+
+f_within_post_aligned = f_within_post.sel(
+    gameday = unique_combos['weeks'].to_numpy()
+).rename({'gameday': 'timestamp'})
+
+f_within_post_aligned['timestamp'] = unique_combos.index
+
+f_total_post = f_long_post_aligned + f_within_post_aligned
+
+
+
+f_within_pl = pl.from_dataframe(f_within_post_aligned.to_dataframe())
+f_long_pl = pl.from_dataframe(f_long_post_aligned.to_dataframe())
+
+f_total_post_pl = pl.from_dataframe(f_total_post.to_dataframe(name = 'td_probs').reset_index())
+
+
+f_within_pl.write_parquet('writeup-dat/games-hsgp.parquet')
+f_long_pl.write_parquet("writeup-dat/seasons-hsgp.parquet")
+f_total_post_pl.write_parquet('writeup-dat/total_hsgp.parquet')
+
+
+f_within_post.to_netcdf(
+    'writeup-dat/games-hsgp.nc'
+)
+f_seasons.to_netcdf(
+    'writeup-dat/seasons-hsgp.nc'
+)
+
+f_total_post.to_netcdf(
+    'writeup-dat/total-hsgp.nc'
+)
+
+
+f_long = xr.open_dataarray(
+    'writeup-dat/seasons-hsgp.nc'
+)
+
+
+plt.plot(
+    f_long.seasons,
+    az.extract(f_long)['f_season'],
+    color="#70133A",
+    alpha=0.3,
+    lw=1.5,
+)
+plt.plot(
+    f_long.seasons,
+    f_long.mean(('chain', 'draw'))
+)
+
+ess = pl.from_pandas(az.ess(
+    idata
+).min().to_pandas().round(2).reset_index())
+
+ess.rename(
+    {'index': 'Variable',
+    '0': 'ess'}
+).write_parquet(
+    'writeup-dat/ess.parquet'
+)
+
+cumulative_stats.write_parquet(
+    'writeup-dat/cleaned-data.parquet',
+    use_pyarrow=True
+)
+
+
+post_preds = idata.posterior_predictive
+
+rpl_pef = post_preds["tds_scored"].where(
+    (
+        (post_preds["receiver_full_name"].isin(replacement_list))
+        #& (post_preds["season"] == 2023)
+    ),
+    drop=True,
+)
+
+elite_perf = post_preds["tds_scored"].where(
+    (
+        (post_preds["receiver_full_name"].isin(elite_list))
+        #& (post_preds["season"] == 2023)
+    ),
+    drop=True,
+)
+
+# Calculate PAR
+PAR = (
+    elite_perf.groupby(["receiver_full_name"]).mean("obs_id") - rpl_pef.mean("obs_id")
+).rename("PAR")
+
+PAR.to_netcdf(
+    'writeup-dat/par-sans-season.nc'
+)
+
+rpl_pef = post_preds["tds_scored"].where(
+    (
+        (post_preds["receiver_full_name"].isin(replacement_list))
+        & (post_preds["season"] == 2023)
+    ),
+    drop=True,
+)
+
+elite_perf = post_preds["tds_scored"].where(
+    (
+        (post_preds["receiver_full_name"].isin(elite_list))
+        & (post_preds["season"] == 2023)
+    ),
+    drop=True,
+)
+
+PAR = (
+    elite_perf.groupby(["receiver_full_name"]).mean("obs_id") - rpl_pef.mean("obs_id")
+).rename("PAR")
+
+PAR.to_netcdf(
+    'writeup-dat/par-season.nc'
+)
+
+
+implied_probs = pl.scan_parquet(
+    'implied-probs'
+)
+
+players_intersted_in = all_timers + active_player
+
+implied_probs_small = implied_probs.filter(
+    pl.col('receiver_full_name').is_in(players_intersted_in)
+).collect()
+
+len(players_intersted_in)
+
+players_intersted_in
+
+
+check = implied_probs_small.select(pl.col('receiver_full_name').unique()).sort('receiver_full_name')
+
+
+sorted(players_intersted_in)

@@ -177,7 +177,7 @@ After reading through the example notebooks and the paper, I thought that this w
 
 Why touchdowns? Outside of being a fun exercise to see how a model designed for soccer translates to football, I think there is at least a reasonable football story for why we can use touchdowns as an outcome and why this is a useful exercise. A lot of people play fantasy football including myself, and want to know who has some scoring upside.  Touchdowns in Fantasy Football act as mouthwash for fantasy scoring. I am in a Half Points per Reception league, meaning that a reception is worth 0.5 points, each receiving yard is worth 0.1 points, and a receiving touchdown is worth six points. So, for a league average receiving performance with no touchdowns, this is worth `r round(summary_stats, 2)` fantasy points. A touchdown, or two, turns a baddish fantasy football performance into a relatively good one.
 
-Outside of my pretend team, TDs could also serve to tap a pass catcher's latent ability. To be a good pass catcher in the NFL, you have to combine being a good route runner, athleticism, and the ability to catch the ball. You could argue that being a good pass catcher becomes more difficult when a team gets closer to the endzone. If we use some real player [tracking data provided by the NFL](https://github.com/nfl-football-ops/Big-Data-Bowl?tab=readme-ov-file) we can see some of the difficulties of being a receiver in the endzone. If we look at the person who actually catches the touchdown, there are three defenders in the area if we count the corner playing Tyreek Hill. If we turn our attention to the outlet pass (number 35 in red) there are three defenders in the area when he slips out to make himself available. 
+Outside of my fantasy team, TDs could also serve to tap a pass catcher's latent ability. To be a good pass catcher in the NFL, you have to combine being a good route runner, athleticism, and the ability to catch the ball. You could argue that being a good pass catcher becomes more difficult when a team gets closer to the endzone. If we use some real player [tracking data provided by the NFL](https://github.com/nfl-football-ops/Big-Data-Bowl?tab=readme-ov-file) we can see some of the difficulties of being a receiver in the endzone. If we look at the person who actually catches the touchdown, there are three defenders in the area if we count the corner playing Tyreek Hill. If we turn our attention to the outlet pass (number 35 in red) there are three defenders in the area when he slips out to make himself available. 
 ![](kc_ne.gif){fig.pos='H'}
 
 ```{r}
@@ -768,7 +768,9 @@ within_m, within_c = pm.gp.hsgp_approx.approx_hsgp_hyperparams(
 
 
 with pm.Model(coords=coords) as rec_tds_era_adjusted:
-    factor_data = pm.Data("factor_data", factors_numeric_sdz, dims=("obs_id", "factor"))
+    factor_data = pm.Data(
+        "factor_data", factors_numeric_sdz, dims=("obs_id", "factor")
+    )
     games_id = pm.Data("games_id", games_idx, dims="obs_id")
     player_id = pm.Data("player_id", player_idx, dims="obs_id")
     season_id = pm.Data(
@@ -844,7 +846,7 @@ with pm.Model(coords=coords) as rec_tds_era_adjusted:
         player_effect[player_id] + f_season[season_id] + f_games[games_id],
         dims="obs_id",
     )
-    slope = pm.Normal("slope", sigma=0.5, dims="factors")
+    slope = pm.Normal("slope", sigma=0.25, dims="factors")
 
     eta = pm.Deterministic(
         "eta", alpha + pm.math.dot(factor_data, slope), dims="obs_id"
@@ -1074,7 +1076,10 @@ As a good Bayesian we always need to look at whether the model sampled well. Wit
 #| message: true
 #| label: readin-post-preds
 
-idata = az.from_netcdf('postpreds.nc')
+
+
+
+idata = az.from_netcdf('writeup-dat/post-preds.nc')
 
 idata.sample_stats.diverging.sum().data
 
@@ -1106,7 +1111,7 @@ read_parquet('writeup-dat/rhats.parquet') |>
 
 ```
 
-Personally, I would have really liked everybody to be above 1,000. The sigma for the touchdown’s parameter is pretty small ESS of 519, but we are still a bit above the threshold where `PyMC` will yell at you.
+Personally, I would have really liked everybody to be above 1,000. But have a respectable number of effective samples for each parameter.
 
 ```{r}
 #| code-fold: true
@@ -1213,6 +1218,117 @@ az.plot_ppc(idata, num_pp_samples=100)
 Now when we go to look at the posteriors for the GPs we do get a few odd random draws but for the most part all three of the GPs do a good job over their respective ranges which is good! 
 
 
+:::{.panel-tabset}
+
+## Python
+
+```{python}
+
+f_within_post = xr.open_dataarray('writeup-dat/games-hsgp.nc')
+f_long_post = xr.open_dataarray('writeup-dat/seasons-hsgp.nc')
+f_total_post = xr.open_dataarray('writeup-dat/total-hsgp.nc')
+
+some_draws = rng.choice(f_total_post.draw, size = 100, replace = True)
+
+
+_, axes = plt.subplot_mosaic(
+    """
+    AB
+    CC
+    """,
+    figsize=(12, 7.5),
+    layout="constrained",
+)
+
+axes["A"].plot(
+    f_within_post.gameday,
+    az.extract(f_within_post)["f_games"].isel(sample=0),
+    color="#70133A",
+    alpha=0.3,
+    lw=1.5,
+    label="random draws",
+)
+axes["A"].plot(
+    f_within_post.gameday,
+    az.extract(f_within_post)["f_games"].isel(sample=some_draws),
+    color="#70133A",
+    alpha=0.3,
+    lw=1.5,
+)
+az.plot_hdi(
+    x=f_within_post.gameday,
+    y=f_within_post,
+    hdi_prob=0.83,
+    color="#AAC4E6",
+    fill_kwargs={"alpha": 0.9, "label": r"$83\%$ HDI"},
+    ax=axes["A"],
+    smooth=False,
+)
+axes["A"].plot(
+    f_within_post.gameday,
+    f_within_post.mean(("chain", "draw")),
+    color="#FBE64D",
+    lw=2.5,
+    label="Mean",
+)
+axes["A"].set(
+    xlabel="Gameday", ylabel="Nbr TDs", title="Within season variation\nForm GP"
+)
+axes["A"].legend(fontsize=10, frameon=True, ncols=3)
+
+axes["B"].plot(
+    f_long_post.seasons,
+    az.extract(f_long_post)["f_season"].isel(sample=some_draws),
+    color="#70133A",
+    alpha=0.3,
+    lw=1.5,
+)
+az.plot_hdi(
+    x=f_long_post.seasons,
+    y=f_long_post,
+    hdi_prob=0.83,
+    color="#AAC4E6",
+    fill_kwargs={"alpha": 0.9},
+    ax=axes["B"],
+    smooth=False,
+)
+axes["B"].plot(
+    f_long_post.seasons,
+    f_long_post.mean(("chain", "draw")),
+    color="#FBE64D",
+    lw=2.5,
+)
+axes["B"].set(
+    xlabel="Season", ylabel="Nbr TDs", title="Across seasons variation\nAging curve"
+)
+
+axes["C"].plot(
+    f_total_post.timestamp,
+    az.extract(f_total_post)["x"].isel(sample=some_draws),
+    color="#70133A",
+    alpha=0.3,
+    lw=1.5,
+)
+az.plot_hdi(
+    x=f_total_post.timestamp,
+    y=f_total_post,
+    hdi_prob=0.83,
+    color="#AAC4E6",
+    fill_kwargs={"alpha": 0.9},
+    ax=axes["C"],
+    smooth=False,
+)
+axes["C"].plot(
+    f_total_post.timestamp,
+    f_total_post.mean(("chain", "draw")),
+    color="#FBE64D",
+    lw=2.5,
+)
+axes["C"].set(xlabel="Timestamp", ylabel="Nbr TDS", title="Total GP")
+plt.suptitle("Posterior GPs", fontsize=18)
+
+```
+
 
 ## R 
 
@@ -1312,72 +1428,13 @@ mindex_coords = xr.Coordinates.from_pandas_multiindex(
     "obs_id",
 )
 
-idata = idata.assign_coords(mindex_coords)
-
-
-replacement_list = (
-    cumulative_stats.unique(["receiver_full_name", "season"])
-    .with_columns(
-        pl.col("rec_tds_season")
-        .rank(method="ordinal")
-        .over(["receiver_position", "season"])
-        .alias("position_rank")
-    )
-    .filter((pl.col("position_rank") <= 5) & (pl.col("season") == 2023))[
-        "receiver_full_name"
-    ]
-)
-
-elite_list = (
-    cumulative_stats.unique(["receiver_full_name", "season"])
-    .with_columns(
-        pl.col("rec_tds_season")
-        .rank(method="ordinal", descending=True)
-        .over(["receiver_position", "season"])
-        .alias("position_rank")
-    )
-    .filter((pl.col("position_rank") <= 5) & (pl.col("season") == 2023))
-    .sort(["receiver_position", "position_rank"])["receiver_full_name"]
-)
-
-
-
-post_preds = idata.posterior_predictive.reset_index('obs_id')
-
-#df = pl.from_dataframe(post_preds.to_dataframe())
-#
-#df.write_parquet('writeup-dat/posterior-predicitive.parquet')
-
-rpl_pef = post_preds["tds_scored"].where(
-    (
-        (post_preds["receiver_full_name"].isin(replacement_list))
-        & (post_preds["season"] == 2023)
-    ),
-    drop=True,
-)
-
-elite_perf = post_preds["tds_scored"].where(
-    (
-        (post_preds["receiver_full_name"].isin(elite_list))
-        & (post_preds["season"] == 2023)
-    ),
-    drop=True,
-)
-
-
-# Calculate PAR
-PAR = (
-    elite_perf.groupby(["receiver_full_name"]).mean("obs_id") - rpl_pef.mean("obs_id")
-).rename("PAR")
-
+PAR = xr.open_dataarray('writeup-dat/par-season.nc')
 
 player_positions = (
     cumulative_stats
     .unique(["receiver_full_name", "receiver_position"])
     .sort("receiver_position")
 )
-
-
 position_map = dict(zip(
     player_positions["receiver_full_name"],
     player_positions["receiver_position"]
@@ -1432,74 +1489,79 @@ plt.show()
 #| label: par-plot-r
 
 
+
+
 players_stats = read_parquet('writeup-dat/player-stats.parquet')
 
-elite = players_stats |>
-  filter(position_group %in% c('RB', 'WR', 'TE')) |>
-  mutate(
-    rec_tds_season = sum(receiving_tds),
-    .by = c(season, player_display_name)
-  ) |>
-  group_by(season) |>
-  distinct(player_display_name, .keep_all = TRUE) |>
-  ungroup() |>
-  mutate(
-    pos_rank = rank(-rec_tds_season, ties.method = 'first'),
-    .by = c(position_group, season)
-  ) |>
-  filter(pos_rank %in% c(1:5), season == 2023) |>
-  pull(player_display_name)
+#elite = players_stats |>
+#  filter(position_group %in% c('RB', 'WR', 'TE')) |>
+#  mutate(
+#    rec_tds_season = sum(receiving_tds),
+#    .by = c(season, player_display_name)
+#  ) |>
+#  group_by(season) |>
+#  distinct(player_display_name, .keep_all = TRUE) |>
+#  ungroup() |>
+#  mutate(
+#    pos_rank = rank(-rec_tds_season, ties.method = 'first'),
+#    .by = c(position_group, season)
+#  ) |>
+#  filter(pos_rank %in% c(1:5), season == 2023) |>
+#  pull(player_display_name)
+#
+#replacement = players_stats |>
+#  filter(position_group %in% c('RB', 'WR', 'TE')) |>
+#  mutate(
+#    rec_tds_season = sum(receiving_tds),
+#    .by = c(season, player_display_name)
+#  ) |>
+#  group_by(season) |>
+#  distinct(player_display_name, .keep_all = TRUE) |>
+#  ungroup() |>
+#  mutate(
+#    pos_rank = rank(rec_tds_season, ties.method = 'first'),
+#    .by = c(position_group, season)
+#  ) |>
+#  filter(pos_rank %in% c(1:5), season == 2023) |>
+#  pull(player_display_name)
+#
+#
+#posterior_predictive = open_dataset('posterior-predictive') |>
+#  collect() 
+#
+#elite_df = posterior_predictive |>
+#  filter(receiver_full_name %in% elite, season == 2023) |>
+#  summarise(
+#    rec_td_probs = mean(tds_scored),
+#    .by = c(receiver_full_name, draw)
+#  ) 
+#
+#replacement_df = posterior_predictive |>
+#  filter(receiver_full_name %in% replacement, season == 2023) |>
+#  summarise(
+#    rep_td_probs = mean(tds_scored),
+#    .by = c(receiver_full_name, draw)
+#  ) |>
+#  collect() |>
+#  select(-receiver_full_name)
+#
+#par_df = elite_df |>
+#  left_join(
+#    replacement_df,
+#    join_by(draw)
+#  ) |>
+#  mutate(par = rec_td_probs - rep_td_probs) |>
+#  left_join(
+#    players_stats |>
+#      filter(season == 2023) |>
+#      select(player_display_name, position_group),
+#    join_by(receiver_full_name == player_display_name)
+#  ) |>
+#  mutate(pos_num = case_match(position_group, 'RB' ~ 1, 'TE' ~ 2, 'WR' ~ 3))
+#
+#write_parquet(par_df, 'writeup-dat/par-df-season.parquet')
 
-replacement = players_stats |>
-  filter(position_group %in% c('RB', 'WR', 'TE')) |>
-  mutate(
-    rec_tds_season = sum(receiving_tds),
-    .by = c(season, player_display_name)
-  ) |>
-  group_by(season) |>
-  distinct(player_display_name, .keep_all = TRUE) |>
-  ungroup() |>
-  mutate(
-    pos_rank = rank(rec_tds_season, ties.method = 'first'),
-    .by = c(position_group, season)
-  ) |>
-  filter(pos_rank %in% c(1:5), season == 2023) |>
-  pull(player_display_name)
-
-
-posterior_predictive = open_dataset('post-preds-subset') |>
-  collect() 
-
-elite_df = posterior_predictive |>
-  filter(receiver_full_name %in% elite, season == 2023) |>
-  summarise(
-    rec_td_probs = mean(tds_scored),
-    .by = c(receiver_full_name, draw)
-  ) 
-
-replacement_df = posterior_predictive |>
-  filter(receiver_full_name %in% replacement, season == 2023) |>
-  summarise(
-    rep_td_probs = mean(tds_scored),
-    .by = c(receiver_full_name, draw)
-  ) |>
-  collect() |>
-  select(-receiver_full_name)
-
-par_df = elite_df |>
-  left_join(
-    replacement_df,
-    join_by(draw)
-  ) |>
-  mutate(par = rec_td_probs - rep_td_probs) |>
-  left_join(
-    players_stats |>
-      filter(season == 2023) |>
-      select(player_display_name, position_group),
-    join_by(receiver_full_name == player_display_name)
-  ) |>
-  mutate(pos_num = case_match(position_group, 'RB' ~ 1, 'TE' ~ 2, 'WR' ~ 3))
-
+par_df = read_parquet('writeup-dat/par-df-season.parquet')
 
 ggplot(
   par_df,
@@ -1527,26 +1589,8 @@ What happens when we disregard the season-specific parameter? We do see some big
 ```{python}
 #| code-fold: true
 #| label: par-py-2
-rpl_pef = post_preds["tds_scored"].where(
-    (
-        (post_preds["receiver_full_name"].isin(replacement_list))
-        #& (post_preds["season"] == 2023)
-    ),
-    drop=True,
-)
 
-elite_perf = post_preds["tds_scored"].where(
-    (
-        (post_preds["receiver_full_name"].isin(elite_list))
-        #& (post_preds["season"] == 2023)
-    ),
-    drop=True,
-)
-
-# Calculate PAR
-PAR = (
-    elite_perf.groupby(["receiver_full_name"]).mean("obs_id") - rpl_pef.mean("obs_id")
-).rename("PAR")
+PAR = xr.open_dataarray('writeup-dat/par-sans-season.nc')
 
 
 player_positions = (
@@ -1600,35 +1644,38 @@ plt.show()
 ```{r}
 #| code-fold: true
 #| label: par-r-2
-elite_df = posterior_predictive |>
-  filter(receiver_full_name %in% elite) |>
-  summarise(
-    rec_td_probs = mean(tds_scored),
-    .by = c(receiver_full_name, draw)
-  ) 
+#elite_df = posterior_predictive |>
+ # filter(receiver_full_name %in% elite) |>
+  #summarise(
+   # rec_td_probs = mean(tds_scored),
+   # .by = c(receiver_full_name, draw)
+#  ) 
 
-replacement_df = posterior_predictive |>
-  filter(receiver_full_name %in% replacement) |>
-  summarise(
-    rep_td_probs = mean(tds_scored),
-    .by = c(receiver_full_name, draw)
-  ) |>
-  select(-receiver_full_name)
+#replacement_df = posterior_predictive |>
+#  filter(receiver_full_name %in% replacement) |>
+#  summarise(
+#    rep_td_probs = mean(tds_scored),
+#    .by = c(receiver_full_name, draw)
+#  ) |>
+#  select(-receiver_full_name)
 
-par_df = elite_df |>
-  left_join(
-    replacement_df,
-    join_by(draw)
-  ) |>
-  mutate(par = rec_td_probs - rep_td_probs) |>
-  left_join(
-    players_stats |>
-      filter(season == 2023) |>
-      select(player_display_name, position_group),
-    join_by(receiver_full_name == player_display_name)
-  ) |>
-  mutate(pos_num = case_match(position_group, 'RB' ~ 1, 'TE' ~ 2, 'WR' ~ 3))
+#par_df = elite_df |>
+#  left_join(
+#    replacement_df,
+#    join_by(draw)
+#  ) |>
+#  mutate(par = rec_td_probs - rep_td_probs) |>
+#  left_join(
+#    players_stats |>
+#      filter(season == 2023) |>
+#      select(player_display_name, position_group),
+#    join_by(receiver_full_name == player_display_name)
+#  ) |>
+#  mutate(pos_num = case_match(position_group, 'RB' ~ 1, 'TE' ~ 2, 'WR' ~ 3))
 
+#write_parquet(par_df, 'writeup-dat/par-sans-seasons.parquet')
+
+par_df = read_parquet('writeup-dat/par-sans-seasons.parquet')
 
 ggplot(
   par_df,
@@ -1648,112 +1695,8 @@ ggplot(
 
 :::
 
-Perhaps potentially one of the most interesting non-49ers comparison to make would be to look a the evolution of the Lion's offense over Dan Campbell's tenure as head coach. For a clean comparison, we are just going to use the 2022 Lions since Ben Johnson started his tenure as offensive coordinator that year. Over his tenure as offensive coordinator, the Lions went from a plucky team doing interesting things to one of the league's best offenses. 
+One interesting thing that we can look at is not only how do players evolve as pass catchers overtime, but also how does switching from a bad team to a good team affect your production. If you are an Eagles fan you could totally look at what Saquon Barkely did as an Eagle last year. However, I decided to go with Christian McCaffrey because among active RBs he is the leader in career receiving TDs. I subset the data to only include his healthy seasons to get a cleaner comparision of his time as a Niner and his time as a Panther.
 
-To do this we are just going to take the posterior contrasts. I am particularly interested in two comparisons. The first is just how much better the offense is overall due to the maturation of Ben Johnson as a play caller and due to their investments into the offense. The Lions invested a fair amount of draft capital in the offense, 4 picks in the top 100 from 2021 to 2024.  The second is looking at where the offense is getting more juice. My suspicion is just that part of the story is that they are just getting more juice from the RBs and maybe a touch more juice from the TE. 
-
-
-```{python}
-#| code-fold: true
-#| label: det-plot-py
-
-players_2022 = cumulative_stats.filter(
-    (pl.col('posteam') == 'DET') & (pl.col('season') == 2022)
-).select(
-    pl.col('receiver_full_name').unique()
-)['receiver_full_name'].to_list()
-
-players_2024 = cumulative_stats.filter(
-    (pl.col('posteam') == 'DET') & (pl.col('season') == 2024)
-).select(
-    pl.col('receiver_full_name').unique()
-)['receiver_full_name'].to_list()
-
-
-perf_2022 = post_preds['tds_scored'].where(
-    (
-        (post_preds['receiver_full_name'].isin(players_2022))
-        & (post_preds['season'] == 2022)
-    ), drop = True
-)
-
-perf_2024 = post_preds['tds_scored'].where(
-    (
-        (post_preds['receiver_full_name'].isin(players_2024))
-        & (post_preds['season'] == 2024)
-    ), drop = True
-)
-
-
-
-league_2022 = post_preds['tds_scored'].where(
-    (
-        (post_preds['season'] == 2022) &
-        (~post_preds['receiver_full_name'].isin(players_2022))
-    ), drop = True
-)
-
-
-league_2024 = post_preds['tds_scored'].where(
-    (
-        (post_preds['season'] == 2024) &
-        (~post_preds['receiver_full_name'].isin(players_2024))
-    ), drop = True
-)
-
-team_avg_2022 = perf_2022.mean('obs_id')
-team_avg_2024 = perf_2024.mean('obs_id')
-
-league_avg_2022 = league_2022.mean("obs_id")
-league_avg_2024 = league_2024.mean('obs_id')
-
-
-league_pos_avg_2022 = league_2022.groupby(["receiver_position"]).mean('obs_id') 
-league_pos_avg_2024 = league_2022.groupby(['receiver_position']).mean('obs_id')
-
-lions_pos_avg_2022 = perf_2022.groupby(["receiver_position"]).mean('obs_id')
-lions_pos_avg_2024 = perf_2024.groupby(['receiver_position']).mean("obs_id")
-
-pos_contrast_2022 = (lions_pos_avg_2022 - league_pos_avg_2022).rename('PAR')
-pos_contrast_2024 = (lions_pos_avg_2024 - league_pos_avg_2024).rename('PAR')
-
-
-
-Lions_League_2022 = (team_avg_2022 - league_avg_2022).rename('Lions TDs Avg - League Avg')
-Lions_League_2024 = (team_avg_2024 - league_avg_2024).rename('Lions TDs Avg - League Avg')
-
-
-
-_,(right, left) = plt.subplots(1,2)
-
-
-az.plot_forest([Lions_League_2022, Lions_League_2024],
-                model_names = ['Lions v League 2022', 'Lions v League 2024'],
-                combined = True,
-                ax = right)
-az.plot_forest([pos_contrast_2022, pos_contrast_2024],
-                model_names = ['Lions v League 2022', 'Lions v League 2024'],
-                combined = True,
-                ax = left
-                )
-
-right.set(
-    title = 'Difference in Performance Between \n 2022 Lions and 2024 Lions'
-)
-left.set(
-    title = 'Performance by Position'
-)
-right.axvline(c = 'k', ls = '--', alpha = 0.4)
-left.axvline(c = 'k', ls = '--', alpha = 0.4)
-left.get_legend().remove()
-
-```
-
-It is clear that the Lion’s offense got better from Ben Johnson's first year as a play caller to his last year as a play caller in Detroit. When we break down the differences by position, we see some interesting trends. Both the WRs and TEs improve between 2022 and 2024 if only slightly. Interestingly, the RB position is kind of the same. This is a bit puzzling, as Jahmyr Gibbs is a pretty good pass catcher as a running back. 
-
-I guess that the part of the reason we see improvements for the pass catchers is not only due to maturation of Amon-Ra St. Brown and upgrades at WR and TE.^[This is not a slight to T.J. Hockenson, who is an excellent TE.] Part of this improvement is likely due to how well the Lions run the ball. Part of their success running the ball is that their pass catchers are good to excellent blockers, and their O-Line is good. What this means is that they are able to run and pass the ball out of the same formations. This puts a lot of stress on a defense as Linebackers and Safeties are forced to either come forward to defend the run or the defense puts bigger bodies on the field to defend the run. This opens up opportunities in the passing games to hit explosive plays or take additional defenders in the red zone, so other pass catchers can get open.
-
-If we want to see the evolution of a pass catcher's ability, we can just plot the probabilities over the number of games they played for each season. What we see is that the probability that Amon-Ra scores a touchdown or doesn't score a touchdown starts to be in the same neighborhood. Which is crazy! This speaks to not only his maturation as a pass catcher, but also the maturation of the system that he is in.  
 
 ::: {.panel-tabset}
 
@@ -1765,11 +1708,11 @@ If we want to see the evolution of a pass catcher's ability, we can just plot th
 
 
 # this looks pretty gross so I am just going to do this in ggplot
-player = "Amon-Ra St. Brown"
+player = "Christian McCaffrey"
 
-just_amon_ra = cumulative_stats_pd[cumulative_stats_pd['receiver_full_name'] == player]
-amon_ra_coords = xr.Coordinates.from_pandas_multiindex(
-    just_amon_ra.set_index(
+just_cmc = cumulative_stats_pd[cumulative_stats_pd['receiver_full_name'] == player]
+cmc_coords = xr.Coordinates.from_pandas_multiindex(
+    just_cmc.set_index(
         [
             "receiver_full_name",
             "number_of_seasons_played",
@@ -1782,13 +1725,12 @@ amon_ra_coords = xr.Coordinates.from_pandas_multiindex(
 )
 
 
-
-player_probs_post = xr.open_dataarray('amon-ra-probs.nc').assign_coords(amon_ra_coords)
+player_probs_post = xr.open_dataarray('writeup-dat/cmc-implied-probs.nc').assign_coords(cmc_coords)
 
 colors = plt.cm.viridis(np.linspace(0.05, 0.95, 4))
 
 cols = 2
-unique_seasons = np.unique(player_probs_post.season)
+unique_seasons = np.array([2017,2018, 2019, 2022,2023])
 num_seasons = len(unique_seasons)
 rows = (num_seasons + cols - 1) // cols
 
@@ -1836,12 +1778,20 @@ for j in range(i + 1, len(axes)):
 
 plt.suptitle(f"{player.title()}\nTDs Probabilities per Season", fontsize=18)
 
+axes[3].axvline(x=7, c="grey", ls="--")
+axes[3].annotate(
+    "Trade to 49ers",
+    xy=(7, 0.55),  # Point to annotate (the line at week 7)
+    xytext=(10, 0.50),  # Position of the text
+    xycoords="data",
+    textcoords="data",
+    arrowprops=dict(facecolor="black", shrinkA=5, shrinkB=5, arrowstyle="->"),
+    horizontalalignment="left",
+    verticalalignment="center",
+    fontsize=10,
+)
 
-# df = pl.from_dataframe(implied_probs.to_dataframe())
-#
-#
-# df.write_parquet('writeup-dat/implied_probs.parquet')
-# 
+
 ```
 
 ## R
@@ -1852,37 +1802,49 @@ plt.suptitle(f"{player.title()}\nTDs Probabilities per Season", fontsize=18)
 
 
 
-implied_probs_data = open_dataset('implied-probs') 
+cmc = read_parquet('writeup-dat/cmc-implied-probs.parquet')
 
+line_df = data.frame(
+  games_played = 7,
+  tds_scored_probs = 0.50,
+  season = 2022,
+  n_tds = NA
 
+)
 
-amon_ra = implied_probs_data |>
-  filter(receiver_full_name == 'Amon-Ra St. Brown') |>
-  collect() |>
-  mutate(.draw = row_number(), n_tds = as.factor(event)) 
+ann_text = data.frame(
+  games_played = 12,
+  tds_scored_probs = 0.50,
+  season = 2022,
+  lab = 'Trade to\n 49ers'
 
-ggplot(amon_ra, aes(x = games_played, y = tds_scored_probs, fill = n_tds)) +
-  stat_lineribbon(aes(fill_ramp = after_stat(level))) +
+)
+
+ggplot(cmc, aes(x = games_played, y = tds_scored_probs, fill = n_tds)) +
+  stat_lineribbon(.width = (0.95)) +
   scale_fill_met_d(name = 'Troy') +
-  facet_wrap(vars(season)) +
+  facet_wrap(vars(season), scales = 'free') +
+  geom_vline(data = line_df, aes(xintercept = games_played), linetype = 'dashed') +
+  geom_text(data = ann_text, aes(label = lab, x = games_played, y = tds_scored_probs), size = 2.5, inherit.aes = FALSE) +
   labs(
     y = 'TD Scoring Probabilities',
     fill = 'Number of TDs',
-    x = 'Week',
-    fill_ramp = 'Level'
-  )
+    x = 'Week'
+  ) +
+    theme(legend.position = 'top')
 
 ```
 
 :::
 
-
+He puts up a really impressive rookie campaign with the probablity that he scores at least one TD hovering around 0.25 for the entiriety of his rookie campaign. He wouldn't match this kind of projected production until he became a Niner.
 
 One of the downsides the `nflreadr` data is that we do not have prime Jerry Rice in there. They do have his last 2 years as a Niner and his time as a Raider and Seahawk in there, but he was in years 14 to 19. Compared to prime Jerry Rice he had declined significantly, with his last double-digit touchdown season coming during the 1995 season. So instead, we will just look at some of the most dominant pass catchers in NFL from 2002-2024 and some of their younger contemporaries. 
 
 Players kind towards the end of their careers and at the beginning get short changed a bit but it is pretty to cool to see just how good some of these guys are. It is crazy to think that for some players that by the act of showing up they are pretty likely to score a touchdown! What is interesting is that for good pass-catching backs generally just increase their probability to about 25%. Which seems small but you are getting a touch more juice from a fantasy RB spot if they catch a touchdown and rush for a touchdown.
 
 
+:::{.panel-tabset}
 
 ```{r}
 #| code-fold: true
@@ -1906,14 +1868,36 @@ all_timers = c(
   'Rob Gronkowski',
   'Tony Gonzalez',
   'Jason Witten',
-  'Terrel Owens', 
+  'Terrell Owens',
+  'Marshall Faulk', 
   'Antonio Gates',
   'Randy Moss',
   'Larry Fitzgerald', 
   'Julio Jones',
-  'Calvin Johnson', 
-  "Marshall Faulk"
+  'Calvin Johnson'
   )
+
+#join_these = players_stats |>
+#  filter(player_display_name %in% c(all_timers, active_player), position_group %in% c(
+#    'RB', 'TE', 'WR'
+#  )) |>
+#    select(player_display_name, position_group) |>
+#    distinct(player_display_name, .keep_all = TRUE) |>
+#    rename(receiver_full_name = player_display_name)
+#
+  
+#implied_probs_data = open_dataset('implied-probs') |>
+#  filter(receiver_full_name %in% c(all_timers, active_player)) |>
+#  collect() |>
+#  mutate(n_tds = as.factor(event)) |>
+# group_by(receiver_full_name, n_tds) |>
+#   median_qi(tds_scored_probs, .width = c(0.65, 0.95 )) |>
+#   left_join(join_these) |>
+#   mutate(
+#     pos_num = case_match(position_group, 'RB' ~ 1, 'TE' ~ 2, 'WR' ~ 3),
+#     active = ifelse(receiver_full_name %in% active_player, 'Active Player', 'Retired #Player'))
+#     
+#write_parquet(implied_probs_data,'writeup-dat/modern-v-modern-v-retired.parquet')
 
 plot_data = read_parquet('writeup-dat/modern-v-retired.parquet')
 
@@ -1933,7 +1917,8 @@ active_p = ggplot(
     labs(x = 'TD Scoring Probabilities',
         title = 'Active Players',
         y = NULL,
-        color = 'Number of TDs')
+        color = 'Number of TDs') +
+    theme(legend.position = 'none')
 
 retired_p = ggplot(
   data = filter(plot_data, active == 'Retired Player'),
@@ -1950,7 +1935,8 @@ retired_p = ggplot(
     stat_pointinterval(linewidth = 0.5, size = 0.5) +
     scale_color_met_d(name = 'Lakota') +
     labs(x = 'TD Scoring Probabilities',
-        y = NULL, color = 'Number of TDs',
+        y = NULL,
+        color = 'Number of TDs',
         title = 'Retired Players')
 
 active_p / retired_p + plot_layout(axis_titles = 'collect', guides = 'collect')

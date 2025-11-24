@@ -3,7 +3,6 @@ import polars as pl
 from pathlib import Path
 import sys
 
-
 pbp_folder = Path('pbp-data')
 pbp_folder.mkdir(exist_ok=True)
 
@@ -13,6 +12,8 @@ roster_folder.mkdir(exist_ok=True)
 year = int(sys.argv[1])
 
 pbp_df = nfl.load_pbp(seasons = year)
+
+
 
 pbp_file = pbp_folder / f"pbp-season-{year}.parquet"
 
