@@ -23,7 +23,19 @@ I love watching football and learning about football, with most of my working ti
 I got interested in [Alex Andora and Maximilian Göbel's Soccer Factor Model](https://arxiv.org/abs/2412.05911).^[I am American, so I will just call it Soccer and call American Football Football.] They extend a common model in asset pricing called the factor model to assess player skill. The general idea behind the factor model is that there are lots of macroeconomic variables that affect an asset. To assess the asset or the skill of the broker, we can assess the value of the asset or the broker by adjusting for these variables. Once we have adjusted for these variables, we can just look at the intercept and get our estimand of interest. Alex and Max extend this idea to soccer, where we are adjusting for macro-factors that affect the team. Whatever remains is attributable to a player's individual skill. They focus on goal scoring as a measurable aspect of a player's latent skill. 
 
 
+```{r}
+#| include: false
+#| echo: false
 
+
+# get reticulate to not be a pain to work with
+reticulate::use_python(Sys.getenv("RETICULATE_PYTHON"), required = TRUE)
+
+```
+
+
+:::{.panel-tabset}
+## R setup
 
 ```{r}
 #| label: r-setup
@@ -81,16 +93,7 @@ summary_stats = empirical_dat |>
 
 ```
 
-```{r}
-#| include: false
-#| echo: false
-
-
-# get reticulate to not be a pain to work with
-use_python(Sys.getenv("RETICULATE_PYTHON"), required = TRUE)
-
-```
-
+## Python Setup
 
 ```{python}
 #| label: python-setup
@@ -116,6 +119,9 @@ rng = np.random.default_rng(seed)
 plt.style.use('matplot-style.mplstyle')
 
 ```
+
+
+:::
 
 ```{r}
 #| label: fig-goals-tds-comparision
