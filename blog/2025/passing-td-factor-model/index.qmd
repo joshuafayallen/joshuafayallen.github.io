@@ -2,7 +2,7 @@
 title: Modeling Receiver Ability Bayesiansly
 format: html
 date-format: "MMM D, YYYY"
-description: "How Good is Your Favorite Wide Receiver?"
+description: "How Good is Your Favorite Pass Catcher?"
 categories:
   - r
   - python
