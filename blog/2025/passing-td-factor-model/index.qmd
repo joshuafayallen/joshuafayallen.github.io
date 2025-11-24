@@ -1231,6 +1231,7 @@ Now when we go to look at the posteriors for the GPs we do get a few odd random 
 ## Python
 
 ```{python}
+#| code-fold: true
 
 f_within_post = xr.open_dataarray('writeup-dat/games-hsgp.nc')
 f_long_post = xr.open_dataarray('writeup-dat/seasons-hsgp.nc')
@@ -1355,8 +1356,7 @@ games_hsgp = read_parquet('writeup-dat/games-hsgp.parquet') |>
   rename(.chain = chain, .iteration = draw) |>
   mutate(.draw = row_number())
 
-games_hsgp |>
-  glimpse()
+
 
 total_hsgp = read_parquet('writeup-dat/total_hsgp.parquet') |>
   rename(.chain = chain, .iteration = draw)
