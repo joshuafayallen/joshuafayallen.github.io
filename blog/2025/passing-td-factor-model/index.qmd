@@ -631,7 +631,7 @@ lg = ax.legend()
 
 ```
 
-The variance for the HSGPs are set by really looking at the observed proportions of TDs. I set it by looking at the proportion of 2-touchdown games. So, roughly what is the proportion of two-touchdown games we would expect to observe? In the actual data, there is about a 2% chance of a player having a two-touchdown game. However, during the model-building process, I found that setting the prior at 2% or 2.1% was causing the model to struggle sampling a bit. I ended up setting the prior to 3% and that seemed to help with sampling. 
+The variance for the HSGPs are set by really looking at the observed proportions of TDs. I set it by looking at the proportion of 2-touchdown games. So, roughly what is the proportion of two-touchdown games we would expect to observe? In the actual data, there is about a 2% chance of a player having a two-touchdown game. I found that depending on how you subset the data changing this parameter from 2.1% to 3% can make a pretty big difference with how the model is sampling. In addition, if you feed it a subset of data you are going to need to change how much the slope varies. 
 
 
 ```{r}
@@ -1846,8 +1846,6 @@ One of the downsides the `nflreadr` data is that we do not have prime Jerry Rice
 
 Players kind towards the end of their careers and at the beginning get short changed a bit but it is pretty to cool to see just how good some of these guys are. It is crazy to think that for some players that by the act of showing up they are pretty likely to score a touchdown! What is interesting is that for good pass-catching backs generally just increase their probability to about 25%. Which seems small but you are getting a touch more juice from a fantasy RB spot if they catch a touchdown and rush for a touchdown.
 
-
-:::{.panel-tabset}
 
 ```{r}
 #| code-fold: true
