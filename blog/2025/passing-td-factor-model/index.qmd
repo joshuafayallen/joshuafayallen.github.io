@@ -1105,6 +1105,8 @@ The Rhats for our HSGPs are at or really close to one, indicating that they are 
 #| echo: false
 
 read_parquet('writeup-dat/rhats.parquet') |>
+  mutate(Rhat = round(`0`, 2)) |>
+  select(-`0`) |>
   tinytable::tt()
 
 
@@ -1347,13 +1349,15 @@ games_hsgp = read_parquet('writeup-dat/games-hsgp.parquet') |>
   rename(.chain = chain, .iteration = draw) |>
   mutate(.draw = row_number())
 
+games_hsgp |>
+  glimpse()
 
 total_hsgp = read_parquet('writeup-dat/total_hsgp.parquet') |>
   rename(.chain = chain, .iteration = draw)
 
 clrs = met.brewer(name = 'Lakota')
 
-g = ggplot(games_hsgp, aes(x = gameday, y = f_games)) +
+g = ggplot(games_hsgp, aes(x = timestamp, y = f_games)) +
   geom_smooth(
     aes(group = .iteration),
     se = FALSE,
@@ -1365,7 +1369,7 @@ g = ggplot(games_hsgp, aes(x = gameday, y = f_games)) +
   labs(x = 'Weeks', y = 'Number of TDs')
 
 
-s = ggplot(seasons_hsgp, aes(x = seasons, y = f_season)) +
+s = ggplot(seasons_hsgp, aes(x = timestamp, y = f_season)) +
   geom_smooth(
     aes(group = .iteration),
     se = FALSE,
@@ -1885,7 +1889,7 @@ all_timers = c(
 #    distinct(player_display_name, .keep_all = TRUE) |>
 #    rename(receiver_full_name = player_display_name)
 #
-  
+#
 #implied_probs_data = open_dataset('implied-probs') |>
 #  filter(receiver_full_name %in% c(all_timers, active_player)) |>
 #  collect() |>
@@ -1897,9 +1901,12 @@ all_timers = c(
 #     pos_num = case_match(position_group, 'RB' ~ 1, 'TE' ~ 2, 'WR' ~ 3),
 #     active = ifelse(receiver_full_name %in% active_player, 'Active Player', 'Retired #Player'))
 #     
-#write_parquet(implied_probs_data,'writeup-dat/modern-v-modern-v-retired.parquet')
+#table(implied_probs_data$receiver_full_name)
+#
+#write_parquet(implied_probs_data,'writeup-dat/modern-v-retired.parquet')
 
 plot_data = read_parquet('writeup-dat/modern-v-retired.parquet')
+
 
 
 active_p = ggplot(
