@@ -696,9 +696,11 @@ cumulative_stats = (
         )
         .then(2)
         .otherwise(pl.col("rec_tds_game"))
-        .alias("rec_tds_game")  # or a new name if you prefer
+        .alias("rec_tds_game") 
     )
 )
+
+
 
 
 factors_numeric = [
@@ -1376,7 +1378,7 @@ plt.suptitle("Posterior GPs", fontsize=18)
 ```{r}
 #| code-fold: true
 
-# this is just to please ggdist
+# let just com
 
 seasons_hsgp = read_parquet('writeup-dat/seasons-hsgp.parquet') |>
   rename(.chain = chain, .iteration = draw) |>
@@ -1384,8 +1386,7 @@ seasons_hsgp = read_parquet('writeup-dat/seasons-hsgp.parquet') |>
   slice_sample(n = 50, by = .draw)
 
 games_hsgp = read_parquet('writeup-dat/games-hsgp.parquet') |>
-  rename(.chain = chain, .iteration = draw) |>
-  mutate(.draw = row_number())
+  rename(.chain = chain, .iteration = draw) 
 
 
 
@@ -1394,38 +1395,38 @@ total_hsgp = read_parquet('writeup-dat/total_hsgp.parquet') |>
 
 clrs = met.brewer(name = 'Lakota')
 
-g = ggplot(games_hsgp, aes(x = timestamp, y = f_games)) +
-  geom_smooth(
-    aes(group = .iteration),
-    se = FALSE,
-    alpha = 0.3,
-    color = clrs[3],
-    linewidth = 0.5
-  ) +
-  stat_lineribbon(.width = (0.89), alpha = 0.4, fill = clrs[1]) +
+g = ggplot(games_hsgp, aes(x = gameday, y = f_games)) +
+   geom_smooth(
+     aes(group = .iteration),
+     se = FALSE,
+     alpha = 0.2,
+     color = clrs[3],
+     linewidth = 0.5
+   ) +
+  stat_lineribbon(.width = (0.89), alpha = 0.7, fill = clrs[1], color = clrs[4], linewidth = 0.5) +
   labs(x = 'Weeks', y = 'Number of TDs')
 
 
-s = ggplot(seasons_hsgp, aes(x = timestamp, y = f_season)) +
+s = ggplot(seasons_hsgp, aes(x = seasons, y = f_season)) +
   geom_smooth(
-    aes(group = .iteration),
-    se = FALSE,
-    alpha = 0.3,
-    color = clrs[3],
-    linewidth = 0.5
-  ) +
-  stat_lineribbon(.width = (0.89), alpha = 0.4, fill = clrs[1]) +
+     aes(group = .iteration),
+     se = FALSE,
+     alpha = 0.2,
+     color = clrs[3],
+     linewidth = 0.5
+   ) +
+  stat_lineribbon(.width = (0.89), alpha = 0.7, fill = clrs[1], color = clrs[4], linewidth = 0.5)  +
   labs(x = 'Number of Seasons Played', y = 'Number of TDs')
 
 t = ggplot(total_hsgp, aes(x = timestamp, y = td_probs)) +
   geom_smooth(
-    aes(group = .iteration),
-    se = FALSE,
-    alpha = 0.3,
-    color = clrs[3],
-    linewidth = 0.5
-  ) +
-  stat_lineribbon(.width = (0.89), alpha = 0.4, fill = clrs[1]) +
+     aes(group = .iteration),
+     se = FALSE,
+     alpha = 0.2,
+     color = clrs[3],
+     linewidth = 0.5
+   ) +
+  stat_lineribbon(.width = (0.89), alpha = 0.7, fill = clrs[1], color = clrs[4], linewidth = 0.5)  +
   labs(x = 'Timestamp', y = 'Number of TDs')
 
 (g + s) / t

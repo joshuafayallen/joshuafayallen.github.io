@@ -738,8 +738,8 @@ f_total_post = f_long_post_aligned + f_within_post_aligned
 
 
 
-f_within_pl = pl.from_dataframe(f_within_post_aligned.to_dataframe())
-f_long_pl = pl.from_dataframe(f_long_post_aligned.to_dataframe())
+f_within_pl = pl.from_dataframe(f_within_post.to_dataframe())
+f_long_pl = pl.from_dataframe(f_seasons.to_dataframe())
 
 f_total_post_pl = pl.from_dataframe(f_total_post.to_dataframe(name = 'td_probs').reset_index())
 
