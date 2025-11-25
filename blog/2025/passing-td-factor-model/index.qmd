@@ -80,7 +80,21 @@ games_clean = games_dat |>
   distinct(number_of_games) |>
   pull(number_of_games)
 
-empirical_dat = read_parquet(here::here('writeup-dat', 'cleaned-data.parquet'))
+empirical_dat = read_parquet(here::here('writeup-dat', 'cleaned-data.parquet')) |>
+  # unclear what is going on but there are two 6 td games
+  # one by Kevin Kasper who had 2 tds that game 
+  # and Randy moss
+  mutate(
+    rec_tds_game = case_when(
+      receiver_full_name == 'Kevin Kasper' & rec_tds_game == 6 ~ 2,
+      receiver_full_name == 'Randy Moss' & rec_tds_game == 6 ~ 2,
+      .default = rec_tds_game
+    )
+  )
+
+
+
+
 
 
 summary_stats = empirical_dat |>
@@ -668,7 +682,24 @@ Before we introduce our model to the data lets go and look at what our predictio
 #| code-fold: true
 #| label: build-model
 
-cumulative_stats = pl.read_parquet("writeup-dat/cleaned-data.parquet")
+cumulative_stats = (
+    pl.read_parquet("writeup-dat/cleaned-data.parquet")
+    .with_columns(
+        pl.when(
+            (pl.col("receiver_full_name") == "Kevin Kasper")
+            & (pl.col("rec_tds_game") == 6)
+        )
+        .then(2)
+        .when(
+            (pl.col("receiver_full_name") == "Randy Moss")
+            & (pl.col("rec_tds_game") == 6)
+        )
+        .then(2)
+        .otherwise(pl.col("rec_tds_game"))
+        .alias("rec_tds_game")  # or a new name if you prefer
+    )
+)
+
 
 factors_numeric = [
     "player_rest_diff",
