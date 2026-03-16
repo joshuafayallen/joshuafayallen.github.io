@@ -80,7 +80,21 @@ games_clean = games_dat |>
   distinct(number_of_games) |>
   pull(number_of_games)
 
-empirical_dat = read_parquet(here::here('writeup-dat', 'cleaned-data.parquet'))
+empirical_dat = read_parquet(here::here('writeup-dat', 'cleaned-data.parquet')) |>
+  # unclear what is going on but there are two 6 td games
+  # one by Kevin Kasper who had 2 tds that game 
+  # and Randy moss
+  mutate(
+    rec_tds_game = case_when(
+      receiver_full_name == 'Kevin Kasper' & rec_tds_game == 6 ~ 2,
+      receiver_full_name == 'Randy Moss' & rec_tds_game == 6 ~ 2,
+      .default = rec_tds_game
+    )
+  )
+
+
+
+
 
 
 summary_stats = empirical_dat |>
@@ -668,7 +682,26 @@ Before we introduce our model to the data lets go and look at what our predictio
 #| code-fold: true
 #| label: build-model
 
-cumulative_stats = pl.read_parquet("writeup-dat/cleaned-data.parquet")
+cumulative_stats = (
+    pl.read_parquet("writeup-dat/cleaned-data.parquet")
+    .with_columns(
+        pl.when(
+            (pl.col("receiver_full_name") == "Kevin Kasper")
+            & (pl.col("rec_tds_game") == 6)
+        )
+        .then(2)
+        .when(
+            (pl.col("receiver_full_name") == "Randy Moss")
+            & (pl.col("rec_tds_game") == 6)
+        )
+        .then(2)
+        .otherwise(pl.col("rec_tds_game"))
+        .alias("rec_tds_game") 
+    )
+)
+
+
+
 
 factors_numeric = [
     "player_rest_diff",
@@ -1345,7 +1378,7 @@ plt.suptitle("Posterior GPs", fontsize=18)
 ```{r}
 #| code-fold: true
 
-# this is just to please ggdist
+# let just com
 
 seasons_hsgp = read_parquet('writeup-dat/seasons-hsgp.parquet') |>
   rename(.chain = chain, .iteration = draw) |>
@@ -1353,8 +1386,7 @@ seasons_hsgp = read_parquet('writeup-dat/seasons-hsgp.parquet') |>
   slice_sample(n = 50, by = .draw)
 
 games_hsgp = read_parquet('writeup-dat/games-hsgp.parquet') |>
-  rename(.chain = chain, .iteration = draw) |>
-  mutate(.draw = row_number())
+  rename(.chain = chain, .iteration = draw) 
 
 
 
@@ -1363,38 +1395,38 @@ total_hsgp = read_parquet('writeup-dat/total_hsgp.parquet') |>
 
 clrs = met.brewer(name = 'Lakota')
 
-g = ggplot(games_hsgp, aes(x = timestamp, y = f_games)) +
-  geom_smooth(
-    aes(group = .iteration),
-    se = FALSE,
-    alpha = 0.3,
-    color = clrs[3],
-    linewidth = 0.5
-  ) +
-  stat_lineribbon(.width = (0.89), alpha = 0.4, fill = clrs[1]) +
+g = ggplot(games_hsgp, aes(x = gameday, y = f_games)) +
+   geom_smooth(
+     aes(group = .iteration),
+     se = FALSE,
+     alpha = 0.2,
+     color = clrs[3],
+     linewidth = 0.5
+   ) +
+  stat_lineribbon(.width = (0.89), alpha = 0.7, fill = clrs[1], color = clrs[4], linewidth = 0.5) +
   labs(x = 'Weeks', y = 'Number of TDs')
 
 
-s = ggplot(seasons_hsgp, aes(x = timestamp, y = f_season)) +
+s = ggplot(seasons_hsgp, aes(x = seasons, y = f_season)) +
   geom_smooth(
-    aes(group = .iteration),
-    se = FALSE,
-    alpha = 0.3,
-    color = clrs[3],
-    linewidth = 0.5
-  ) +
-  stat_lineribbon(.width = (0.89), alpha = 0.4, fill = clrs[1]) +
+     aes(group = .iteration),
+     se = FALSE,
+     alpha = 0.2,
+     color = clrs[3],
+     linewidth = 0.5
+   ) +
+  stat_lineribbon(.width = (0.89), alpha = 0.7, fill = clrs[1], color = clrs[4], linewidth = 0.5)  +
   labs(x = 'Number of Seasons Played', y = 'Number of TDs')
 
 t = ggplot(total_hsgp, aes(x = timestamp, y = td_probs)) +
   geom_smooth(
-    aes(group = .iteration),
-    se = FALSE,
-    alpha = 0.3,
-    color = clrs[3],
-    linewidth = 0.5
-  ) +
-  stat_lineribbon(.width = (0.89), alpha = 0.4, fill = clrs[1]) +
+     aes(group = .iteration),
+     se = FALSE,
+     alpha = 0.2,
+     color = clrs[3],
+     linewidth = 0.5
+   ) +
+  stat_lineribbon(.width = (0.89), alpha = 0.7, fill = clrs[1], color = clrs[4], linewidth = 0.5)  +
   labs(x = 'Timestamp', y = 'Number of TDs')
 
 (g + s) / t
