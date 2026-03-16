@@ -670,7 +670,8 @@ There are a lot of practical friction points with using the `MMM` class from `Py
 from nflreadpy import load_pbp
 import matplotlib.dates as mdates
 
-raw_nfl = pl.read_parquet('blog-post-data/pbp-data.parquet')
+raw1 = pl.read_parquet('blog-post-data/pbp-data1.parquet')
+raw2 = pl.read_parquet('blog-post-data/pbp-data2.parquet')
 
 make_explosives = (
     raw_nfl
