@@ -673,6 +673,8 @@ import matplotlib.dates as mdates
 raw1 = pl.read_parquet('blog-post-data/pbp-data1.parquet')
 raw2 = pl.read_parquet('blog-post-data/pbp-data2.parquet')
 
+raw_nfl = pl.concat([raw1, raw2], how = 'diagonal_relaxed')
+
 make_explosives = (
     raw_nfl
     .filter(pl.col('season_type') == 'REG')
