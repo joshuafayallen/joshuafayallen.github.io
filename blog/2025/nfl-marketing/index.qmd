@@ -1015,13 +1015,12 @@ def plot_prior(trace ,param: str):
     fig, axe = plt.subplots()
     return az.plot_dist(trace.prior[param])
 
-raw1 = pl.read_parquet('blog-post-data/pbp-data1.parquet')
-raw2 = pl.read_parquet('blog-post-data/pbp-data2.parquet')
+
 
 raw_data = pl.concat([raw1, raw2], how = 'diagonal_relaxed')
 
 raw_data = (
-    raw_data
+    pl.read_parquet('processed-data/processed-dat.parquet')
     .with_columns(
         pl.col('nflverse_game_id')
         .str.extract(r"_(\d{2})_")
