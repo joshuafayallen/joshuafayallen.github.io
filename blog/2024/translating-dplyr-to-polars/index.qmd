@@ -1,5 +1,5 @@
 ---
-title: "Translating What I know in the tidyverse to polars:"
+title: "Translating What I know in the tidyverse to Python:"
 date: last-modified
 date-format: "MMM D, YYYY"
 description: "This is me learning the snake language"
@@ -16,7 +16,6 @@ jupyter: python3
 ---
 
 
-I suppose at some point it is good to become more well versed in lots of tools. I have been python curious for about a year or so and I think it is important to use the tool best suited for the task. Also sometimes it is important to get out of your comfort zone. I am definitely somebody who is very comfortable in R and the `tidyverse` and use it for a lot of stuff. I have heard lots of ravings about polars specifically about its speed and similarities in intuition with the tidyverse. So I thought I would have a collection of code for myself and the people of the internet to reference. 
 
 
 Just a disclaimer. This is really just me working through the similarities and is going to be based on the [tidyintelligence's blog post](https://blog.tidy-intelligence.com/posts/dplyr-vs-polars/), [Robert Mitchell's blog post](https://robertmitchellv.com/blog/2022-07-r-python-side-by-side/r-python-side-by-side.html), and [Emily Rieder's blog post](https://www.emilyriederer.com/post/py-rgo-polars/). In all honesty, this is just for me to smash them together to have a one-stop shop for myself. If you found this post over these resources I highly recommend you check out these resources. 
@@ -197,8 +196,9 @@ filter(species == "Adelie", body_mass_g > mean(body_mass_g, na.rm = TRUE))
 ```{python}
 #| error: true
 
-penguins.filter((pl.col("species") == "Adelie") &
-                (pl.col("body_mass_g") > pl.col("body_mass_g").mean()))
+(penguins
+       .filter((pl.col("species") == "Adelie") &
+         (pl.col("body_mass_g") > pl.col("body_mass_g").mean())))
 
 
 
@@ -233,8 +233,11 @@ filter(species %in% c("Gentoo", "Chinstrap"),
 ```{python}
 #| error: true
 
-penguins.filter((pl.col("species").is_in(["Chinstrap", "Gentoo"])) & 
-                (pl.col("bill_depth_mm") > pl.col("bill_depth_mm").median()))
+(
+       penguins
+       .filter((pl.col("species").is_in(["Chinstrap", "Gentoo"])) & 
+              (pl.col("bill_depth_mm") > pl.col("bill_depth_mm").median()))
+)
 
 
 ```

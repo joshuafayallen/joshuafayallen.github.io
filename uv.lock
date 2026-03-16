@@ -2670,6 +2670,31 @@ wheels = [
 ]
 
 [[package]]
+name = "pymc-marketing"
+version = "0.17.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "arviz" },
+    { name = "matplotlib" },
+    { name = "numpy" },
+    { name = "pandas" },
+    { name = "preliz" },
+    { name = "pydantic" },
+    { name = "pymc" },
+    { name = "pymc-extras" },
+    { name = "pyprojroot" },
+    { name = "pytensor" },
+    { name = "scikit-learn" },
+    { name = "seaborn" },
+    { name = "xarray" },
+    { name = "xarray-einstats" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/55/eb/65337dd211508d93e30bc3c9691bc0905a984786128100e48ce7294f5c6d/pymc_marketing-0.17.1.tar.gz", hash = "sha256:d05a5f8d5faf89c356022b0b7a1c0d9f52597e6c4b914c1ef0561e0cb14ef3b5", size = 2760034 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a2/a5/a9d1a08a71ce85a49417356156498ffeb2d47fff28ac6999b765a1efc753/pymc_marketing-0.17.1-py3-none-any.whl", hash = "sha256:73b18d5b651e7911c307c8c34ceeba39817eeca347b2ecd00dbb482d20343318", size = 375261 },
+]
+
+[[package]]
 name = "pymdown-extensions"
 version = "10.17.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2689,6 +2714,18 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/f2/a5/181488fc2b9d093e3972d2a472855aae8a03f000592dbfce716a512b3359/pyparsing-3.2.5.tar.gz", hash = "sha256:2df8d5b7b2802ef88e8d016a2eb9c7aeaa923529cd251ed0fe4608275d4105b6", size = 1099274 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/10/5e/1aa9a93198c6b64513c9d7752de7422c06402de6600a8767da1524f9570b/pyparsing-3.2.5-py3-none-any.whl", hash = "sha256:e38a4f02064cf41fe6593d328d0512495ad1f3d8a91c4f73fc401b3079a59a5e", size = 113890 },
+]
+
+[[package]]
+name = "pyprojroot"
+version = "0.3.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ec/7f/d04044efe4acc4185db1174209fadac33cc21c015ed0d6bef8884c9fa808/pyprojroot-0.3.0.tar.gz", hash = "sha256:109705bb790968704958efcfc5ccce85d8e3dafa054897cc81371fcbbf56cb10", size = 6287 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/53/9b/eef01392be945c0fe86a8d084ba9188b1e2b22af037d7109b9f40a962cd0/pyprojroot-0.3.0-py3-none-any.whl", hash = "sha256:c426b51b17ab4f4d4f95b479cf5b6c22df59bb58fbd4f01b37a6977d29b99888", size = 7558 },
 ]
 
 [[package]]
@@ -2873,6 +2910,7 @@ dependencies = [
     { name = "pyjanitor" },
     { name = "pymc" },
     { name = "pymc-extras" },
+    { name = "pymc-marketing" },
     { name = "scikit-learn" },
     { name = "scipy" },
     { name = "seaborn" },
@@ -2910,6 +2948,7 @@ requires-dist = [
     { name = "pyjanitor", specifier = ">=0.31.0" },
     { name = "pymc", specifier = "==5.26.1" },
     { name = "pymc-extras", specifier = ">=0.5.0" },
+    { name = "pymc-marketing", specifier = ">=0.17.1" },
     { name = "scikit-learn", specifier = ">=1.7.2" },
     { name = "scipy", specifier = ">=1.16.1" },
     { name = "seaborn", specifier = ">=0.13.2" },
