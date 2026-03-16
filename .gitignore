@@ -5,7 +5,8 @@
 .Rproj.user
 /.luarc.json
 .venv
-.DS_Store
+*.DS_Store
+*.nc
 
 
 blog/2025/passing-td-factor-model/roster-data/
