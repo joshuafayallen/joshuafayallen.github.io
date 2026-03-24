@@ -36,3 +36,5 @@ blog/2025/passing-td-factor-model/implied-probs/
 blog/2025/nfl-marketing/ordered_beta_dat.csv
 
 blog/2025/nfl-marketing/raw_data/participation-small.csv
+
+blog/2025/nfl-marketing/blog-post-data/pbp-data.parquet
