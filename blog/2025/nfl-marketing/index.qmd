@@ -188,34 +188,20 @@ Next we are going to pass each of these through our adstock function. In media m
 #| code-fold: True
 #| label: make-adstock
 
-alpha1: float = 0.4 
+
+alpha1: float = 0.4
 alpha2: float = 0.2
 
-df = (
-    df
-    .with_columns(
-        pl.col('x1')
-        .map_batches(
-            lambda s: geometric_adstock(
-                x = s.to_numpy(),
-                alpha = alpha1,
-                l_max = 8,
-                normalize=True
-            ).eval().flatten(), 
-            return_dtype=pl.Float64
-        ).alias('x1_adstock'),
-        pl.col('x2')
-        .map_batches(
-            lambda s: geometric_adstock(
-                x = s.to_numpy(),
-                alpha = alpha2,
-                l_max = 8,
-                normalize=True
-            ).eval().flatten(), 
-            return_dtype=pl.Float64
-        ).alias('x2_adstock')
-    )
-)
+
+df = df.to_pandas()
+
+df["x1_adstock"] = geometric_adstock(
+    x=df["x1"].to_xarray(), alpha=alpha1, l_max=8, normalize=True, dim="index"
+).eval()
+
+df["x2_adstock"] = geometric_adstock(
+    x=df["x2"].to_xarray(), alpha=alpha2, l_max=8, normalize=True, dim="index"
+).eval()
 
 
 ```
@@ -229,31 +215,13 @@ The next thing we are going to do is add our concentration effects or how much m
 lam1: float = 4.0
 lam2: float = 3.0
 
+df["x1_adstock_saturated"] = logistic_saturation(
+    x=df["x1_adstock"].to_xarray(), lam=lam1
+).eval()
 
-df = (
-    df
-    .with_columns(
-        pl.col('x1_adstock')
-        .map_batches(
-            lambda s: 
-            logistic_saturation(
-                x = s.to_numpy(),
-                lam = lam1
-            ).eval().flatten(), 
-            return_dtype=pl.Float64
-        ).alias('x1_saturated_adstock'), 
-        pl.col('x2_adstock')
-        .map_batches(
-            lambda s: 
-            logistic_saturation(
-                x = s.to_numpy(),
-                lam = lam1
-            ).eval().flatten(), 
-            return_dtype=pl.Float64
-        ).alias('x2_saturated_adstock')
-    )
-)
-
+df["x2_adstock_saturated"] = logistic_saturation(
+    x=df["x2_adstock"].to_xarray(), lam=lam2
+).eval()
 
 ```
 
@@ -261,7 +229,7 @@ Then as always we are going to plot this to make sure everything is good.
 
 
 ```{python}
-long_effects = df.unpivot(on = cs.starts_with('x'), index = 'date_week')
+long_effects = pl.from_pandas(df).unpivot(on = cs.starts_with('x'), index = 'date_week')
 
 g = sns.FacetGrid(data= long_effects, col = 'variable', col_wrap = 2)
 g.map(sns.lineplot, 'date_week', 'value')
@@ -280,6 +248,8 @@ Now we are going to add some seasonality
 ```{python}
 #| code-fold: true
 import math 
+df = pl.from_pandas(df)
+
 df = df.with_columns(
     trend=(
         pl.linear_space(0.0, 50.0, n)  # sequence 0..50 with n samples
