@@ -397,37 +397,6 @@ The whole stick of using Bayesian stats is to set appropriate priors. We know at
 - We kind of expect channels where we spend the most to have more attributed sales. We wouldn't advertise a product targeted for an older audience on TikTok as an example. 
 
 
-The `MMM` class in `PyMC-Marketing` passes parts of your data through the `MaxABs` scaler in `scikit-learn`. So we have to express our priors in on this scale. So what would normally be a weakly informative prior may actually be super informative. 
-
-
-```{python}
-
-from sklearn.preprocessing import MaxAbsScaler
-scaler = MaxAbsScaler()
-
-examp = (
-    df
-    .with_columns(
-        pl.col('x1_saturated_adstock')
-        .map_batches(
-            lambda s: scaler.fit_transform(s.to_numpy().reshape(-1,1)).ravel(),
-            return_dtype = pl.Float64
-        ).alias('scaled_version')
-    )
-)
-
-long = examp.unpivot(on = ['x1_saturated_adstock', 'scaled_version'], index= 'date_week')
-
-fig,ax = plt.subplots()
-sns.scatterplot(data = long, x = 'date_week', y= 'value', hue = 'variable')
-
-
-```
-
-
-We are going to define our sigma priors as a share of what we spend on them. 
-
-
 ```{python}
 
 spend_per_channel = mod_df[['x1', 'x2']].sum(axis = 0)
