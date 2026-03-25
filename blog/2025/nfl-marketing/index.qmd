@@ -417,7 +417,7 @@ Next we are just going to define some priors.
 
 
 ```{python}
-#| label: fit-mmm-examp
+#| label: build-mmm-examp
 my_priors= {
     "intercept": Prior("Normal", mu=0.5, sigma=0.2),
     "adstock_alpha": Prior("Beta", alpha=1, beta=3, dims="channel"),
@@ -453,18 +453,6 @@ mmm.add_original_scale_contribution_variable(
     ]
 )
 
-
-```
-
-
-As always we should look a the prior predictive to make sure things look good 
-
-
-```{python}
-
-mmm.sample_prior_predictive(X,y)
-
-fig,axes = mmm.plot.prior_predictive()
 
 ```
 
