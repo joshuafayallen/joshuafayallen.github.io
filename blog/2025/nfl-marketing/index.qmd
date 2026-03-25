@@ -196,11 +196,11 @@ alpha2: float = 0.2
 df = df.to_pandas()
 
 df["x1_adstock"] = geometric_adstock(
-    x=df["x1"].to_xarray(), alpha=alpha1, l_max=8, normalize=True, dim="index"
+    x=df["x1"].to_xarray(), alpha=alpha1, l_max=8, normalize=True
 ).eval()
 
 df["x2_adstock"] = geometric_adstock(
-    x=df["x2"].to_xarray(), alpha=alpha2, l_max=8, normalize=True, dim="index"
+    x=df["x2"].to_xarray(), alpha=alpha2, l_max=8, normalize=True
 ).eval()
 
 
