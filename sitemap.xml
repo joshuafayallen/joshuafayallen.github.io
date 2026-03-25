@@ -2,46 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://joshuafayallen.github.io/teaching/index.html</loc>
-    <lastmod>2025-12-08T14:21:38.201Z</lastmod>
+    <lastmod>2026-03-25T21:35:40.947Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/index.html</loc>
-    <lastmod>2025-12-08T14:21:38.187Z</lastmod>
+    <lastmod>2026-03-25T21:35:40.929Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/blog/2025/passing-td-factor-model/index.html</loc>
-    <lastmod>2025-12-08T14:21:37.375Z</lastmod>
-  </url>
-  <url>
-    <loc>https://joshuafayallen.github.io/blog/2024/translating-dplyr-to-polars/index.html</loc>
-    <lastmod>2025-12-08T14:21:37.371Z</lastmod>
-  </url>
-  <url>
-    <loc>https://joshuafayallen.github.io/blog/2022/2021-11-25-what-to-do-when-you-break-r/index.html</loc>
-    <lastmod>2025-12-08T14:21:37.370Z</lastmod>
-  </url>
-  <url>
-    <loc>https://joshuafayallen.github.io/CV/index.html</loc>
-    <lastmod>2025-12-08T14:21:37.302Z</lastmod>
-  </url>
-  <url>
-    <loc>https://joshuafayallen.github.io/about.html</loc>
-    <lastmod>2025-12-08T14:21:37.370Z</lastmod>
-  </url>
-  <url>
-    <loc>https://joshuafayallen.github.io/blog/2024/python-notes/index.html</loc>
-    <lastmod>2025-12-08T14:21:37.371Z</lastmod>
+    <lastmod>2026-03-25T21:35:40.097Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/blog/2024/translating-tidyverse-to-sql/index.html</loc>
-    <lastmod>2025-12-08T14:21:37.372Z</lastmod>
+    <lastmod>2026-03-25T21:35:39.513Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2024/python-notes/index.html</loc>
+    <lastmod>2026-03-25T21:35:39.512Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/about.html</loc>
+    <lastmod>2026-03-25T21:35:39.511Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/CV/index.html</loc>
+    <lastmod>2026-03-25T21:35:39.437Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2022/2021-11-25-what-to-do-when-you-break-r/index.html</loc>
+    <lastmod>2026-03-25T21:35:39.512Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2024/translating-dplyr-to-polars/index.html</loc>
+    <lastmod>2026-03-25T21:35:39.512Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/index.html</loc>
+    <lastmod>2026-03-25T21:35:40.073Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/blog/index.html</loc>
-    <lastmod>2025-12-08T14:21:38.111Z</lastmod>
+    <lastmod>2026-03-25T21:35:40.846Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/research/index.html</loc>
-    <lastmod>2025-12-08T14:21:38.197Z</lastmod>
+    <lastmod>2026-03-25T21:35:40.943Z</lastmod>
   </url>
 </urlset>

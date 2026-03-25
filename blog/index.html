@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>Blog</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -35,15 +38,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-18f506b57f714063b1bc4f552004e8bd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-0f741d5adbec1251fc00c8384699e36c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -81,9 +83,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-project','listing-freeze','listing-website','listing-format','listing-knitr','listing-language','listing-title','listing-date','listing-description','listing-categories','listing-path','listing-outputHref','listing-date-modified','listing-author','listing-filename','listing-file-modified','listing-reading-time','listing-word-count',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
+      valueNames: ['listing-project','listing-freeze','listing-website','listing-format','listing-knitr','listing-engines','listing-language','listing-title','listing-date','listing-description','listing-categories','listing-path','listing-outputHref','listing-date-modified','listing-author','listing-filename','listing-file-modified','listing-reading-time','listing-word-count',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
       
-      searchColumns: ["listing-project","listing-freeze","listing-website","listing-format","listing-knitr","listing-language","listing-title","listing-date","listing-description","listing-categories","listing-path","listing-outputHref","listing-date-modified","listing-author","listing-filename","listing-file-modified","listing-reading-time","listing-word-count"],
+      searchColumns: ["listing-project","listing-freeze","listing-website","listing-format","listing-knitr","listing-engines","listing-language","listing-title","listing-date","listing-description","listing-categories","listing-path","listing-outputHref","listing-date-modified","listing-author","listing-filename","listing-file-modified","listing-reading-time","listing-word-count"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -109,9 +111,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-project','listing-freeze','listing-website','listing-format','listing-knitr','listing-language','listing-title','listing-date','listing-date-format','listing-description','listing-categories','listing-path','listing-outputHref','listing-date-modified','listing-author','listing-filename','listing-file-modified','listing-reading-time','listing-word-count','listing-jupyter',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
+      valueNames: ['listing-project','listing-freeze','listing-website','listing-format','listing-knitr','listing-engines','listing-language','listing-title','listing-date','listing-date-format','listing-description','listing-categories','listing-path','listing-outputHref','listing-date-modified','listing-author','listing-filename','listing-file-modified','listing-reading-time','listing-word-count','listing-jupyter',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
       
-      searchColumns: ["listing-project","listing-freeze","listing-website","listing-format","listing-knitr","listing-language","listing-title","listing-date","listing-date-format","listing-description","listing-categories","listing-path","listing-outputHref","listing-date-modified","listing-author","listing-filename","listing-file-modified","listing-reading-time","listing-word-count","listing-jupyter"],
+      searchColumns: ["listing-project","listing-freeze","listing-website","listing-format","listing-knitr","listing-engines","listing-language","listing-title","listing-date","listing-date-format","listing-description","listing-categories","listing-path","listing-outputHref","listing-date-modified","listing-author","listing-filename","listing-file-modified","listing-reading-time","listing-word-count","listing-jupyter"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -137,9 +139,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-project','listing-freeze','listing-website','listing-format','listing-knitr','listing-language','listing-title','listing-date-format','listing-description','listing-categories','listing-execute','listing-path','listing-outputHref','listing-author','listing-filename','listing-file-modified','listing-reading-time','listing-word-count',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
+      valueNames: ['listing-project','listing-freeze','listing-website','listing-format','listing-knitr','listing-engines','listing-language','listing-title','listing-subtitle','listing-execute','listing-path','listing-outputHref','listing-author','listing-description','listing-filename','listing-file-modified','listing-reading-time','listing-word-count','listing-date-format','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
       
-      searchColumns: ["listing-project","listing-freeze","listing-website","listing-format","listing-knitr","listing-language","listing-title","listing-date-format","listing-description","listing-categories","listing-execute","listing-path","listing-outputHref","listing-author","listing-filename","listing-file-modified","listing-reading-time","listing-word-count"],
+      searchColumns: ["listing-project","listing-freeze","listing-website","listing-format","listing-knitr","listing-engines","listing-language","listing-title","listing-subtitle","listing-execute","listing-path","listing-outputHref","listing-author","listing-description","listing-filename","listing-file-modified","listing-reading-time","listing-word-count","listing-date-format","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -158,7 +160,7 @@ ul.task-list li input[type="checkbox"] {
   </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -259,7 +261,7 @@ window.Quarto = {
   <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2">2025</a></li>
   </ul>
 </nav>
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(5)</span></div><div class="category" data-category="YmF5ZXM=">bayes <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cG9sYXJz">polars <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cHltYw==">pymc <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cHl0aG9u">python <span class="quarto-category-count">(3)</span></div><div class="category" data-category="cg==">r <span class="quarto-category-count">(4)</span></div><div class="category" data-category="dGlkeXZlcnNl">tidyverse <span class="quarto-category-count">(3)</span></div><div class="category" data-category="enNo">zsh <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(6)</span></div><div class="category" data-category="YmF5ZXM=">bayes <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cG9sYXJz">polars <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cHltYw==">pymc <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cHl0aG9u">python <span class="quarto-category-count">(3)</span></div><div class="category" data-category="cg==">r <span class="quarto-category-count">(4)</span></div><div class="category" data-category="dGlkeXZlcnNl">tidyverse <span class="quarto-category-count">(3)</span></div><div class="category" data-category="enNo">zsh <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
@@ -287,7 +289,7 @@ window.Quarto = {
 <div id="listing-posts_2022" class="quarto-listing quarto-listing-container-custom">
 <div class="list blog">
     
-    <div class="blog-entry" data-index="0" data-categories="ciUyQ3pzaA==" data-listing-date-sort="1640995200000" data-listing-file-modified-sort="1765203697370" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="458">
+    <div class="blog-entry" data-index="0" data-categories="ciUyQ3pzaA==" data-listing-date-sort="1640995200000" data-listing-file-modified-sort="1774474539512" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="458">
         <div class="metadata">          
             <p class="date listing-date">January 1, 2022</p>
         </div>
@@ -322,7 +324,7 @@ window.Quarto = {
 <div id="listing-posts_2024" class="quarto-listing quarto-listing-container-custom">
 <div class="list blog">
     
-    <div class="blog-entry" data-index="0" data-listing-file-modified-sort="1765203697372" data-listing-reading-time-sort="27" data-listing-word-count-sort="5357">
+    <div class="blog-entry" data-index="0" data-listing-file-modified-sort="1774474539513" data-listing-reading-time-sort="27" data-listing-word-count-sort="5357">
         <div class="metadata">          
             <p class="date listing-date"></p>
         </div>
@@ -336,9 +338,9 @@ window.Quarto = {
         
     </div>
     
-    <div class="blog-entry" data-index="1" data-categories="ciUyQ3RpZHl2ZXJzZSUyQ3B5dGhvbg==" data-listing-date-sort="1765203697000" data-listing-file-modified-sort="1765203697371" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3300">
+    <div class="blog-entry" data-index="1" data-categories="ciUyQ3RpZHl2ZXJzZSUyQ3B5dGhvbg==" data-listing-date-sort="1774474539000" data-listing-file-modified-sort="1774474539512" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3300">
         <div class="metadata">          
-            <p class="date listing-date">December 8, 2025</p>
+            <p class="date listing-date">March 25, 2026</p>
         </div>
         <div class="body">
             <p class="title listing-title"><a href="../blog/2024/python-notes/index.html">R to Python: Just the basics</a></p>
@@ -366,12 +368,12 @@ window.Quarto = {
         
     </div>
     
-    <div class="blog-entry" data-index="2" data-categories="ciUyQ3RpZHl2ZXJzZSUyQ3B5dGhvbiUyQ3BvbGFycw==" data-listing-date-sort="1765203697000" data-listing-file-modified-sort="1765203697371" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22" data-listing-word-count-sort="4290">
+    <div class="blog-entry" data-index="2" data-categories="ciUyQ3RpZHl2ZXJzZSUyQ3B5dGhvbiUyQ3BvbGFycw==" data-listing-date-sort="1774474539000" data-listing-file-modified-sort="1774474539512" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4187">
         <div class="metadata">          
-            <p class="date listing-date">December 8, 2025</p>
+            <p class="date listing-date">March 25, 2026</p>
         </div>
         <div class="body">
-            <p class="title listing-title"><a href="../blog/2024/translating-dplyr-to-polars/index.html">Translating What I know in the tidyverse to polars:</a></p>
+            <p class="title listing-title"><a href="../blog/2024/translating-dplyr-to-polars/index.html">Translating What I know in the tidyverse to Python:</a></p>
 
             
             <div class="post-categories listing-categories">
@@ -409,7 +411,21 @@ window.Quarto = {
 <div id="listing-posts_2025" class="quarto-listing quarto-listing-container-custom">
 <div class="list blog">
     
-    <div class="blog-entry" data-index="0" data-categories="ciUyQ3B5dGhvbiUyQ2JheWVzJTJDdGlkeXZlcnNlJTJDcHltYyUyQ3BvbGFycw==" data-listing-file-modified-sort="1765203697375" data-listing-reading-time-sort="59" data-listing-word-count-sort="11788">
+    <div class="blog-entry" data-index="0" data-listing-file-modified-sort="1774474540073" data-listing-reading-time-sort="98" data-listing-word-count-sort="19429">
+        <div class="metadata">          
+            <p class="date listing-date"></p>
+        </div>
+        <div class="body">
+            <p class="title listing-title"><a href="../blog/2025/nfl-marketing/index.html">What Marketing Taught Me About Football</a></p>
+
+            
+
+            <p class="description listing-description">The rise of McVay’s use of 13 personnel made me think of an old <em>Athletic Football Show</em> episode where they pointed out the use of auxiliary runs to get to explosives. This…</p>
+        </div>
+        
+    </div>
+    
+    <div class="blog-entry" data-index="1" data-categories="ciUyQ3B5dGhvbiUyQ2JheWVzJTJDdGlkeXZlcnNlJTJDcHltYyUyQ3BvbGFycw==" data-listing-file-modified-sort="1774474540097" data-listing-reading-time-sort="59" data-listing-word-count-sort="11788">
         <div class="metadata">          
             <p class="date listing-date"></p>
         </div>
