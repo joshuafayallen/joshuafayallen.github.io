@@ -688,7 +688,7 @@ import matplotlib.dates as mdates
 
 pbp_1 = pl.read_parquet('blog-post-data/pbp-data1.parquet')
 pbp_2 = pl.read_parquet('blog-post-data/pbp-data2.parquet')
-raw_data = pl.concat([pb_1, pbp_2], how = 'diagonal')
+raw_data = pl.concat([pbp_1, pbp_2], how = 'diagonal')
 
 make_explosives = (
     raw_data
