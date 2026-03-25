@@ -119,7 +119,6 @@ min_date = date(2018, 4,1)
 max_date= date(2021, 9, 1)
 plt.rcParams['figure.figsize'] = [12,7]
 
-pytensor.config.gcc__cxxflags='-march=armv8-a'
 
 ```
 
@@ -565,7 +564,6 @@ plt.ylabel('Saturated Marketing Spend')
 plt.legend(title='Lambda')
 plt.show()
 
-plt.savefig('figs/example-saturation.png')
 
 ```
 
@@ -581,7 +579,7 @@ So after that long aside lets fit the model.
 
 
 ```{python}
-
+#| eval: false
 mmm.fit(X = X, 
         y = y)
 
@@ -591,7 +589,7 @@ Then we plot can check how we did by plotting the posterior predictive.
 
 
 ```{python}
-
+#| eval: false
 mmm.sample_posterior_predictive(X=X, random_seed = seed)
 
 fig, axes = mmm.plot.posterior_predictive(var=["y_original_scale"], hdi_prob=0.94)
@@ -600,7 +598,13 @@ sns.lineplot(
 );
 
 
+
 ```
+
+<center> 
+![](figs/ppc-fake-mmm.png)
+</center>
+
 
 Importatly the entire bit of MMMs are that we can see the channel contributions over time. Importantly we want to see how impactful our spending campaign in comparision to our baseline. If say we spend 2 million dollars worth of ads across our two channels and we only see a lift of about $500,000 across the two channels. Does the additional spend actual meaningfully shift sales?If you are Coke then probably not but if you are upstart soda company this may be a potentially huge lift. 
 
@@ -608,6 +612,7 @@ Importatly the entire bit of MMMs are that we can see the channel contributions 
 ```{python}
 #| code-fold: true
 #| label: make-contribution-plot
+#| eval: false
 base_contributions = (
     mmm.idata["posterior"]["intercept_contribution_original_scale"]
     + mmm.idata["posterior"]["control_contribution_original_scale"].sum(dim="control")
@@ -653,7 +658,13 @@ sns.lineplot(data=df, x="date_week", y="y", color="black", label="Observed", ax=
 ax.legend(loc="upper left")
 ax.set(xlabel="date", ylabel="y")
 fig.suptitle("Contribution Breakdown over Time", fontsize=16, fontweight="bold");
+
+
 ```
+
+<center>
+![](figs/channel-contribution.png)
+</center>
 
 It looks like we get a reasonable return on spending across both channels. It seems like channel two is giving us a bit more than channel 1. 
 
