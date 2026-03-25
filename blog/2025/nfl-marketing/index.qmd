@@ -322,6 +322,7 @@ Finally, we will just add our dependent variable and our controls
 
 ```{python}
 #| code-fold: true
+#| label-dependent-variable
 epsilon = rng.normal(loc = 0.0, scale = 0.25, size = n)
 amplitude = 1 
 beta_1 = 3.0
@@ -372,6 +373,7 @@ ax.set(xlabel="date", ylabel="y (thousands)")
 
 
 ```{python}
+#| label: send-it-to-pandas
 
 df_pd = df.to_pandas()
 columns_to_keep = [
@@ -398,7 +400,7 @@ The whole stick of using Bayesian stats is to set appropriate priors. We know at
 
 
 ```{python}
-
+#| label: set-priors
 spend_per_channel = mod_df[['x1', 'x2']].sum(axis = 0)
 
 spend_share =  spend_per_channel/spend_per_channel.sum()
@@ -415,6 +417,7 @@ Next we are just going to define some priors.
 
 
 ```{python}
+#| label: fit-mmm-examp
 my_priors= {
     "intercept": Prior("Normal", mu=0.5, sigma=0.2),
     "adstock_alpha": Prior("Beta", alpha=1, beta=3, dims="channel"),
@@ -489,6 +492,7 @@ To build an intuition on what that may mean practically we can simulate some spe
 
 ```{python}
 #| code-fold: true
+#| label: example-adstock
 raw_spend = np.array([1000, 900, 800, 700, 600, 500, 400, 300, 200, 100, 0, 0, 0, 0, 0, 0])
 
 adstock_spend_1 = geometric_adstock(x=raw_spend, alpha=0.20, l_max=8, normalize=True).eval().flatten()
@@ -547,6 +551,7 @@ Instead of zeroing in on the exact point where the decay happens we are going to
 
 ```{python}
 #| code-fold: true
+#| label: example-saturation
 scaled_spend = np.linspace(start=0.0, stop=1.0, num=100)
 
 saturated_spend_1 = logistic_saturation(x=scaled_spend, lam=1).eval()
@@ -601,6 +606,7 @@ Importatly the entire bit of MMMs are that we can see the channel contributions 
 
 ```{python}
 #| code-fold: true
+#| label: make-contribution-plot
 base_contributions = (
     mmm.idata["posterior"]["intercept_contribution_original_scale"]
     + mmm.idata["posterior"]["control_contribution_original_scale"].sum(dim="control")
