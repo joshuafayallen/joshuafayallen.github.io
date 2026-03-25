@@ -229,6 +229,7 @@ The next thing we are going to do is add our concentration effects or how much m
 lam1: float = 4.0
 lam2: float = 3.0
 
+
 df = (
     df
     .with_columns(
@@ -238,7 +239,7 @@ df = (
             logistic_saturation(
                 x = s.to_numpy(),
                 lam = lam1
-            ).eval(), 
+            ).eval().flatten(), 
             return_dtype=pl.Float64
         ).alias('x1_saturated_adstock'), 
         pl.col('x2_adstock')
@@ -247,7 +248,7 @@ df = (
             logistic_saturation(
                 x = s.to_numpy(),
                 lam = lam1
-            ).eval(), 
+            ).eval().flatten(), 
             return_dtype=pl.Float64
         ).alias('x2_saturated_adstock')
     )
