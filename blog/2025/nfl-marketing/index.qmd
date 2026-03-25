@@ -687,8 +687,8 @@ from nflreadpy import load_pbp
 import matplotlib.dates as mdates
 
 pbp_1 = pl.read_parquet('blog-post-data/pbp-data1.parquet')
-pbp2 = pl.read_parquet('blog-post-data/pbp-data2.parquet')
-raw_data = pl.concat([pb1, pbp2], how = 'diagonal')
+pbp_2 = pl.read_parquet('blog-post-data/pbp-data2.parquet')
+raw_data = pl.concat([pb_1, pbp_2], how = 'diagonal')
 
 make_explosives = (
     raw_data
