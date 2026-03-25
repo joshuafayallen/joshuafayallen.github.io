@@ -481,6 +481,7 @@ To build an intuition on what that may mean practically we can simulate some spe
 ```{python}
 #| code-fold: true
 #| label: example-adstock
+#| eval: false
 raw_spend = np.array([1000, 900, 800, 700, 600, 500, 400, 300, 200, 100, 0, 0, 0, 0, 0, 0])
 
 adstock_spend_1 = geometric_adstock(x=raw_spend, alpha=0.20, l_max=8, normalize=True).eval().flatten()
@@ -508,6 +509,10 @@ plt.legend()
 plt.show()
 
 ```
+
+<center>
+![](figs/adstock.png)
+</center>
 
 In effect, geometric adstock is just a weighted average of media spend in the current period and previous periods, where we make an assumption about the maximum duration of the carryover effect. As the alpha values decrease the impact of the spend overtime. Generally this is used for re-targeting or campaigns with calls to action. Typically the reason you would set a low alpha value is if you are reasonably confident customers have seen the ad you are just trying to get them back onto your website to do something. The Red Cross doesn't want you to sit there and think about whether you should donate money after a hurricane or earthquake. They want to get you onto the website as quickly as possible to donate resources. 
 
@@ -540,6 +545,7 @@ Instead of zeroing in on the exact point where the decay happens we are going to
 ```{python}
 #| code-fold: true
 #| label: example-saturation
+#| eval: false
 scaled_spend = np.linspace(start=0.0, stop=1.0, num=100)
 
 saturated_spend_1 = logistic_saturation(x=scaled_spend, lam=1).eval()
@@ -558,7 +564,14 @@ plt.xlabel('Scaled Marketing Spend')
 plt.ylabel('Saturated Marketing Spend')
 plt.legend(title='Lambda')
 plt.show()
+
+plt.savefig('figs/example-saturation.png')
+
 ```
+
+<center>
+![](figs/example-saturation.png)
+</center>
 
 We can imagine that as we start to invest more plays into a personnel grouping we are leaving explosive plays out of other personnel groupings on the table. As we invest more plays in the 13 personnel bucket we may not be devouting time to other auxilary heavy personnel packages where with smaller investments we may see more returns. Hypothetically a team may have spent more time game planning for 13 and 11 personnel than some of the other potential personnel packages. So sprinkling in plays out of 21 could yield more explosive plays simply because the defense isn't expecting the Rams to run a ton of 21. 
 
