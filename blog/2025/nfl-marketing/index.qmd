@@ -11,6 +11,10 @@ execute:
         fig_pos: "H"
 ---
 
+::: {.callout-important}
+This project is still [under very active development]{.underline}. If you spot any obvious errors or have some suggestions [please open an issue!](https://github.com/joshuafayallen/Fantasy-Football-Project/issues)
+:::
+
 ## Introduction 
 
 The rise of McVay's use of 13 personnel made me think of an old [*Athletic Football Show*](https://youtu.be/93RzplSc3mM?si=_2p7P7xEF0g43bxu&t=3395) episode where they pointed out the use of auxiliary runs to get to explosives. This got me thinking about how can we model the returns on NFL plays?  A major talking point in the 2025 season was Sean McVay's usage of 13 personnel to force another linebacker onto the field. The benefit of this is that the offense has heavier bodies on the field to help the run game,  but you are keeping more eligible receivers on the field. Since Kyle Shanahan and Sean McVay started as head coaches 8 years ago, they have been two of the best play callers and play designers in the game. One way that their offenses are so good is that they find different ways to generate explosive plays. Typically, explosive plays are defined as runs of ten plus yards or pass plays of twenty plus yards. Effectively, you are gaining the equivalent of one plus first down on one play, shortening the field and reducing the number of plays you have to run, or a quick touchdown. 
