@@ -322,7 +322,7 @@ Finally, we will just add our dependent variable and our controls
 
 ```{python}
 #| code-fold: true
-#| label-dependent-variable
+#| label: dependent-variable
 epsilon = rng.normal(loc = 0.0, scale = 0.25, size = n)
 amplitude = 1 
 beta_1 = 3.0
