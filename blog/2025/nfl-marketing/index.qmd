@@ -1091,8 +1091,6 @@ predictors = ['avg_epa', 'avg_defenders_in_box',
             'is_indoors', 'is_grass', 'div_game',
             'wind', 'temp', 'is_home_team', 'avg_diff', 'avg_pass_rate']
 
-
-
 just_controls = raw_data_pd[predictors]
 
 nobs = raw_data.height
@@ -1106,8 +1104,6 @@ scaled_y = (
     )
 
 )
-
-
 
 get_stds = (
     raw_data
@@ -1208,27 +1204,26 @@ personnel_scaled = (
 
 )
 
-between_season_gp, _ = pz.maxent(pz.InverseGamma(), 2, 3)
 
-
-between_season_m, between_season_c = pm.gp.hsgp_approx.approx_hsgp_hyperparams(
-    x_range = [unique_seasons.min(), unique_seasons.max()],
-    lengthscale_range=[2,3],
-    cov_func='matern52'
-
-)
 
 ```
 
 To speed this process along a little bit, I then go and make a few binary indicators, standardize my controls, then apply the max absolute value scaling to my outcome. Since explosive play rate is a proportion, we can just model that with the Beta distribution. The issue is that a Beta regression can't model degenerate outcomes. This is just statistician for exactly equal to zero or exactly equal to one. 
 
 ```{python}
-
+#| label: plot-explosive-play-rate
+#| eval: false
 fig, axes = plt.subplots()
 sns.histplot(data = scaled_y, x = 'explosive_play_rate_transformed')
 
+
+
 ```
 
+
+<center>
+![](figs/expr-obs.png)
+</center>
 
 To handle this I nudged the values of explosive play rate away from zero and one. There are definitely drawbacks to this approach as outlined in [Kubinec 2023](https://www.cambridge.org/core/journals/political-analysis/article/abs/ordered-beta-regression-a-parsimonious-wellfitting-model-for-continuous-data-with-lower-and-upper-bounds/89F4141DA16D4FC217809B5EB45EEE83), but we are still working on a native PyMC implementation. 
 
