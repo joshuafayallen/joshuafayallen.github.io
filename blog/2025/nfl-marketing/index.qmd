@@ -268,6 +268,8 @@ df = pl.read_parquet('blog-post-data/saturated-x.parquet')
 ```
 
 ```{python}
+
+fig, ax = plt.subplots()
 long_effects = df.unpivot(on = cs.starts_with('x'), index = 'date_week')
 
 g = sns.FacetGrid(data= long_effects, col = 'variable', col_wrap = 2)
@@ -1864,6 +1866,7 @@ az.compare(mod_dict)
 ```{python}
 #| echo: false
 #| label: build-full-models
+#| results: false
 
 seed = 14993111
 
@@ -2570,6 +2573,8 @@ The core of the model remains mostly the same. I did have play around with some 
 
 ```{python}
 #| code-fold: true
+#| message: false
+#| results: false
 with pm.Model(coords = coords) as mmm_binomial:
     global_controls = pm.Data(
         'control_data',
