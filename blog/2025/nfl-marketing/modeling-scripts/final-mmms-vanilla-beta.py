@@ -417,8 +417,14 @@ with pm.Model(coords = coords) as mmm:
         pm.math.dot(global_controls, controls_prior),
         dims = 'obs_id'
     )
+    
 
     passing_prior = pm.Normal('passing_prior', mu = 0, sigma = 0.1)
+    passing_contribution = pm.Deterministic(
+        'passing_contribution', 
+        pm.math.dot(passing_dat, passing_prior),
+        dims = 'obs_id'
+    )
 
     adstock_alphas = pm.Beta(
         'adstock_alphas',
@@ -507,7 +513,7 @@ with pm.Model(coords = coords) as mmm:
         coach_mu + 
         personnel_contribution + 
         control_contribution + 
-        pm.math.dot(passing_prior, passing_dat), 
+        passing_contribution, 
         dims = 'obs_id'
     )
 
