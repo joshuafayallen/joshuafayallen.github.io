@@ -282,6 +282,7 @@ Then as always we are going to plot this to make sure everything is good.
 #| label: read-in-data-behind-scenes
 
 import polars as pl
+import polars.selectors as cs
 import arviz as az 
 import matplotlib.pyplot as plt
 import numpy as np 
