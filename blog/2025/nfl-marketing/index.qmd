@@ -268,12 +268,14 @@ Then as always we are going to plot this to make sure everything is good.
 
 ```{python}
 #| echo: false
+#| label: read-in-data-behind-scenes
 
 df = pl.read_parquet('blog-post-data/saturated-x.parquet')
 
 ```
 
 ```{python}
+#| label: plot-effects
 
 fig, ax = plt.subplots()
 long_effects = df.unpivot(on = cs.starts_with('x'), index = 'date_week')
@@ -294,6 +296,7 @@ Now we are going to add some seasonality
 
 ```{python}
 #| code-fold: true
+#| label: add-trends
 import math 
 df = df.with_columns(
     trend=(
