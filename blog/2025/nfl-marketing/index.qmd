@@ -26,6 +26,15 @@ There are various ways Kyle Shanahan and Sean McVay try to manipulate defenses. 
 
 Another way that Kyle and Sean try to manufacture explosive plays is by using personnel packages in creative ways. Each personnel package has certain advantages. Generally, the idea is that you want a certain defensive personnel grouping on the field and leverage their weaknesses. To make sure we are on the same page on what different personnel packages mean, I have broken down the most common ones in @tbl-personnel. Conventionally, personnel packages are broken down by the number of RBs on the field and the number of TEs on the field.
 
+```{r}
+#| include: false
+#| echo: false
+
+# get reticulate to not be a pain to work with
+reticulate::use_python(Sys.getenv("RETICULATE_PYTHON"), required = TRUE)
+
+```
+
 ```{python}
 #| echo: false
 #| label: tbl-personnel 
@@ -88,14 +97,7 @@ Snapping back to football, this made me think of personnel groupings as channels
 
 For those only interested in the Football stuff you should just skip to the next section. For those sticking around for I am just working through the example provided by [PyMC-Marketing](https://www.pymc-marketing.io/en/stable/notebooks/mmm/mmm_example.html).^[Where this is going to differ is I am going to use Polars instead of Pandas.] We are going to generate some synthetic data for a made up company at the weekly level over two years. This roughly equates to `{python} 52*2` weeks of data.
 
-```{r}
-#| include: false
-#| echo: false
 
-# get reticulate to not be a pain to work with
-reticulate::use_python(Sys.getenv("RETICULATE_PYTHON"), required = TRUE)
-
-```
 
 ```{python}
 #| echo: true
@@ -278,6 +280,31 @@ Then as always we are going to plot this to make sure everything is good.
 ```{python}
 #| echo: false
 #| label: read-in-data-behind-scenes
+
+import polars as pl
+import arviz as az 
+import matplotlib.pyplot as plt
+import numpy as np 
+import pandas as pd
+import preliz as pz
+import pymc as pm
+import pytensor 
+import pytensor.tensor as pt
+import seaborn as sns
+from pymc_extras.prior import Prior
+from pymc_marketing.mmm import GeometricAdstock, LogisticSaturation
+from pymc_marketing.mmm.multidimensional import MMM
+from pymc_marketing.mmm.transformers import geometric_adstock, logistic_saturation, michaelis_menten
+from datetime import date
+from pymc_marketing.mmm.hsgp import(
+    HSGP, 
+    SoftPlusHSGP,
+    create_m_and_L_recommendations, 
+    create_constrained_inverse_gamma_prior,
+    create_eta_prior, 
+    CovFunc, 
+    plot_curve
+)
 
 df = pl.read_parquet('blog-post-data/saturated-x.parquet')
 
