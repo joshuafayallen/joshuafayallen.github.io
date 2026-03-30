@@ -88,6 +88,15 @@ Snapping back to football, this made me think of personnel groupings as channels
 
 For those only interested in the Football stuff you should just skip to the next section. For those sticking around for I am just working through the example provided by [PyMC-Marketing](https://www.pymc-marketing.io/en/stable/notebooks/mmm/mmm_example.html).^[Where this is going to differ is I am going to use Polars instead of Pandas.] We are going to generate some synthetic data for a made up company at the weekly level over two years. This roughly equates to `{python} 52*2` weeks of data.
 
+```{r}
+#| include: false
+#| echo: false
+
+# get reticulate to not be a pain to work with
+reticulate::use_python(Sys.getenv("RETICULATE_PYTHON"), required = TRUE)
+
+```
+
 ```{python}
 #| echo: true
 #| code-fold: true
@@ -3011,7 +3020,7 @@ add_personnel_contributions.write_parquet(
 ```
 
 
-Then from there we can just bring everything into R. 
+Then from there we can just bring everything into R. The interesting thing about the Polars parquet writer native parquet writer is that it creates some inconsistencies in the strings. So we do have to resolve them later in R. 
 
 ```{r}
 library(arrow)
