@@ -335,6 +335,8 @@ Now we are going to add some seasonality
 #| code-fold: true
 #| label: add-trends
 import math 
+
+n = df.height
 df = df.with_columns(
     trend=(
         pl.linear_space(0.0, 50.0, n)  # sequence 0..50 with n samples
