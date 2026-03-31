@@ -1918,6 +1918,8 @@ az.compare(mod_dict)
 #| results: false
 
 seed = 14993111
+def logit(p):
+    return np.log(p / (1 - p))
 
 RANDOM_SEED = np.random.default_rng(seed = seed)
 
