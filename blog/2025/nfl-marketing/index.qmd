@@ -1916,6 +1916,7 @@ az.compare(mod_dict)
 #| echo: false
 #| label: build-full-models
 #| results: false
+from patsy import dmatrix
 
 seed = 14993111
 def logit(p):
