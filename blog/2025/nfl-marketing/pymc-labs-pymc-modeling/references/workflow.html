@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2022-01-01">
-<meta name="description" content="What happens when you keep getting c stack usage errors">
 
-<title>What to do when you break R</title>
+<title>workflow</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -63,22 +61,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../">
-<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-bcb211d6da54b2c171149088ed9cac7e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../../">
+<script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../../site_libs/bootstrap/bootstrap-bcb211d6da54b2c171149088ed9cac7e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -123,23 +121,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../index.html"> 
+    <a class="nav-link" href="../../../../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../research/index.html"> 
+    <a class="nav-link" href="../../../../../research/index.html"> 
 <span class="menu-text">Research</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../teaching/index.html"> 
+    <a class="nav-link" href="../../../../../teaching/index.html"> 
 <span class="menu-text">Teaching</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../CV/index.html"> 
+    <a class="nav-link" href="../../../../../CV/index.html"> 
 <span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../blog/index.html"> 
+    <a class="nav-link" href="../../../../../blog/index.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
 </ul>
@@ -170,97 +168,128 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#bayesian-modeling-workflow" id="toc-bayesian-modeling-workflow" class="nav-link active" data-scroll-target="#bayesian-modeling-workflow">Bayesian Modeling Workflow</a>
+  <ul class="collapse">
+  <li><a href="#the-workflow" id="toc-the-workflow" class="nav-link" data-scroll-target="#the-workflow">The Workflow</a></li>
+  <li><a href="#start-simple" id="toc-start-simple" class="nav-link" data-scroll-target="#start-simple">Start Simple</a></li>
+  <li><a href="#expand-and-compare" id="toc-expand-and-compare" class="nav-link" data-scroll-target="#expand-and-compare">Expand and Compare</a></li>
+  <li><a href="#reporting-the-workflow" id="toc-reporting-the-workflow" class="nav-link" data-scroll-target="#reporting-the-workflow">Reporting the Workflow</a></li>
+  <li><a href="#simulating-fake-data" id="toc-simulating-fake-data" class="nav-link" data-scroll-target="#simulating-fake-data">Simulating Fake Data</a></li>
+  <li><a href="#hierarchical-build-up" id="toc-hierarchical-build-up" class="nav-link" data-scroll-target="#hierarchical-build-up">Hierarchical Build-Up</a></li>
+  <li><a href="#compressed-storage" id="toc-compressed-storage" class="nav-link" data-scroll-target="#compressed-storage">Compressed Storage</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">What to do when you break R</h1>
-  <div class="quarto-categories">
-    <div class="quarto-category">r</div>
-    <div class="quarto-category">zsh</div>
-  </div>
-  </div>
-
-<div>
-  <div class="description">
-    What happens when you keep getting c stack usage errors
-  </div>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
-<div class="quarto-title-meta">
-
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">January 1, 2022</p>
-    </div>
-  </div>
-  
-    
-  </div>
-  
 
 
-</header>
-
-
-<p>Hi all, when I first stated using <code>R</code> I tried making my website using <code>blogdown</code>. While <a href="https://www.apreshill.com/blog/2020-12-new-year-new-blogdown/">Alison Hill PhD</a> provides an excellent intro to launching your website. However, I am truly special and managed to mess this process up. For a few days whenever I did anything more computationally intensive than</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>I would get a nasty error message saying “c stack usage is too close to the limit” and I could not do anything. This would have been fine but at the time I was still taking classes and need to have <code>R</code> working to complete the problem sets.</p>
-<p>So what did I do to get in the c stack death spiral and how did it end up being fixed? For the former you should not skip steps in <a href="https://www.apreshill.com/blog/2020-12-new-year-new-blogdown/">Dr.&nbsp;Hill’s</a> post. For the later well to spare you the long arduous process here is what we tried.</p>
+<section id="bayesian-modeling-workflow" class="level1">
+<h1>Bayesian Modeling Workflow</h1>
+<p>Principled, iterative model building based on Gelman, Vehtari &amp; McElreath (2025) and Gelman et al.&nbsp;(2020).</p>
+<section id="the-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="the-workflow">The Workflow</h2>
+<ol type="1">
+<li><strong>Start simple</strong> — fit the simplest plausible model first</li>
+<li><strong>Prior predictive check</strong> — verify priors produce plausible data (see SKILL.md § Prior Predictive)</li>
+<li><strong>Fit and diagnose</strong> — check convergence before interpreting (see SKILL.md § Diagnostics)</li>
+<li><strong>Posterior predictive check</strong> — find specific, interpretable misfits (see SKILL.md § Posterior Predictive)</li>
+<li><strong>Expand and compare</strong> — add one piece of complexity, compare via LOO, repeat</li>
+</ol>
+</section>
+<section id="start-simple" class="level2">
+<h2 class="anchored" data-anchor-id="start-simple">Start Simple</h2>
+<p>Write the simplest model that could address the question. Fit it. Understand it before adding complexity.</p>
 <ul>
-<li>me consulting stackoverflow &amp; realizing I really f****k up</li>
-<li>restarting my computer</li>
-<li>uninstalling &amp; reinstalling blogdown</li>
-<li>uninstalling &amp; reinstalling R</li>
-<li>uninstalling &amp; reinstalling pandocs</li>
+<li><strong>Grouped data</strong>: start with complete pooling (single intercept), then no pooling, then partial pooling</li>
+<li><strong>Regression</strong>: start with one or two key predictors, not all of them</li>
+<li><strong>Time series</strong>: start with a simple trend or random walk before adding seasonal or autoregressive structure</li>
 </ul>
-<p>After hours of trouble shooting #rstats twitter came to the rescue when this distress signal was sent out.</p>
-<blockquote class="twitter-tweet blockquote">
-<p lang="en" dir="ltr">
-<a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> world! I have a student who is getting a "c stack usage is too close to the limit" every time when using knitr (even with an R-chunk-free Rmd file) &amp; getting same error when trying to install anything with devtools or remotes. We've un/reinstalled R but no luck. Ideas?
-</p>
-— Andrew Heiss (🐘 <span class="citation" data-cites="andrew">@andrew</span><span class="citation" data-cites="fediscience.org">@fediscience.org</span>) (<span class="citation" data-cites="andrewheiss">@andrewheiss</span>) <a href="https://twitter.com/andrewheiss/status/1358492134039511040?ref_src=twsrc%5Etfw">February 7, 2021</a>
-</blockquote>
-<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<p>So here is what ended up working. To start you will need a super simple Rmd file to test with in a local directory. I suggest starting a new Rmd file with nothing in it other than the default YAML header and “test” in the main body or “Lorem Ipsum” if you feel fancy.</p>
-<p>In the terminal run the following code</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~ </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-la</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Then look for files starting with a period. Okay if you messed up in the initial blogdown setup you are looking for the “.Rprofile” that is causing you the problem. What ended up happening is that you broke all of R by including a recursive function. So restarting and uninstalling R will not kill the function it will be there</p>
-<center>
-<p><img src="https://media.giphy.com/media/l4FB8FfpphPmxdTkA/giphy.gif" class="img-fluid"></p>
-</center>
-<p>What you are going to do is open a terminal in Rstudio or otherwise than start running this.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cat.Rprofile</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>than run</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cat.zshrc</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>than after that run</p>
-<pre><code>mv. Rprofile .Rprofile-original</code></pre>
-<p>Then close out Rstudio and reopen Rstudio. Then try to knit your super simple Rmd file and install a package and doing something fun! Than knit that file.</p>
-Hopefully the dreaded C stack usage error is gone. If it is than celebrate
-<center>
-<p><img src="https://media.giphy.com/media/d86kftzaeizO8/giphy.gif" class="img-fluid"></p>
-</center>
-<p>because you can use <code>R</code> again!!!!</p>
+<p>Complex models are understood in relation to simpler ones. Each expansion reveals what the added complexity buys. Computational problems are easier to diagnose in simple models.</p>
+<p>Save <code>results.nc</code> immediately after your first successful sampling run.</p>
+</section>
+<section id="expand-and-compare" class="level2">
+<h2 class="anchored" data-anchor-id="expand-and-compare">Expand and Compare</h2>
+<p>Label each model explicitly (e.g., “Model 1: complete pooling”, “Model 2: partial pooling”) so the progression is clear.</p>
+<p>Add ONE piece of complexity at a time. Fit the expanded model, diagnose, check posterior predictions, then compare:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute log-likelihood if using nutpie</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pm.compute_log_likelihood(idata_simple, model<span class="op">=</span>model_simple)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pm.compute_log_likelihood(idata_complex, model<span class="op">=</span>model_complex)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>comparison <span class="op">=</span> az.compare({</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"simple"</span>: idata_simple,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"complex"</span>: idata_complex,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(comparison[[<span class="st">"rank"</span>, <span class="st">"elpd_loo"</span>, <span class="st">"elpd_diff"</span>, <span class="st">"se_diff"</span>, <span class="st">"weight"</span>]])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Decision rule</strong>: If two models have similar stacking weights, they are effectively equivalent.</p>
+<p>Fit the expanded model even when you believe the simpler one is sufficient. The comparison itself is informative: - If the expansion doesn’t improve fit, you’ve demonstrated the simpler model is adequate - If it does improve fit, you’ve identified important structure - The <em>difference</em> between models tells you something about the data-generating process</p>
+</section>
+<section id="reporting-the-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="reporting-the-workflow">Reporting the Workflow</h2>
+<p>Report the sequence of models, not just the final one. The modeling journey IS the analysis.</p>
+<p>Summarize with a model progression table:</p>
+<pre><code>| Model | Description | ELPD_LOO | elpd_diff | weight |
+|-------|-------------|----------|-----------|--------|
+| Model 2 | Partial pooling | -222.2 | 0.0 | 0.91 |
+| Model 1 | Complete pooling | -234.5 | -12.3 | 0.09 |</code></pre>
+<p>Include: prior predictive findings, posterior predictive misfits that motivated each expansion, model comparison results, final parameter estimates with 94% HDIs, and conclusions about what the data support.</p>
+</section>
+<section id="simulating-fake-data" class="level2">
+<h2 class="anchored" data-anchor-id="simulating-fake-data">Simulating Fake Data</h2>
+<p>For novel or complex model structures, simulate from your model with known parameter values before touching real data:</p>
+<ol type="1">
+<li>Choose plausible parameter values (informed by domain knowledge)</li>
+<li>Simulate a dataset from the generative model</li>
+<li>Fit the model to simulated data</li>
+<li>Check: are the true parameters recovered within posterior intervals?</li>
+</ol>
+<p>This catches specification bugs, non-identifiability, and prior-likelihood conflicts before real-data messiness obscures the picture. Most valuable for custom likelihoods, latent variable models, and models with complex indexing.</p>
+</section>
+<section id="hierarchical-build-up" class="level2">
+<h2 class="anchored" data-anchor-id="hierarchical-build-up">Hierarchical Build-Up</h2>
+<p>When building hierarchical models iteratively:</p>
+<ol type="1">
+<li><strong>Complete pooling</strong> — single intercept, ignoring group structure</li>
+<li><strong>No pooling</strong> — group-specific intercepts, no sharing — compare to pooled</li>
+<li><strong>Partial pooling</strong> — hierarchical intercepts — compare to both</li>
+<li><strong>Varying slopes</strong> — allow slopes to vary by group if the question warrants it</li>
+<li><strong>Group-level predictors</strong> — explain between-group variance</li>
+</ol>
+<p>At each step, compare via LOO and check whether the added structure reduces between-group variance.</p>
+</section>
+<section id="compressed-storage" class="level2">
+<h2 class="anchored" data-anchor-id="compressed-storage">Compressed Storage</h2>
+<p>For large InferenceData objects (many draws, large posterior predictive):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compress with zlib (reduces file size 50-80%)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>idata.to_netcdf(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"results/model_v1.nc"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    engine<span class="op">=</span><span class="st">"h5netcdf"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    encoding<span class="op">=</span>{var: {<span class="st">"zlib"</span>: <span class="va">True</span>, <span class="st">"complevel"</span>: <span class="dv">4</span>}</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>              <span class="cf">for</span> group <span class="kw">in</span> [<span class="st">"posterior"</span>, <span class="st">"posterior_predictive"</span>]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>              <span class="cf">if</span> <span class="bu">hasattr</span>(idata, group)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>              <span class="cf">for</span> var <span class="kw">in</span> <span class="bu">getattr</span>(idata, group).data_vars}</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li>Gelman, Vehtari, and McElreath (2025). “Statistical Workflow.” <em>Philosophical Transactions of the Royal Society A.</em></li>
+<li>Gelman, Vehtari, Simpson, et al.&nbsp;(2020). “Bayesian Workflow.” arXiv:2011.01808.</li>
+<li>Gabry, Simpson, Vehtari, Betancourt, and Gelman (2019). “Visualization in Bayesian workflow.” <em>JRSS A.</em></li>
+</ul>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

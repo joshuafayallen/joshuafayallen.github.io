@@ -1,51 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/workflow.html</loc>
+    <lastmod>2026-03-31T13:53:15.664Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/timeseries.html</loc>
+    <lastmod>2026-03-31T13:53:15.664Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/priors.html</loc>
+    <lastmod>2026-03-31T13:53:15.664Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/inference.html</loc>
+    <lastmod>2026-03-31T13:53:15.664Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/diagnostics.html</loc>
+    <lastmod>2026-03-31T13:53:15.664Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/causal.html</loc>
+    <lastmod>2026-03-31T13:53:15.664Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/arviz.html</loc>
+    <lastmod>2026-03-31T13:53:15.664Z</lastmod>
+  </url>
+  <url>
     <loc>https://joshuafayallen.github.io/teaching/index.html</loc>
-    <lastmod>2026-03-25T22:42:24.308Z</lastmod>
+    <lastmod>2026-03-31T13:53:16.467Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/index.html</loc>
-    <lastmod>2026-03-25T22:42:24.290Z</lastmod>
+    <lastmod>2026-03-31T13:53:16.451Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/blog/2025/passing-td-factor-model/index.html</loc>
-    <lastmod>2026-03-25T22:42:23.462Z</lastmod>
+    <lastmod>2026-03-31T13:53:15.670Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/blog/2024/translating-tidyverse-to-sql/index.html</loc>
-    <lastmod>2026-03-25T22:42:22.880Z</lastmod>
+    <lastmod>2026-03-31T13:53:14.675Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/blog/2024/python-notes/index.html</loc>
-    <lastmod>2026-03-25T22:42:22.880Z</lastmod>
+    <lastmod>2026-03-31T13:53:14.674Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/about.html</loc>
-    <lastmod>2026-03-25T22:42:22.879Z</lastmod>
+    <lastmod>2026-03-31T13:53:14.673Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/CV/index.html</loc>
-    <lastmod>2026-03-25T22:42:22.805Z</lastmod>
+    <lastmod>2026-03-31T13:53:14.603Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/blog/2022/2021-11-25-what-to-do-when-you-break-r/index.html</loc>
-    <lastmod>2026-03-25T22:42:22.880Z</lastmod>
+    <lastmod>2026-03-31T13:53:14.674Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/blog/2024/translating-dplyr-to-polars/index.html</loc>
-    <lastmod>2026-03-25T22:42:22.880Z</lastmod>
+    <lastmod>2026-03-31T13:53:14.675Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/index.html</loc>
-    <lastmod>2026-03-25T22:42:23.438Z</lastmod>
+    <lastmod>2026-03-31T13:53:15.627Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/blog/index.html</loc>
-    <lastmod>2026-03-25T22:42:24.207Z</lastmod>
+    <lastmod>2026-03-31T13:53:16.373Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/research/index.html</loc>
-    <lastmod>2026-03-25T22:42:24.304Z</lastmod>
+    <lastmod>2026-03-31T13:53:16.463Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/SKILL.html</loc>
+    <lastmod>2026-03-31T13:53:15.663Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/bart.html</loc>
+    <lastmod>2026-03-31T13:53:15.664Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/custom_models.html</loc>
+    <lastmod>2026-03-31T13:53:15.664Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/gp.html</loc>
+    <lastmod>2026-03-31T13:53:15.664Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/mixtures.html</loc>
+    <lastmod>2026-03-31T13:53:15.664Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/specialized_likelihoods.html</loc>
+    <lastmod>2026-03-31T13:53:15.664Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/troubleshooting.html</loc>
+    <lastmod>2026-03-31T13:53:15.664Z</lastmod>
   </url>
 </urlset>
