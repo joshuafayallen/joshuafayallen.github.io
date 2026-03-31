@@ -1431,6 +1431,7 @@ In the interest of full disclosure I fit each model and then compared how well t
 ```{python}
 #| code-fold: True
 #| label: build-front-half
+#| eval: false
 
 
 def logit(p):
@@ -1621,6 +1622,7 @@ Next, we are going to transform these variables using a Michaelis-Menten saturat
 ```{python}
 #| label: build-hsgp
 #| code-fold: true
+#| eval: false
 
 
 tc_max = raw_data_pd['tenure_relative'].max()
