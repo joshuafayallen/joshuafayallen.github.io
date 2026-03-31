@@ -1432,6 +1432,7 @@ In the interest of full disclosure I fit each model and then compared how well t
 #| code-fold: True
 #| label: build-front-half
 
+
 def logit(p):
     return np.log(p / (1 - p))
 
@@ -2589,19 +2590,43 @@ with mmm_spline:
 Functionally there is not a huge difference between the two models. The HSGP model is technically better than the spline model but not by a lot. So lets go and look at the curves that both models produce. 
 
 ```{python}
-#| label: mod-comparisions
+#| label: mod-comparisions-fake
+#| eval: false
 mod_names = ['mod with hsgp', 'mod with spline']
 
 mod_dict = dict(zip(mod_names,[idata_hsgp, idata_spline]))
-az.compare(mod_dict)
+comps = az.compare(mod_dict)
+
+
 
 ```
+
+```{python}
+#| echo: false
+comps = (
+        pl.read_parquet('blog-post-data/comps.parquet')
+        .rename({'__index_level_0__': 'mod'})
+)
+
+
+clean = (
+    comps
+    .select(pl.col('mod').alias(''), pl.all().exclude('mod'))
+) 
+
+GT(clean)
+
+
+```
+
 
 Functionally, all this is saying is that the models are practically equivelent. If we look at the curves that we are generated from this model we see that they are mostly indistinguishable. I tend to lean towards the HSGP version in part because once we add the 2026 and so on and so forth our tenure variables for most every coach is going to change. HSGP's are perfectly well equipped for this task without having to change any of the priors 
 
 The biggest problem with these models are that they don't do a great job of fitting the data. 
 
 ```{python}
+#| eval: false 
+#| label: plot-ppc-mmm-beta
 
 fig,axs = plt.subplots(nrows=2)
 az.plot_ppc(idata_hsgp, ax = axs[0])
@@ -2614,8 +2639,10 @@ axs[1].set_title(
     'PPC Spline Model'
 )
 
+
 ```
 
+![](figs/mmm-football-comps.png)
 
 ## Fixing The Model 
 
@@ -2627,6 +2654,7 @@ The core of the model remains mostly the same. Through some further exploration 
 #| code-fold: true
 #| message: false
 #| results: false
+#| eval: false
 personnel_cols = (
     raw_data.select(cs.starts_with('personnel')).columns
 )
