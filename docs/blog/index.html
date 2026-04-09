@@ -80,9 +80,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-project','listing-freeze','listing-website','listing-format','listing-language','listing-title','listing-date','listing-description','listing-categories','listing-path','listing-outputHref','listing-date-modified','listing-author','listing-filename','listing-file-modified','listing-reading-time','listing-word-count',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
+      valueNames: ['listing-project','listing-freeze','listing-website','listing-format','listing-knitr','listing-language','listing-title','listing-date','listing-description','listing-categories','listing-path','listing-outputHref','listing-date-modified','listing-author','listing-filename','listing-file-modified','listing-reading-time','listing-word-count',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
       
-      searchColumns: ["listing-project","listing-freeze","listing-website","listing-format","listing-language","listing-title","listing-date","listing-description","listing-categories","listing-path","listing-outputHref","listing-date-modified","listing-author","listing-filename","listing-file-modified","listing-reading-time","listing-word-count"],
+      searchColumns: ["listing-project","listing-freeze","listing-website","listing-format","listing-knitr","listing-language","listing-title","listing-date","listing-description","listing-categories","listing-path","listing-outputHref","listing-date-modified","listing-author","listing-filename","listing-file-modified","listing-reading-time","listing-word-count"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -108,9 +108,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-project','listing-freeze','listing-website','listing-format','listing-language','listing-title','listing-date','listing-date-format','listing-description','listing-categories','listing-knitr','listing-path','listing-outputHref','listing-date-modified','listing-author','listing-filename','listing-file-modified','listing-reading-time','listing-word-count','listing-jupyter',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
+      valueNames: ['listing-project','listing-freeze','listing-website','listing-format','listing-knitr','listing-language','listing-title','listing-date','listing-date-format','listing-description','listing-categories','listing-path','listing-outputHref','listing-date-modified','listing-author','listing-filename','listing-file-modified','listing-reading-time','listing-word-count','listing-jupyter',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
       
-      searchColumns: ["listing-project","listing-freeze","listing-website","listing-format","listing-language","listing-title","listing-date","listing-date-format","listing-description","listing-categories","listing-knitr","listing-path","listing-outputHref","listing-date-modified","listing-author","listing-filename","listing-file-modified","listing-reading-time","listing-word-count","listing-jupyter"],
+      searchColumns: ["listing-project","listing-freeze","listing-website","listing-format","listing-knitr","listing-language","listing-title","listing-date","listing-date-format","listing-description","listing-categories","listing-path","listing-outputHref","listing-date-modified","listing-author","listing-filename","listing-file-modified","listing-reading-time","listing-word-count","listing-jupyter"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -136,9 +136,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-project','listing-freeze','listing-website','listing-format','listing-language','listing-title','listing-engine','listing-date-format','listing-description','listing-categories','listing-execute','listing-filters','listing-webr','listing-path','listing-outputHref','listing-author','listing-filename','listing-file-modified','listing-reading-time','listing-word-count',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
+      valueNames: ['listing-project','listing-freeze','listing-website','listing-format','listing-knitr','listing-language','listing-title','listing-subtitle','listing-date','listing-date-modified','listing-execute','listing-draft','listing-description','listing-tags','listing-path','listing-outputHref','listing-author','listing-filename','listing-file-modified','listing-reading-time','listing-word-count','listing-date-format','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
       
-      searchColumns: ["listing-project","listing-freeze","listing-website","listing-format","listing-language","listing-title","listing-engine","listing-date-format","listing-description","listing-categories","listing-execute","listing-filters","listing-webr","listing-path","listing-outputHref","listing-author","listing-filename","listing-file-modified","listing-reading-time","listing-word-count"],
+      searchColumns: ["listing-project","listing-freeze","listing-website","listing-format","listing-knitr","listing-language","listing-title","listing-subtitle","listing-date","listing-date-modified","listing-execute","listing-draft","listing-description","listing-tags","listing-path","listing-outputHref","listing-author","listing-filename","listing-file-modified","listing-reading-time","listing-word-count","listing-date-format","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -205,18 +205,6 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../research/index.html"> 
-<span class="menu-text">Research</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../teaching/index.html"> 
-<span class="menu-text">Teaching</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../CV/index.html"> 
-<span class="menu-text">CV</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link active" href="../blog/index.html" aria-current="page"> 
 <span class="menu-text">Blog</span></a>
   </li>  
@@ -258,7 +246,7 @@ window.Quarto = {
   <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2">2025</a></li>
   </ul>
 </nav>
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(5)</span></div><div class="category" data-category="YmF5ZXM=">bayes <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cG9sYXJz">polars <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cHltYw==">pymc <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cHl0aG9u">python <span class="quarto-category-count">(3)</span></div><div class="category" data-category="cg==">r <span class="quarto-category-count">(4)</span></div><div class="category" data-category="dGlkeXZlcnNl">tidyverse <span class="quarto-category-count">(3)</span></div><div class="category" data-category="enNo">zsh <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(6)</span></div><div class="category" data-category="YmF5ZXM=">bayes <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cG9sYXJz">polars <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cHltYw==">pymc <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cHl0aG9u">python <span class="quarto-category-count">(3)</span></div><div class="category" data-category="cg==">r <span class="quarto-category-count">(4)</span></div><div class="category" data-category="dGlkeXZlcnNl">tidyverse <span class="quarto-category-count">(3)</span></div><div class="category" data-category="enNo">zsh <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
@@ -335,12 +323,12 @@ window.Quarto = {
         
     </div>
     
-    <div class="blog-entry" data-index="1" data-categories="ciUyQ3RpZHl2ZXJzZSUyQ3B5dGhvbiUyQ3BvbGFycw==" data-listing-date-sort="1753217544000" data-listing-file-modified-sort="1753217544205" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22" data-listing-word-count-sort="4295">
+    <div class="blog-entry" data-index="1" data-categories="ciUyQ3RpZHl2ZXJzZSUyQ3B5dGhvbiUyQ3BvbGFycw==" data-listing-date-sort="1775756352000" data-listing-file-modified-sort="1775756352948" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4184">
         <div class="metadata">          
-            <p class="date listing-date">July 22, 2025</p>
+            <p class="date listing-date">April 9, 2026</p>
         </div>
         <div class="body">
-            <p class="title listing-title"><a href="../blog/2024/translating-dplyr-to-polars/index.html">Translating What I know in the tidyverse to polars:</a></p>
+            <p class="title listing-title"><a href="../blog/2024/translating-dplyr-to-polars/index.html">Translating What I know in the tidyverse to Python:</a></p>
 
             
             <div class="post-categories listing-categories">
@@ -408,7 +396,7 @@ window.Quarto = {
 <div id="listing-posts_2025" class="quarto-listing quarto-listing-container-custom">
 <div class="list blog">
     
-    <div class="blog-entry" data-index="0" data-categories="ciUyQ3B5dGhvbiUyQ2JheWVzJTJDdGlkeXZlcnNlJTJDcHltYyUyQ3BvbGFycw==" data-listing-file-modified-sort="1763581193263" data-listing-reading-time-sort="61" data-listing-word-count-sort="12149">
+    <div class="blog-entry" data-index="0" data-categories="ciUyQ3B5dGhvbiUyQ2JheWVzJTJDdGlkeXZlcnNlJTJDcHltYyUyQ3BvbGFycw==" data-listing-file-modified-sort="1775755201019" data-listing-reading-time-sort="59" data-listing-word-count-sort="11785">
         <div class="metadata">          
             <p class="date listing-date"></p>
         </div>
@@ -445,7 +433,21 @@ window.Quarto = {
             </div>
             
 
-            <p class="description listing-description">How Good is Your Favorite Wide Receiver?</p>
+            <p class="description listing-description">How Good is Your Favorite Pass Catcher?</p>
+        </div>
+        
+    </div>
+    
+    <div class="blog-entry" data-index="1" data-listing-date-sort="1774411200000" data-listing-file-modified-sort="1775756629982" data-listing-date-modified-sort="1775756629000" data-listing-reading-time-sort="102" data-listing-word-count-sort="20375">
+        <div class="metadata">          
+            <p class="date listing-date">March 25, 2026</p>
+        </div>
+        <div class="body">
+            <p class="title listing-title"><a href="../blog/2025/nfl-marketing/index.html">What Marketing Taught Me About Football</a></p>
+
+            
+
+            <p class="description listing-description">Modeling ROI of different personnel packages</p>
         </div>
         
     </div>

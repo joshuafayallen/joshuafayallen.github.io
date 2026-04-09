@@ -1,12 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://joshuafayallen.github.io/teaching/index.html</loc>
-    <lastmod>2023-08-14T18:23:25.404Z</lastmod>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/workflow.html</loc>
+    <lastmod>2026-03-10T04:13:06.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/timeseries.html</loc>
+    <lastmod>2026-03-10T04:13:06.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/priors.html</loc>
+    <lastmod>2026-03-10T04:13:06.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/inference.html</loc>
+    <lastmod>2026-03-10T04:13:06.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/diagnostics.html</loc>
+    <lastmod>2026-03-10T04:13:06.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/causal.html</loc>
+    <lastmod>2026-03-10T04:13:06.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/arviz.html</loc>
+    <lastmod>2026-03-10T04:13:06.000Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/index.html</loc>
-    <lastmod>2025-11-19T17:10:45.186Z</lastmod>
+    <lastmod>2026-04-09T17:09:22.180Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/passing-td-factor-model/index.html</loc>
+    <lastmod>2026-04-09T17:20:01.019Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/blog/2024/translating-tidyverse-to-sql/index.html</loc>
@@ -22,7 +50,7 @@
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/CV/index.html</loc>
-    <lastmod>2025-10-08T16:48:29.258Z</lastmod>
+    <lastmod>2025-11-25T20:40:08.253Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/blog/2022/2021-11-25-what-to-do-when-you-break-r/index.html</loc>
@@ -30,18 +58,42 @@
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/blog/2024/translating-dplyr-to-polars/index.html</loc>
-    <lastmod>2025-07-22T20:52:24.205Z</lastmod>
+    <lastmod>2026-04-09T17:39:12.948Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/index.html</loc>
+    <lastmod>2026-04-09T17:43:49.982Z</lastmod>
   </url>
   <url>
     <loc>https://joshuafayallen.github.io/blog/index.html</loc>
     <lastmod>2025-11-19T19:00:03.123Z</lastmod>
   </url>
   <url>
-    <loc>https://joshuafayallen.github.io/research/index.html</loc>
-    <lastmod>2023-08-14T18:23:25.399Z</lastmod>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/SKILL.html</loc>
+    <lastmod>2026-03-10T04:13:06.000Z</lastmod>
   </url>
   <url>
-    <loc>https://joshuafayallen.github.io/blog/2025/passing-td-factor-model/index.html</loc>
-    <lastmod>2025-11-19T19:39:53.263Z</lastmod>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/bart.html</loc>
+    <lastmod>2026-03-10T04:13:06.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/custom_models.html</loc>
+    <lastmod>2026-03-10T04:13:06.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/gp.html</loc>
+    <lastmod>2026-03-10T04:13:06.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/mixtures.html</loc>
+    <lastmod>2026-03-10T04:13:06.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/specialized_likelihoods.html</loc>
+    <lastmod>2026-03-10T04:13:06.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://joshuafayallen.github.io/blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/troubleshooting.html</loc>
+    <lastmod>2026-03-10T04:13:06.000Z</lastmod>
   </url>
 </urlset>

@@ -19,12 +19,6 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - text: "Research"
-        file: research/index.qmd
-      - text: "Teaching"
-        file: teaching/index.qmd
-      - text: "CV"
-        file: CV/index.qmd
       - text: "Blog"
         file: blog/index.qmd
     right:

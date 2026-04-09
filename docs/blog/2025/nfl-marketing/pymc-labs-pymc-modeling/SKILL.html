@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Bayesian statistical modeling with PyMC v5+. Use when building probabilistic models, specifying priors, running MCMC inference, diagnosing convergence, or comparing models. Covers PyMC, ArviZ, pymc-bart, pymc-extras, nutpie, and JAX/NumPyro backends. Triggers on tasks involving: Bayesian inference, posterior sampling, hierarchical/multilevel models, GLMs, time series, Gaussian processes, BART, mixture models, prior/posterior predictive checks, MCMC diagnostics, LOO-CV, WAIC, model comparison, or causal inference with do/observe.">
+
+<title>skill</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap-0e7c780847e7614632d3eab8de51e1e3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../blog/index.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:joshua.f.allen@gmail.com"> <i class="bi bi-envelope" role="img" aria-label="email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/joshuallen17"> <i class="bi bi-twitter" role="img" aria-label="twitter">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/joshuafayallen"> <i class="bi bi-github" role="img" aria-label="github">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#pymc-modeling" id="toc-pymc-modeling" class="nav-link active" data-scroll-target="#pymc-modeling">PyMC Modeling</a>
+  <ul class="collapse">
+  <li><a href="#model-specification" id="toc-model-specification" class="nav-link" data-scroll-target="#model-specification">Model Specification</a>
+  <ul class="collapse">
+  <li><a href="#basic-structure" id="toc-basic-structure" class="nav-link" data-scroll-target="#basic-structure">Basic Structure</a></li>
+  <li><a href="#coords-and-dims" id="toc-coords-and-dims" class="nav-link" data-scroll-target="#coords-and-dims">Coords and Dims</a></li>
+  <li><a href="#parameterization" id="toc-parameterization" class="nav-link" data-scroll-target="#parameterization">Parameterization</a></li>
+  </ul></li>
+  <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference">Inference</a>
+  <ul class="collapse">
+  <li><a href="#default-sampling-nutpie-preferred" id="toc-default-sampling-nutpie-preferred" class="nav-link" data-scroll-target="#default-sampling-nutpie-preferred">Default Sampling (nutpie preferred)</a></li>
+  <li><a href="#when-to-use-pymcs-default-nuts-instead" id="toc-when-to-use-pymcs-default-nuts-instead" class="nav-link" data-scroll-target="#when-to-use-pymcs-default-nuts-instead">When to Use PyMC’s Default NUTS Instead</a></li>
+  <li><a href="#alternative-mcmc-backends" id="toc-alternative-mcmc-backends" class="nav-link" data-scroll-target="#alternative-mcmc-backends">Alternative MCMC Backends</a></li>
+  <li><a href="#approximate-inference" id="toc-approximate-inference" class="nav-link" data-scroll-target="#approximate-inference">Approximate Inference</a></li>
+  </ul></li>
+  <li><a href="#diagnostics-and-arviz-workflow" id="toc-diagnostics-and-arviz-workflow" class="nav-link" data-scroll-target="#diagnostics-and-arviz-workflow">Diagnostics and ArviZ Workflow</a>
+  <ul class="collapse">
+  <li><a href="#phase-1-immediate-checks-required" id="toc-phase-1-immediate-checks-required" class="nav-link" data-scroll-target="#phase-1-immediate-checks-required">Phase 1: Immediate Checks (Required)</a></li>
+  <li><a href="#phase-2-deep-convergence-if-phase-1-marginal" id="toc-phase-2-deep-convergence-if-phase-1-marginal" class="nav-link" data-scroll-target="#phase-2-deep-convergence-if-phase-1-marginal">Phase 2: Deep Convergence (If Phase 1 marginal)</a></li>
+  <li><a href="#phase-3-model-criticism-required" id="toc-phase-3-model-criticism-required" class="nav-link" data-scroll-target="#phase-3-model-criticism-required">Phase 3: Model Criticism (Required)</a></li>
+  <li><a href="#phase-4-parameter-interpretation" id="toc-phase-4-parameter-interpretation" class="nav-link" data-scroll-target="#phase-4-parameter-interpretation">Phase 4: Parameter Interpretation</a></li>
+  </ul></li>
+  <li><a href="#prior-and-posterior-predictive-checks" id="toc-prior-and-posterior-predictive-checks" class="nav-link" data-scroll-target="#prior-and-posterior-predictive-checks">Prior and Posterior Predictive Checks</a>
+  <ul class="collapse">
+  <li><a href="#prior-predictive-before-fitting" id="toc-prior-predictive-before-fitting" class="nav-link" data-scroll-target="#prior-predictive-before-fitting">Prior Predictive (Before Fitting)</a></li>
+  <li><a href="#posterior-predictive-after-fitting" id="toc-posterior-predictive-after-fitting" class="nav-link" data-scroll-target="#posterior-predictive-after-fitting">Posterior Predictive (After Fitting)</a></li>
+  </ul></li>
+  <li><a href="#model-debugging" id="toc-model-debugging" class="nav-link" data-scroll-target="#model-debugging">Model Debugging</a>
+  <ul class="collapse">
+  <li><a href="#common-issues" id="toc-common-issues" class="nav-link" data-scroll-target="#common-issues">Common Issues</a></li>
+  </ul></li>
+  <li><a href="#model-comparison" id="toc-model-comparison" class="nav-link" data-scroll-target="#model-comparison">Model Comparison</a>
+  <ul class="collapse">
+  <li><a href="#loo-cv-preferred" id="toc-loo-cv-preferred" class="nav-link" data-scroll-target="#loo-cv-preferred">LOO-CV (Preferred)</a></li>
+  <li><a href="#comparing-models" id="toc-comparing-models" class="nav-link" data-scroll-target="#comparing-models">Comparing Models</a></li>
+  <li><a href="#iterative-model-building" id="toc-iterative-model-building" class="nav-link" data-scroll-target="#iterative-model-building">Iterative Model Building</a></li>
+  </ul></li>
+  <li><a href="#saving-and-loading-results" id="toc-saving-and-loading-results" class="nav-link" data-scroll-target="#saving-and-loading-results">Saving and Loading Results</a>
+  <ul class="collapse">
+  <li><a href="#inferencedata-persistence" id="toc-inferencedata-persistence" class="nav-link" data-scroll-target="#inferencedata-persistence">InferenceData Persistence</a></li>
+  </ul></li>
+  <li><a href="#prior-selection" id="toc-prior-selection" class="nav-link" data-scroll-target="#prior-selection">Prior Selection</a></li>
+  <li><a href="#common-patterns" id="toc-common-patterns" class="nav-link" data-scroll-target="#common-patterns">Common Patterns</a>
+  <ul class="collapse">
+  <li><a href="#hierarchicalmultilevel" id="toc-hierarchicalmultilevel" class="nav-link" data-scroll-target="#hierarchicalmultilevel">Hierarchical/Multilevel</a></li>
+  <li><a href="#glms" id="toc-glms" class="nav-link" data-scroll-target="#glms">GLMs</a></li>
+  <li><a href="#gaussian-processes" id="toc-gaussian-processes" class="nav-link" data-scroll-target="#gaussian-processes">Gaussian Processes</a></li>
+  <li><a href="#time-series" id="toc-time-series" class="nav-link" data-scroll-target="#time-series">Time Series</a></li>
+  <li><a href="#bart-bayesian-additive-regression-trees" id="toc-bart-bayesian-additive-regression-trees" class="nav-link" data-scroll-target="#bart-bayesian-additive-regression-trees">BART (Bayesian Additive Regression Trees)</a></li>
+  <li><a href="#mixture-models" id="toc-mixture-models" class="nav-link" data-scroll-target="#mixture-models">Mixture Models</a></li>
+  <li><a href="#sparse-regression-horseshoe" id="toc-sparse-regression-horseshoe" class="nav-link" data-scroll-target="#sparse-regression-horseshoe">Sparse Regression / Horseshoe</a></li>
+  <li><a href="#specialized-likelihoods" id="toc-specialized-likelihoods" class="nav-link" data-scroll-target="#specialized-likelihoods">Specialized Likelihoods</a></li>
+  </ul></li>
+  <li><a href="#common-pitfalls" id="toc-common-pitfalls" class="nav-link" data-scroll-target="#common-pitfalls">Common Pitfalls</a></li>
+  <li><a href="#causal-inference-operations" id="toc-causal-inference-operations" class="nav-link" data-scroll-target="#causal-inference-operations">Causal Inference Operations</a></li>
+  <li><a href="#pymc-extras" id="toc-pymc-extras" class="nav-link" data-scroll-target="#pymc-extras">pymc-extras</a></li>
+  <li><a href="#custom-distributions-and-model-components" id="toc-custom-distributions-and-model-components" class="nav-link" data-scroll-target="#custom-distributions-and-model-components">Custom Distributions and Model Components</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="pymc-modeling" class="level1">
+<h1>PyMC Modeling</h1>
+<p>Modern Bayesian modeling with PyMC v5+. Key defaults: nutpie sampler (2-5x faster), non-centered parameterization for hierarchical models, HSGP over exact GPs, coords/dims for readable InferenceData, and save-early workflow to prevent data loss from late crashes.</p>
+<p><strong>Modeling strategy</strong>: Build models iteratively — start simple, check prior predictions, fit and diagnose, check posterior predictions, expand one piece at a time. See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/workflow.html">references/workflow.md</a> for the full workflow.</p>
+<p><strong>Notebook preference</strong>: Use marimo for interactive modeling unless the project already uses Jupyter.</p>
+<section id="model-specification" class="level2">
+<h2 class="anchored" data-anchor-id="model-specification">Model Specification</h2>
+<section id="basic-structure" class="level3">
+<h3 class="anchored" data-anchor-id="basic-structure">Basic Structure</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model:</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Data containers (for out-of-sample prediction)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> pm.Data(<span class="st">"x"</span>, x_obs, dims<span class="op">=</span><span class="st">"obs"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Priors</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> pm.Normal(<span class="st">"beta"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">1</span>, dims<span class="op">=</span><span class="st">"features"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.HalfNormal(<span class="st">"sigma"</span>, sigma<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Likelihood</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> pm.math.dot(x, beta)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>y_obs, dims<span class="op">=</span><span class="st">"obs"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Inference</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample(nuts_sampler<span class="op">=</span><span class="st">"nutpie"</span>, random_seed<span class="op">=</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="coords-and-dims" class="level3">
+<h3 class="anchored" data-anchor-id="coords-and-dims">Coords and Dims</h3>
+<p>Use coords/dims for interpretable InferenceData when model has meaningful structure:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"obs"</span>: np.arange(n_obs),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"features"</span>: [<span class="st">"intercept"</span>, <span class="st">"age"</span>, <span class="st">"income"</span>],</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"group"</span>: group_labels,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Skip for simple models where overhead exceeds benefit.</p>
+</section>
+<section id="parameterization" class="level3">
+<h3 class="anchored" data-anchor-id="parameterization">Parameterization</h3>
+<p>Prefer non-centered parameterization for hierarchical models with weak data:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Non-centered (better for divergences)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>offset <span class="op">=</span> pm.Normal(<span class="st">"offset"</span>, <span class="dv">0</span>, <span class="dv">1</span>, dims<span class="op">=</span><span class="st">"group"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> mu_alpha <span class="op">+</span> sigma_alpha <span class="op">*</span> offset</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Centered (better with strong data)</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> pm.Normal(<span class="st">"alpha"</span>, mu_alpha, sigma_alpha, dims<span class="op">=</span><span class="st">"group"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="inference" class="level2">
+<h2 class="anchored" data-anchor-id="inference">Inference</h2>
+<section id="default-sampling-nutpie-preferred" class="level3">
+<h3 class="anchored" data-anchor-id="default-sampling-nutpie-preferred">Default Sampling (nutpie preferred)</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        draws<span class="op">=</span><span class="dv">1000</span>, tune<span class="op">=</span><span class="dv">1000</span>, chains<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        nuts_sampler<span class="op">=</span><span class="st">"nutpie"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        random_seed<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>idata.to_netcdf(<span class="st">"results.nc"</span>)  <span class="co"># Save immediately after sampling</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Important</strong>: nutpie does not store log_likelihood automatically (it silently ignores <code>idata_kwargs={"log_likelihood": True}</code>). If you need LOO-CV or model comparison, compute it after sampling:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pm.compute_log_likelihood(idata, model<span class="op">=</span>model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="when-to-use-pymcs-default-nuts-instead" class="level3">
+<h3 class="anchored" data-anchor-id="when-to-use-pymcs-default-nuts-instead">When to Use PyMC’s Default NUTS Instead</h3>
+<p>nutpie cannot handle discrete parameters or certain transforms (e.g., <code>ordered</code> transform with <code>OrderedLogistic</code>/<code>OrderedProbit</code>). For these models, omit <code>nuts_sampler="nutpie"</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> pm.sample(draws<span class="op">=</span><span class="dv">1000</span>, tune<span class="op">=</span><span class="dv">1000</span>, chains<span class="op">=</span><span class="dv">4</span>, random_seed<span class="op">=</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Never change the model specification to work around sampler limitations.</p>
+<p>If nutpie is not installed, install it (<code>pip install nutpie</code>) or fall back to <code>nuts_sampler="numpyro"</code>.</p>
+</section>
+<section id="alternative-mcmc-backends" class="level3">
+<h3 class="anchored" data-anchor-id="alternative-mcmc-backends">Alternative MCMC Backends</h3>
+<p>See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/inference.html">references/inference.md</a> for: - <strong>NumPyro/JAX</strong>: GPU acceleration, vectorized chains</p>
+</section>
+<section id="approximate-inference" class="level3">
+<h3 class="anchored" data-anchor-id="approximate-inference">Approximate Inference</h3>
+<p>For fast (but inexact) posterior approximations: - <strong>ADVI/DADVI</strong>: Variational inference with Gaussian approximation - <strong>Pathfinder</strong>: Quasi-Newton optimization for initialization or screening</p>
+</section>
+</section>
+<section id="diagnostics-and-arviz-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="diagnostics-and-arviz-workflow">Diagnostics and ArviZ Workflow</h2>
+<p><strong>Minimum workflow checklist</strong> — every model script should include: 1. Prior predictive check (<code>pm.sample_prior_predictive</code>) 2. Save results immediately after sampling (<code>idata.to_netcdf(...)</code>) 3. Divergence count + r_hat + ESS check 4. Posterior predictive check (<code>pm.sample_posterior_predictive</code>)</p>
+<p>Follow this systematic workflow after every sampling run:</p>
+<section id="phase-1-immediate-checks-required" class="level3">
+<h3 class="anchored" data-anchor-id="phase-1-immediate-checks-required">Phase 1: Immediate Checks (Required)</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Check for divergences (must be 0 or near 0)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>n_div <span class="op">=</span> idata.sample_stats[<span class="st">"diverging"</span>].<span class="bu">sum</span>().item()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Divergences: </span><span class="sc">{</span>n_div<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Summary with convergence diagnostics</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> az.summary(idata, var_names<span class="op">=</span>[<span class="st">"~offset"</span>])  <span class="co"># exclude auxiliary</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(summary[[<span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"hdi_3%"</span>, <span class="st">"hdi_97%"</span>, <span class="st">"ess_bulk"</span>, <span class="st">"ess_tail"</span>, <span class="st">"r_hat"</span>]])</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Visual convergence check</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>az.plot_trace(idata, compact<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>az.plot_rank(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>, <span class="st">"sigma"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Pass criteria</strong> (all must pass before proceeding): - Zero divergences (or &lt; 0.1% and randomly scattered) - <code>r_hat &lt; 1.01</code> for all parameters - <code>ess_bulk &gt; 400</code> and <code>ess_tail &gt; 400</code> - Trace plots show good mixing (overlapping densities, fuzzy caterpillar)</p>
+</section>
+<section id="phase-2-deep-convergence-if-phase-1-marginal" class="level3">
+<h3 class="anchored" data-anchor-id="phase-2-deep-convergence-if-phase-1-marginal">Phase 2: Deep Convergence (If Phase 1 marginal)</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ESS evolution (should grow linearly)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>az.plot_ess(idata, kind<span class="op">=</span><span class="st">"evolution"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Energy diagnostic (HMC health)</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>az.plot_energy(idata)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Autocorrelation (should decay rapidly)</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>az.plot_autocorr(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="phase-3-model-criticism-required" class="level3">
+<h3 class="anchored" data-anchor-id="phase-3-model-criticism-required">Phase 3: Model Criticism (Required)</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate posterior predictive</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    pm.sample_posterior_predictive(idata, extend_inferencedata<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Does the model capture the data?</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(idata, kind<span class="op">=</span><span class="st">"cumulative"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Calibration check</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>az.plot_loo_pit(idata, y<span class="op">=</span><span class="st">"y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Critical rule</strong>: Never interpret parameters until Phases 1-3 pass.</p>
+</section>
+<section id="phase-4-parameter-interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="phase-4-parameter-interpretation">Phase 4: Parameter Interpretation</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior summaries</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>], ref_val<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Forest plots for hierarchical parameters</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>az.plot_forest(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>], combined<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter correlations (identify non-identifiability)</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>az.plot_pair(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"sigma"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/arviz.html">references/arviz.md</a> for comprehensive ArviZ usage. See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/diagnostics.html">references/diagnostics.md</a> for troubleshooting.</p>
+</section>
+</section>
+<section id="prior-and-posterior-predictive-checks" class="level2">
+<h2 class="anchored" data-anchor-id="prior-and-posterior-predictive-checks">Prior and Posterior Predictive Checks</h2>
+<section id="prior-predictive-before-fitting" class="level3">
+<h3 class="anchored" data-anchor-id="prior-predictive-before-fitting">Prior Predictive (Before Fitting)</h3>
+<p>Always check prior implications before fitting:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    prior_pred <span class="op">=</span> pm.sample_prior_predictive(draws<span class="op">=</span><span class="dv">500</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(prior_pred, group<span class="op">=</span><span class="st">"prior"</span>, kind<span class="op">=</span><span class="st">"cumulative"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>prior_y <span class="op">=</span> prior_pred.prior_predictive[<span class="st">"y"</span>].values.flatten()</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Prior predictive range: [</span><span class="sc">{</span>prior_y<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:.1f}</span><span class="ss">, </span><span class="sc">{</span>prior_y<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:.1f}</span><span class="ss">]"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Rule</strong>: Run prior predictive checks before <code>pm.sample()</code> on any new model. If the range is implausible (negative counts, probabilities &gt; 1), adjust priors before proceeding.</p>
+</section>
+<section id="posterior-predictive-after-fitting" class="level3">
+<h3 class="anchored" data-anchor-id="posterior-predictive-after-fitting">Posterior Predictive (After Fitting)</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    pm.sample_posterior_predictive(idata, extend_inferencedata<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(idata, kind<span class="op">=</span><span class="st">"cumulative"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>az.plot_loo_pit(idata, y<span class="op">=</span><span class="st">"y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Observed data (dark line) should fall within posterior predictive distribution. See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/arviz.html">references/arviz.md</a> for detailed interpretation.</p>
+</section>
+</section>
+<section id="model-debugging" class="level2">
+<h2 class="anchored" data-anchor-id="model-debugging">Model Debugging</h2>
+<p>Before sampling, validate the model with <code>model.debug()</code> and <code>model.point_logps()</code>. Use <code>print(model)</code> for structure and <code>pm.model_to_graphviz(model)</code> for a DAG visualization.</p>
+<section id="common-issues" class="level3">
+<h3 class="anchored" data-anchor-id="common-issues">Common Issues</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 50%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symptom</th>
+<th>Likely Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ValueError: Shape mismatch</code></td>
+<td>Parameter vs observation dimensions</td>
+<td>Use index vectors: <code>alpha[group_idx]</code></td>
+</tr>
+<tr class="even">
+<td><code>Initial evaluation failed</code></td>
+<td>Data outside distribution support</td>
+<td>Check bounds; use <code>init="adapt_diag"</code></td>
+</tr>
+<tr class="odd">
+<td><code>Mass matrix contains zeros</code></td>
+<td>Unscaled predictors or flat priors</td>
+<td>Standardize features; use weakly informative priors</td>
+</tr>
+<tr class="even">
+<td>High divergence count</td>
+<td>Funnel geometry</td>
+<td>Non-centered parameterization</td>
+</tr>
+<tr class="odd">
+<td><code>NaN</code> in log-probability</td>
+<td>Invalid parameter combinations</td>
+<td>Check parameter constraints, add bounds</td>
+</tr>
+<tr class="even">
+<td><code>-inf</code> log-probability</td>
+<td>Observations outside likelihood support</td>
+<td>Verify data matches distribution domain</td>
+</tr>
+<tr class="odd">
+<td>Slow discrete sampling</td>
+<td>NUTS incompatible with discrete</td>
+<td>Marginalize discrete variables</td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/troubleshooting.html">references/troubleshooting.md</a> for comprehensive problem-solution guide.</p>
+<p>For debugging divergences, use <code>az.plot_pair(idata, divergences=True)</code> to locate clusters. See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/diagnostics.html">references/diagnostics.md</a> § Divergence Troubleshooting.</p>
+<p>For profiling slow models, see <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/troubleshooting.html">references/troubleshooting.md</a> § Performance Issues.</p>
+</section>
+</section>
+<section id="model-comparison" class="level2">
+<h2 class="anchored" data-anchor-id="model-comparison">Model Comparison</h2>
+<section id="loo-cv-preferred" class="level3">
+<h3 class="anchored" data-anchor-id="loo-cv-preferred">LOO-CV (Preferred)</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute LOO with pointwise diagnostics</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>loo <span class="op">=</span> az.loo(idata, pointwise<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"ELPD: </span><span class="sc">{</span>loo<span class="sc">.</span>elpd_loo<span class="sc">:.1f}</span><span class="ss"> ± </span><span class="sc">{</span>loo<span class="sc">.</span>se<span class="sc">:.1f}</span><span class="ss">"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Check Pareto k values (must be &lt; 0.7 for reliable LOO)</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Bad k (&gt;0.7): </span><span class="sc">{</span>(loo.pareto_k <span class="op">&gt;</span> <span class="fl">0.7</span>)<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">.</span>item()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>az.plot_khat(idata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="comparing-models" class="level3">
+<h3 class="anchored" data-anchor-id="comparing-models">Comparing Models</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If using nutpie, compute log-likelihood first (nutpie doesn't store it automatically)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>pm.compute_log_likelihood(idata_a, model<span class="op">=</span>model_a)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>pm.compute_log_likelihood(idata_b, model<span class="op">=</span>model_b)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>comparison <span class="op">=</span> az.compare({</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"model_a"</span>: idata_a,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"model_b"</span>: idata_b,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>}, ic<span class="op">=</span><span class="st">"loo"</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(comparison[[<span class="st">"rank"</span>, <span class="st">"elpd_loo"</span>, <span class="st">"elpd_diff"</span>, <span class="st">"weight"</span>]])</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>az.plot_compare(comparison)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Decision rule</strong>: If two models have similar stacking weights, they are effectively equivalent.</p>
+<p>See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/arviz.html">references/arviz.md</a> for detailed model comparison workflow.</p>
+</section>
+<section id="iterative-model-building" class="level3">
+<h3 class="anchored" data-anchor-id="iterative-model-building">Iterative Model Building</h3>
+<p>Build complexity incrementally: fit the simplest plausible model first, diagnose it, check posterior predictions, then add ONE piece of complexity at a time. Compare each expansion via LOO. If stacking weights are similar, the models are effectively equivalent. See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/workflow.html">references/workflow.md</a> for the full iterative workflow.</p>
+</section>
+</section>
+<section id="saving-and-loading-results" class="level2">
+<h2 class="anchored" data-anchor-id="saving-and-loading-results">Saving and Loading Results</h2>
+<section id="inferencedata-persistence" class="level3">
+<h3 class="anchored" data-anchor-id="inferencedata-persistence">InferenceData Persistence</h3>
+<p>Save sampling results for later analysis or sharing:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save to NetCDF (recommended format)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>idata.to_netcdf(<span class="st">"results/model_v1.nc"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> az.from_netcdf(<span class="st">"results/model_v1.nc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For compressed storage of large InferenceData objects, see <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/workflow.html">references/workflow.md</a>.</p>
+<p><strong>Critical</strong>: Save IMMEDIATELY after sampling — late crashes destroy valid results:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample(nuts_sampler<span class="op">=</span><span class="st">"nutpie"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>idata.to_netcdf(<span class="st">"results.nc"</span>)  <span class="co"># Save before any post-processing!</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    pm.sample_posterior_predictive(idata, extend_inferencedata<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>idata.to_netcdf(<span class="st">"results.nc"</span>)  <span class="co"># Update with posterior predictive</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="prior-selection" class="level2">
+<h2 class="anchored" data-anchor-id="prior-selection">Prior Selection</h2>
+<p>See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/priors.html">references/priors.md</a> for: - Weakly informative defaults by distribution type - Prior predictive checking workflow - Domain-specific recommendations</p>
+</section>
+<section id="common-patterns" class="level2">
+<h2 class="anchored" data-anchor-id="common-patterns">Common Patterns</h2>
+<section id="hierarchicalmultilevel" class="level3">
+<h3 class="anchored" data-anchor-id="hierarchicalmultilevel">Hierarchical/Multilevel</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>{<span class="st">"group"</span>: groups, <span class="st">"obs"</span>: obs_idx}) <span class="im">as</span> hierarchical:</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Hyperpriors</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    mu_alpha <span class="op">=</span> pm.Normal(<span class="st">"mu_alpha"</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    sigma_alpha <span class="op">=</span> pm.HalfNormal(<span class="st">"sigma_alpha"</span>, <span class="dv">1</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Group-level (non-centered)</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    alpha_offset <span class="op">=</span> pm.Normal(<span class="st">"alpha_offset"</span>, <span class="dv">0</span>, <span class="dv">1</span>, dims<span class="op">=</span><span class="st">"group"</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    alpha <span class="op">=</span> pm.Deterministic(<span class="st">"alpha"</span>, mu_alpha <span class="op">+</span> sigma_alpha <span class="op">*</span> alpha_offset, dims<span class="op">=</span><span class="st">"group"</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Likelihood</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, alpha[group_idx], sigma, observed<span class="op">=</span>y_obs, dims<span class="op">=</span><span class="st">"obs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="glms" class="level3">
+<h3 class="anchored" data-anchor-id="glms">GLMs</h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistic regression</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> logistic:</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    alpha <span class="op">=</span> pm.Normal(<span class="st">"alpha"</span>, <span class="dv">0</span>, <span class="fl">2.5</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> pm.Normal(<span class="st">"beta"</span>, <span class="dv">0</span>, <span class="fl">2.5</span>, dims<span class="op">=</span><span class="st">"features"</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> pm.math.sigmoid(alpha <span class="op">+</span> pm.math.dot(X, beta))</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Bernoulli(<span class="st">"y"</span>, p<span class="op">=</span>p, observed<span class="op">=</span>y_obs)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Poisson regression</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> poisson:</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> pm.Normal(<span class="st">"beta"</span>, <span class="dv">0</span>, <span class="dv">1</span>, dims<span class="op">=</span><span class="st">"features"</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Poisson(<span class="st">"y"</span>, mu<span class="op">=</span>pm.math.exp(pm.math.dot(X, beta)), observed<span class="op">=</span>y_obs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="gaussian-processes" class="level3">
+<h3 class="anchored" data-anchor-id="gaussian-processes">Gaussian Processes</h3>
+<p><strong>Always prefer HSGP</strong> for GP problems with 1-3D inputs. It’s O(nm) instead of O(n³), and even at n=200 exact GP (<code>pm.gp.Marginal</code>) is prohibitively slow for MCMC:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> gp_model:</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Hyperparameters</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    ell <span class="op">=</span> pm.InverseGamma(<span class="st">"ell"</span>, alpha<span class="op">=</span><span class="dv">5</span>, beta<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    eta <span class="op">=</span> pm.HalfNormal(<span class="st">"eta"</span>, sigma<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.HalfNormal(<span class="st">"sigma"</span>, sigma<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Covariance function (Matern52 recommended)</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    cov <span class="op">=</span> eta<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> pm.gp.cov.Matern52(<span class="dv">1</span>, ls<span class="op">=</span>ell)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># HSGP approximation</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    gp <span class="op">=</span> pm.gp.HSGP(m<span class="op">=</span>[<span class="dv">20</span>], c<span class="op">=</span><span class="fl">1.5</span>, cov_func<span class="op">=</span>cov)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    f <span class="op">=</span> gp.prior(<span class="st">"f"</span>, X<span class="op">=</span>X[:, <span class="va">None</span>])  <span class="co"># X must be 2D</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Likelihood</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>f, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>y_obs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For periodic patterns, use <code>pm.gp.HSGPPeriodic</code>. Only use <code>pm.gp.Marginal</code> or <code>pm.gp.Latent</code> for very small datasets (n &lt; ~50) where exact inference is specifically needed.</p>
+<p>See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/gp.html">references/gp.md</a> for HSGP parameter selection (m, c), HSGPPeriodic, covariance functions, and common patterns.</p>
+</section>
+<section id="time-series" class="level3">
+<h3 class="anchored" data-anchor-id="time-series">Time Series</h3>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>{<span class="st">"time"</span>: <span class="bu">range</span>(T)}) <span class="im">as</span> ar_model:</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    rho <span class="op">=</span> pm.Uniform(<span class="st">"rho"</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.HalfNormal(<span class="st">"sigma"</span>, sigma<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.AR(<span class="st">"y"</span>, rho<span class="op">=</span>[rho], sigma<span class="op">=</span>sigma, constant<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>              observed<span class="op">=</span>y_obs, dims<span class="op">=</span><span class="st">"time"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/timeseries.html">references/timeseries.md</a> for AR/ARMA, random walks, structural time series, state space models, and forecasting patterns.</p>
+</section>
+<section id="bart-bayesian-additive-regression-trees" class="level3">
+<h3 class="anchored" data-anchor-id="bart-bayesian-additive-regression-trees">BART (Bayesian Additive Regression Trees)</h3>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymc_bart <span class="im">as</span> pmb</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> bart_model:</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> pmb.BART(<span class="st">"mu"</span>, X<span class="op">=</span>X, Y<span class="op">=</span>y, m<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.HalfNormal(<span class="st">"sigma"</span>, <span class="dv">1</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    y_obs <span class="op">=</span> pm.Normal(<span class="st">"y_obs"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/bart.html">references/bart.md</a> for regression/classification, variable importance, and configuration.</p>
+</section>
+<section id="mixture-models" class="level3">
+<h3 class="anchored" data-anchor-id="mixture-models">Mixture Models</h3>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {<span class="st">"component"</span>: <span class="bu">range</span>(K)}</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> gmm:</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Mixture weights</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> pm.Dirichlet(<span class="st">"w"</span>, a<span class="op">=</span>np.ones(K), dims<span class="op">=</span><span class="st">"component"</span>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Component parameters (with ordering to avoid label switching)</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> pm.Normal(<span class="st">"mu"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">10</span>, dims<span class="op">=</span><span class="st">"component"</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>                   transform<span class="op">=</span>pm.distributions.transforms.ordered,</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>                   initval<span class="op">=</span>np.linspace(y_obs.<span class="bu">min</span>(), y_obs.<span class="bu">max</span>(), K))</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.HalfNormal(<span class="st">"sigma"</span>, sigma<span class="op">=</span><span class="dv">2</span>, dims<span class="op">=</span><span class="st">"component"</span>)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Mixture likelihood</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.NormalMixture(<span class="st">"y"</span>, w<span class="op">=</span>w, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>y_obs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Important</strong>: Mixture models often need <code>target_accept=0.9</code> or higher to avoid divergences from the multimodal geometry. Always provide <code>initval</code> on ordered means — without it, components can start overlapping and the sampler struggles to separate them.</p>
+<p>See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/mixtures.html">references/mixtures.md</a> for label switching solutions, marginalized mixtures, and mixture diagnostics.</p>
+</section>
+<section id="sparse-regression-horseshoe" class="level3">
+<h3 class="anchored" data-anchor-id="sparse-regression-horseshoe">Sparse Regression / Horseshoe</h3>
+<p>Use the regularized (Finnish) horseshoe prior for high-dimensional regression with expected sparsity. Horseshoe priors create double-funnel geometry — use <code>target_accept=0.95</code> or higher.</p>
+<p>See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/priors.html">references/priors.md</a> for full regularized horseshoe code, Laplace, R2D2, and spike-and-slab alternatives.</p>
+</section>
+<section id="specialized-likelihoods" class="level3">
+<h3 class="anchored" data-anchor-id="specialized-likelihoods">Specialized Likelihoods</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Zero-Inflated Poisson (excess zeros)</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> zip_model:</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    psi <span class="op">=</span> pm.Beta(<span class="st">"psi"</span>, alpha<span class="op">=</span><span class="dv">2</span>, beta<span class="op">=</span><span class="dv">2</span>)  <span class="co"># P(structural zero)</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> pm.Exponential(<span class="st">"mu"</span>, lam<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.ZeroInflatedPoisson(<span class="st">"y"</span>, psi<span class="op">=</span>psi, mu<span class="op">=</span>mu, observed<span class="op">=</span>y_obs)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Censored data (e.g., right-censored survival)</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> censored_model:</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> pm.Normal(<span class="st">"mu"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.HalfNormal(<span class="st">"sigma"</span>, sigma<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Censored(<span class="st">"y"</span>, dist<span class="op">=</span>pm.Normal.dist(mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma),</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>                    lower<span class="op">=</span><span class="va">None</span>, upper<span class="op">=</span>censoring_time, observed<span class="op">=</span>y_obs)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Ordinal regression</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> ordinal:</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> pm.Normal(<span class="st">"beta"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">2</span>, dims<span class="op">=</span><span class="st">"features"</span>)</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    cutpoints <span class="op">=</span> pm.Normal(<span class="st">"cutpoints"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>                          transform<span class="op">=</span>pm.distributions.transforms.ordered,</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>                          shape<span class="op">=</span>n_categories <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.OrderedLogistic(<span class="st">"y"</span>, eta<span class="op">=</span>pm.math.dot(X, beta),</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>                           cutpoints<span class="op">=</span>cutpoints, observed<span class="op">=</span>y_obs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Note</strong>: Don’t use the same name for a variable and a dimension. For example, if you have a dimension called <code>"cutpoints"</code>, don’t also name a variable <code>"cutpoints"</code> — this causes shape errors.</p>
+<p>See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/specialized_likelihoods.html">references/specialized_likelihoods.md</a> for zero-inflated, hurdle, censored/truncated, ordinal, and robust regression models.</p>
+</section>
+</section>
+<section id="common-pitfalls" class="level2">
+<h2 class="anchored" data-anchor-id="common-pitfalls">Common Pitfalls</h2>
+<p>See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/troubleshooting.html">references/troubleshooting.md</a> for comprehensive problem-solution guide covering: - Shape and dimension errors, initialization failures, mass matrix issues - Divergences and geometry problems (centered vs non-centered) - PyMC API issues (variable naming, deprecated parameters) - Performance issues (GPs, large Deterministics, recompilation) - Identifiability, multicollinearity, prior-data conflict - Discrete variable challenges, data containers, prediction</p>
+</section>
+<section id="causal-inference-operations" class="level2">
+<h2 class="anchored" data-anchor-id="causal-inference-operations">Causal Inference Operations</h2>
+<p>PyMC supports do-calculus for causal queries:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pm.do — intervene (breaks incoming edges)</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.do(causal_model, {<span class="st">"x"</span>: <span class="dv">2</span>}) <span class="im">as</span> intervention_model:</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample_prior_predictive()  <span class="co"># P(y, z | do(x=2))</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># pm.observe — condition (preserves causal structure)</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.observe(causal_model, {<span class="st">"y"</span>: <span class="dv">1</span>}) <span class="im">as</span> conditioned_model:</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample(nuts_sampler<span class="op">=</span><span class="st">"nutpie"</span>)  <span class="co"># P(x, z | y=1)</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine: P(y | do(x=2), z=0)</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.do(causal_model, {<span class="st">"x"</span>: <span class="dv">2</span>}) <span class="im">as</span> m1:</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> pm.observe(m1, {<span class="st">"z"</span>: <span class="dv">0</span>}) <span class="im">as</span> m2:</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>        idata <span class="op">=</span> pm.sample(nuts_sampler<span class="op">=</span><span class="st">"nutpie"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/causal.html">references/causal.md</a> for detailed causal inference patterns.</p>
+</section>
+<section id="pymc-extras" class="level2">
+<h2 class="anchored" data-anchor-id="pymc-extras">pymc-extras</h2>
+<p>Key extensions via <code>import pymc_extras as pmx</code>: - <code>pmx.marginalize(model, ["discrete_var"])</code> — marginalize discrete parameters for NUTS - <code>pmx.R2D2M2CP(...)</code> — R2D2 prior for regression (see <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/priors.html">references/priors.md</a>) - <code>pmx.fit_laplace(model)</code> — Laplace approximation for fast inference</p>
+</section>
+<section id="custom-distributions-and-model-components" class="level2">
+<h2 class="anchored" data-anchor-id="custom-distributions-and-model-components">Custom Distributions and Model Components</h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Soft constraints via Potential</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytensor.tensor <span class="im">as</span> pt</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>pm.Potential(<span class="st">"sum_to_zero"</span>, <span class="op">-</span><span class="dv">100</span> <span class="op">*</span> pt.sqr(alpha.<span class="bu">sum</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>See <a href="../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/custom_models.html">references/custom_models.md</a> for <code>pm.DensityDist</code>, <code>pm.Potential</code>, <code>pm.Simulator</code>, and <code>pm.CustomDist</code>.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/joshuafayallen\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

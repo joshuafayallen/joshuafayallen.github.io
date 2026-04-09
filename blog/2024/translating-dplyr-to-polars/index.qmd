@@ -33,10 +33,6 @@ pacman::p_load(reticulate, rmarkdown, janitor, arrow )
 
 
 
-use_python(Sys.getenv("RETICULATE_PYTHON"), required = TRUE)
-
-
-
 ```
 
 
@@ -250,7 +246,7 @@ One other thing that is weird (to me at least) is that you do not have to set th
 A common case that you run into is that maybe there are a whole bunch of things or one thing that you don't want. In R you would just add the neccessary negations ahead of what you want. In polars it is a little different if you want to exclude values from a set.
 
 
-::{.panel-tabset}
+:::{.panel-tabset}
 
 ## R
 

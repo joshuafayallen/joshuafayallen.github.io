@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.22">
+<meta name="generator" content="quarto-1.7.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="description" content="This is me learning the snake language">
 
-<title>Translating What I know in the tidyverse to polars:</title>
+<title>Translating What I know in the tidyverse to Python:</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -71,10 +71,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-7b4406b7675125bc2ba204020e191172.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-05903abc2225f2ea34e46409c9296f29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-0e7c780847e7614632d3eab8de51e1e3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -123,18 +123,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../research/index.html"> 
-<span class="menu-text">Research</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../../teaching/index.html"> 
-<span class="menu-text">Teaching</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../../CV/index.html"> 
-<span class="menu-text">CV</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link" href="../../../blog/index.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
@@ -172,11 +160,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#the-basics" id="toc-the-basics" class="nav-link active" data-scroll-target="#the-basics">The Basics</a></li>
-  <li><a href="#filter" id="toc-filter" class="nav-link" data-scroll-target="#filter">Filter</a>
-  <ul class="collapse">
-  <li><a href="#r-6" id="toc-r-6" class="nav-link" data-scroll-target="#r-6">R</a></li>
-  <li><a href="#python-6" id="toc-python-6" class="nav-link" data-scroll-target="#python-6">Python</a></li>
-  </ul></li>
+  <li><a href="#filter" id="toc-filter" class="nav-link" data-scroll-target="#filter">Filter</a></li>
   <li><a href="#select" id="toc-select" class="nav-link" data-scroll-target="#select">Select</a>
   <ul class="collapse">
   <li><a href="#using-selectors" id="toc-using-selectors" class="nav-link" data-scroll-target="#using-selectors">Using Selectors</a></li>
@@ -225,7 +209,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Translating What I know in the tidyverse to polars:</h1>
+<h1 class="title">Translating What I know in the tidyverse to Python:</h1>
   <div class="quarto-categories">
     <div class="quarto-category">r</div>
     <div class="quarto-category">tidyverse</div>
@@ -247,7 +231,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">Jul 22, 2025</p>
+      <p class="date">Apr 9, 2026</p>
     </div>
   </div>
   
@@ -259,7 +243,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>I suppose at some point it is good to become more well versed in lots of tools. I have been python curious for about a year or so and I think it is important to use the tool best suited for the task. Also sometimes it is important to get out of your comfort zone. I am definitely somebody who is very comfortable in R and the <code>tidyverse</code> and use it for a lot of stuff. I have heard lots of ravings about polars specifically about its speed and similarities in intuition with the tidyverse. So I thought I would have a collection of code for myself and the people of the internet to reference.</p>
 <p>Just a disclaimer. This is really just me working through the similarities and is going to be based on the <a href="https://blog.tidy-intelligence.com/posts/dplyr-vs-polars/">tidyintelligence’s blog post</a>, <a href="https://robertmitchellv.com/blog/2022-07-r-python-side-by-side/r-python-side-by-side.html">Robert Mitchell’s blog post</a>, and <a href="https://www.emilyriederer.com/post/py-rgo-polars/">Emily Rieder’s blog post</a>. In all honesty, this is just for me to smash them together to have a one-stop shop for myself. If you found this post over these resources I highly recommend you check out these resources.</p>
 <section id="the-basics" class="level1">
 <h1>The Basics</h1>
@@ -284,7 +267,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>pl.Config(tbl_rows <span class="op">=</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;polars.config.Config object at 0x30c51e660&gt;</code></pre>
+<pre><code>&lt;polars.config.Config object at 0x16858e660&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -511,11 +494,11 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 Columns: 8
 $ species           &lt;str&gt; 'Adelie', 'Adelie', 'Adelie', 'Adelie', 'Adelie', 'Adelie', 'Adelie', 'Adelie', 'Adelie', 'Adelie'
 $ island            &lt;str&gt; 'Torgersen', 'Torgersen', 'Torgersen', 'Torgersen', 'Torgersen', 'Torgersen', 'Torgersen', 'Torgersen', 'Torgersen', 'Torgersen'
-$ bill_length_mm    &lt;f64&gt; 39.1, 39.5, 40.3, None, 36.7, 39.3, 38.9, 39.2, 34.1, 42.0
-$ bill_depth_mm     &lt;f64&gt; 18.7, 17.4, 18.0, None, 19.3, 20.6, 17.8, 19.6, 18.1, 20.2
-$ flipper_length_mm &lt;f64&gt; 181.0, 186.0, 195.0, None, 193.0, 190.0, 181.0, 195.0, 193.0, 190.0
-$ body_mass_g       &lt;f64&gt; 3750.0, 3800.0, 3250.0, None, 3450.0, 3650.0, 3625.0, 4675.0, 3475.0, 4250.0
-$ sex               &lt;str&gt; 'male', 'female', 'female', None, 'female', 'male', 'female', 'male', None, None
+$ bill_length_mm    &lt;f64&gt; 39.1, 39.5, 40.3, null, 36.7, 39.3, 38.9, 39.2, 34.1, 42.0
+$ bill_depth_mm     &lt;f64&gt; 18.7, 17.4, 18.0, null, 19.3, 20.6, 17.8, 19.6, 18.1, 20.2
+$ flipper_length_mm &lt;f64&gt; 181.0, 186.0, 195.0, null, 193.0, 190.0, 181.0, 195.0, 193.0, 190.0
+$ body_mass_g       &lt;f64&gt; 3750.0, 3800.0, 3250.0, null, 3450.0, 3650.0, 3625.0, 4675.0, 3475.0, 4250.0
+$ sex               &lt;str&gt; 'male', 'female', 'female', null, 'female', 'male', 'female', 'male', null, null
 $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007</code></pre>
 </div>
 </div>
@@ -594,8 +577,9 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 <div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>penguins.<span class="bu">filter</span>((pl.col(<span class="st">"species"</span>) <span class="op">==</span> <span class="st">"Adelie"</span>) <span class="op">&amp;</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                (pl.col(<span class="st">"body_mass_g"</span>) <span class="op">&gt;</span> pl.col(<span class="st">"body_mass_g"</span>).mean()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>(penguins</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>       .<span class="bu">filter</span>((pl.col(<span class="st">"species"</span>) <span class="op">==</span> <span class="st">"Adelie"</span>) <span class="op">&amp;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>         (pl.col(<span class="st">"body_mass_g"</span>) <span class="op">&gt;</span> pl.col(<span class="st">"body_mass_g"</span>).mean())))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div><style>
 .dataframe > thead > tr,
@@ -777,8 +761,11 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 <div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>penguins.<span class="bu">filter</span>((pl.col(<span class="st">"species"</span>).is_in([<span class="st">"Chinstrap"</span>, <span class="st">"Gentoo"</span>])) <span class="op">&amp;</span> </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                (pl.col(<span class="st">"bill_depth_mm"</span>) <span class="op">&gt;</span> pl.col(<span class="st">"bill_depth_mm"</span>).median()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>       penguins</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>       .<span class="bu">filter</span>((pl.col(<span class="st">"species"</span>).is_in([<span class="st">"Chinstrap"</span>, <span class="st">"Gentoo"</span>])) <span class="op">&amp;</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>              (pl.col(<span class="st">"bill_depth_mm"</span>) <span class="op">&gt;</span> pl.col(<span class="st">"bill_depth_mm"</span>).median()))</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div><style>
 .dataframe > thead > tr,
@@ -932,9 +919,10 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 <p>One other thing that is weird (to me at least) is that you do not have to set the polars functions to remove NA’s by default! Which I suppose is nice? But feels a bit wrong and weird to me as an R user.</p>
 <p>A common case that you run into is that maybe there are a whole bunch of things or one thing that you don’t want. In R you would just add the neccessary negations ahead of what you want. In polars it is a little different if you want to exclude values from a set.</p>
-<p>::{.panel-tabset}</p>
-<section id="r-6" class="level2">
-<h2 class="anchored" data-anchor-id="r-6">R</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false">Python</a></li></ul>
+<div class="tab-content">
+<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(<span class="sc">!</span>species <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Gentoo"</span>, <span class="st">"Chinstrap"</span>),</span>
@@ -957,9 +945,8 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 # ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
 </div>
 </div>
-</section>
-<section id="python-6" class="level2">
-<h2 class="anchored" data-anchor-id="python-6">Python</h2>
+</div>
+<div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># | error: true</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># | label: set-filter-not</span></span>
@@ -1114,16 +1101,17 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 </div>
 </div>
-<p>:::</p>
-</section>
+</div>
+</div>
+</div>
 </section>
 <section id="select" class="level1">
 <h1>Select</h1>
 <p>In some cases, we have a dataset with extraneous columns we do not care for. Let’s do a really extreme example</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
+<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(island)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1145,7 +1133,7 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 </div>
 </div>
-<div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
+<div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>penguins.select((pl.col(<span class="st">"island"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1210,9 +1198,9 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 <p>OKAY! first try now we are cooking! If we wanted to do multiple columns we would do something to the effect of</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-2" role="tab" aria-controls="tabset-9-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
+<div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(species, island)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1234,7 +1222,7 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 </div>
 </div>
-<div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
+<div id="tabset-9-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-2-tab">
 <p>To do multiple columns we could do something to the effect of this:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>penguins.select((pl.col(<span class="st">"species"</span>, <span class="st">"island"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1315,9 +1303,9 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <section id="using-selectors" class="level3">
 <h3 class="anchored" data-anchor-id="using-selectors">Using Selectors</h3>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-2" role="tab" aria-controls="tabset-9-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-10-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-1" role="tab" aria-controls="tabset-10-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-10-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-2" role="tab" aria-controls="tabset-10-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
+<div id="tabset-10-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-10-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"bill"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1339,7 +1327,7 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 </div>
 </div>
-<div id="tabset-9-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-2-tab">
+<div id="tabset-10-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-10-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>penguins.select(cs.starts_with(<span class="st">"bill"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1422,9 +1410,9 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <h1>Renaming Columns</h1>
 <p>I am a simple man I like snake_case but lets say I am more camel case inclined. I may want to rename columns that I am using as to not deal with object not found messages because I am used to typing billLengthMm. In the tidyverse we would do</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-10-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-1" role="tab" aria-controls="tabset-10-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-10-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-2" role="tab" aria-controls="tabset-10-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-11-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-1" role="tab" aria-controls="tabset-11-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-11-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-2" role="tab" aria-controls="tabset-11-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-10-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-10-1-tab">
+<div id="tabset-11-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-11-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rename</span>(<span class="at">BillLengthMm =</span> bill_length_mm,</span>
@@ -1448,7 +1436,7 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 </div>
 </div>
-<div id="tabset-10-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-10-2-tab">
+<div id="tabset-11-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-11-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> penguins.rename({<span class="st">"bill_length_mm"</span>:<span class="st">"BillLengthMm"</span>,</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">"bill_depth_mm"</span>:<span class="st">"BillDepthMm"</span>})</span>
@@ -1466,9 +1454,9 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <h1>Mutate</h1>
 <p>Okay we have worked with subsets now we need to actually create some things. We should also work on chaining things together. Lets first with doing math stuff to the columns. Lets start with how I think it works in polars and if it errors then we can go and fix it</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-11-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-1" role="tab" aria-controls="tabset-11-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-11-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-2" role="tab" aria-controls="tabset-11-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-12-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-12-1" role="tab" aria-controls="tabset-12-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-12-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-12-2" role="tab" aria-controls="tabset-12-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-11-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-11-1-tab">
+<div id="tabset-12-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-12-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">sqr_bill_length =</span> bill_length_mm<span class="sc">^</span><span class="dv">2</span>) <span class="sc">|&gt;</span></span>
@@ -1487,7 +1475,7 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 </div>
 </div>
-<div id="tabset-11-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-11-2-tab">
+<div id="tabset-12-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-12-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>penguins.mutate({pl.col(<span class="st">"bill_length_mm"</span>)<span class="op">^</span><span class="dv">2</span>: <span class="st">"sqr_bill_length"</span>}).select(pl.col(<span class="st">"sqr_bill_length"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1541,9 +1529,9 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 <p>Okay this is the general idea. One of the big advantages of mutate is that we chain things together in the same mutate col.&nbsp;So lets say we wanted to square something than return it back to the original value</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-12-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-12-1" role="tab" aria-controls="tabset-12-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-12-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-12-2" role="tab" aria-controls="tabset-12-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-13-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-1" role="tab" aria-controls="tabset-13-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-2" role="tab" aria-controls="tabset-13-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-12-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-12-1-tab">
+<div id="tabset-13-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-13-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">sqr_bill =</span> bill_length_mm<span class="sc">^</span><span class="dv">2</span>,</span>
@@ -1562,7 +1550,7 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 </div>
 </div>
-<div id="tabset-12-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-12-2-tab">
+<div id="tabset-13-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-13-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>penguins.with_columns(sqr_bill <span class="op">=</span> pl.col(<span class="st">"bill_length_mm"</span>)<span class="op">**</span><span class="dv">2</span>).with_columns(og_bill <span class="op">=</span> pl.col(<span class="st">"sqr_bill"</span>).sqrt()).select(pl.col(<span class="st">"sqr_bill"</span>, <span class="st">"og_bill"</span>, <span class="st">"bill_length_mm"</span>)).head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1625,9 +1613,9 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <section id="ifelse-equivalents" class="level3">
 <h3 class="anchored" data-anchor-id="ifelse-equivalents">ifelse equivalents</h3>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-13-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-1" role="tab" aria-controls="tabset-13-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-2" role="tab" aria-controls="tabset-13-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-14-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-14-1" role="tab" aria-controls="tabset-14-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-14-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-14-2" role="tab" aria-controls="tabset-14-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-13-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-13-1-tab">
+<div id="tabset-14-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-14-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">female =</span> <span class="fu">ifelse</span>(sex <span class="sc">==</span> <span class="st">"female"</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)) <span class="sc">|&gt;</span></span>
@@ -1645,7 +1633,7 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 </div>
 </div>
-<div id="tabset-13-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-13-2-tab">
+<div id="tabset-14-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-14-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># | label: check</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1707,9 +1695,9 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>arrow<span class="sc">::</span><span class="fu">write_parquet</span>(starwars, <span class="st">"starwars.parquet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-14-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-14-1" role="tab" aria-controls="tabset-14-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-14-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-14-2" role="tab" aria-controls="tabset-14-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-15-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-15-1" role="tab" aria-controls="tabset-15-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-15-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-15-2" role="tab" aria-controls="tabset-15-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-14-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-14-1-tab">
+<div id="tabset-15-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-15-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="sc">|&gt;</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">dog_years =</span> birth_year <span class="sc">*</span> <span class="dv">7</span>,</span>
@@ -1728,7 +1716,7 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 </div>
 </div>
-<div id="tabset-14-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-14-2-tab">
+<div id="tabset-15-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-15-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>starwars <span class="op">=</span> pl.read_parquet(<span class="st">"starwars.parquet"</span>)</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -2133,9 +2121,9 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <h2 class="anchored" data-anchor-id="group-by-and-summarize">Group by and summarize</h2>
 <p>Last but not least we need to do the group by and summarise bit. It looks like this is slightly more intuitive</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-15-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-15-1" role="tab" aria-controls="tabset-15-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-15-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-15-2" role="tab" aria-controls="tabset-15-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-16-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-16-1" role="tab" aria-controls="tabset-16-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-16-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-16-2" role="tab" aria-controls="tabset-16-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-15-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-15-1-tab">
+<div id="tabset-16-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-16-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
@@ -2150,7 +2138,7 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </div>
 </div>
 </div>
-<div id="tabset-15-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-15-2-tab">
+<div id="tabset-16-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-16-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>penguins.group_by(pl.col(<span class="st">"species"</span>)).agg(total <span class="op">=</span> pl.count())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -2175,16 +2163,16 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </thead>
 <tbody>
 <tr class="odd">
-<td>"Adelie"</td>
-<td>152</td>
+<td>"Chinstrap"</td>
+<td>68</td>
 </tr>
 <tr class="even">
 <td>"Gentoo"</td>
 <td>124</td>
 </tr>
 <tr class="odd">
-<td>"Chinstrap"</td>
-<td>68</td>
+<td>"Adelie"</td>
+<td>152</td>
 </tr>
 </tbody>
 </table>
@@ -2225,10 +2213,10 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </thead>
 <tbody>
 <tr class="odd">
-<td>"Adelie"</td>
-<td>152</td>
-<td>189.953642</td>
-<td>190.0</td>
+<td>"Gentoo"</td>
+<td>124</td>
+<td>217.186992</td>
+<td>216.0</td>
 </tr>
 <tr class="even">
 <td>"Chinstrap"</td>
@@ -2237,10 +2225,10 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <td>196.0</td>
 </tr>
 <tr class="odd">
-<td>"Gentoo"</td>
-<td>124</td>
-<td>217.186992</td>
-<td>216.0</td>
+<td>"Adelie"</td>
+<td>152</td>
+<td>189.953642</td>
+<td>190.0</td>
 </tr>
 </tbody>
 </table>
@@ -2291,19 +2279,19 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </thead>
 <tbody>
 <tr class="odd">
-<td>"Chinstrap"</td>
-<td>48.833824</td>
-<td>18.420588</td>
-</tr>
-<tr class="even">
 <td>"Adelie"</td>
 <td>38.791391</td>
 <td>18.346358</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>"Gentoo"</td>
 <td>47.504878</td>
 <td>14.982114</td>
+</tr>
+<tr class="odd">
+<td>"Chinstrap"</td>
+<td>48.833824</td>
+<td>18.420588</td>
 </tr>
 </tbody>
 </table>
@@ -2342,25 +2330,25 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </thead>
 <tbody>
 <tr class="odd">
-<td>"Chinstrap"</td>
-<td>48.833824</td>
-<td>18.420588</td>
-<td>49.55</td>
-<td>18.45</td>
-</tr>
-<tr class="even">
 <td>"Gentoo"</td>
 <td>47.504878</td>
 <td>14.982114</td>
 <td>47.3</td>
 <td>15.0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>"Adelie"</td>
 <td>38.791391</td>
 <td>18.346358</td>
 <td>38.8</td>
 <td>18.4</td>
+</tr>
+<tr class="odd">
+<td>"Chinstrap"</td>
+<td>48.833824</td>
+<td>18.420588</td>
+<td>49.55</td>
+<td>18.45</td>
 </tr>
 </tbody>
 </table>
@@ -3050,19 +3038,19 @@ $ year              &lt;i64&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <tr class="odd">
 <td>"Torgersen"</td>
 <td>189025.0</td>
-<td>null</td>
-<td>null</td>
+<td>0.0</td>
+<td>0.0</td>
 </tr>
 <tr class="even">
 <td>"Biscoe"</td>
 <td>163225.0</td>
 <td>624350.0</td>
-<td>null</td>
+<td>0.0</td>
 </tr>
 <tr class="odd">
 <td>"Dream"</td>
 <td>206550.0</td>
-<td>null</td>
+<td>0.0</td>
 <td>253850.0</td>
 </tr>
 </tbody>
@@ -3520,9 +3508,9 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 <p>Lets fit a few simple models to try and get the hang of statsmodels and see what happens. I will also load <code>broom</code> since I find that it makes working with all the various list components that R spits less annoying to work with.</p>
 <p>Lets fit a univariate model first and then we can start playing with the api a little more</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-16-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-16-1" role="tab" aria-controls="tabset-16-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-16-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-16-2" role="tab" aria-controls="tabset-16-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-17-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-17-1" role="tab" aria-controls="tabset-17-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-17-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-17-2" role="tab" aria-controls="tabset-17-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-16-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-16-1-tab">
+<div id="tabset-17-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-17-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
 <span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -3538,7 +3526,7 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 </div>
 </div>
 </div>
-<div id="tabset-16-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-16-2-tab">
+<div id="tabset-17-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-17-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>naive <span class="op">=</span> smf.ols(<span class="st">"body_mass_g ~ flipper_length_mm"</span>, data <span class="op">=</span> penguins).fit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3573,13 +3561,13 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Tue, 22 Jul 2025</td>
+<td>Thu, 09 Apr 2026</td>
 <td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
 <td>4.37e-107</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>16:52:35</td>
+<td>13:44:28</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>-2528.4</td>
 </tr>
@@ -3721,13 +3709,13 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Tue, 22 Jul 2025</td>
+<td>Thu, 09 Apr 2026</td>
 <td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
 <td>4.23e-106</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>16:52:35</td>
+<td>13:44:28</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>-2527.0</td>
 </tr>
@@ -3843,9 +3831,9 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 </div>
 <p>Now the results are lining up. As a political scientist by training we love ourselves an interaction term.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-17-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-17-1" role="tab" aria-controls="tabset-17-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-17-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-17-2" role="tab" aria-controls="tabset-17-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-18-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-18-1" role="tab" aria-controls="tabset-18-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-18-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-18-2" role="tab" aria-controls="tabset-18-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-17-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-17-1-tab">
+<div id="tabset-18-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-18-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>interacted <span class="ot">=</span> <span class="fu">lm</span>(body_mass_g <span class="sc">~</span> bill_depth_mm <span class="sc">*</span> species <span class="sc">+</span> flipper_length_mm,</span>
 <span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="at">data =</span> penguins) </span>
@@ -3866,7 +3854,7 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 </div>
 </div>
 </div>
-<div id="tabset-17-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-17-2-tab">
+<div id="tabset-18-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-18-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>interacted <span class="op">=</span> smf.ols(<span class="st">"body_mass_g ~ bill_length_mm * species + flipper_length_mm"</span>, data <span class="op">=</span> penguins_pd).fit()</span>
 <span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -3896,13 +3884,13 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Tue, 22 Jul 2025</td>
+<td>Thu, 09 Apr 2026</td>
 <td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
 <td>4.07e-124</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>16:52:36</td>
+<td>13:44:28</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>-2472.3</td>
 </tr>
@@ -4106,9 +4094,9 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 <p>One useful thing that I use all the time when testing out various things I am doing is using slice. This can be specific rows or a random sample of rows!</p>
 <p>If we wanted specific rows we could do this with <code>slice</code></p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-18-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-18-1" role="tab" aria-controls="tabset-18-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-18-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-18-2" role="tab" aria-controls="tabset-18-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-19-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-19-1" role="tab" aria-controls="tabset-19-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-19-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-19-2" role="tab" aria-controls="tabset-19-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-18-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-18-1-tab">
+<div id="tabset-19-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-19-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
 <span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice</span>(<span class="dv">90</span><span class="sc">:</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -4131,7 +4119,7 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 </div>
 </div>
 </div>
-<div id="tabset-18-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-18-2-tab">
+<div id="tabset-19-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-19-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb119"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>penguins.<span class="bu">slice</span>(<span class="dv">89</span>:<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -4143,9 +4131,9 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 </div>
 <p>It looks like the R user in me strikes. So in polars if you wanted to do the same thing you give the starting number of the row you want and the length of the row you want. So we would rewrite the code like this</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-19-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-19-1" role="tab" aria-controls="tabset-19-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-19-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-19-2" role="tab" aria-controls="tabset-19-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-20-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-20-1" role="tab" aria-controls="tabset-20-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-20-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-20-2" role="tab" aria-controls="tabset-20-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-19-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-19-1-tab">
+<div id="tabset-20-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-20-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
 <span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a><span class="fu">slice</span>(<span class="dv">90</span><span class="sc">:</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -4168,7 +4156,7 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 </div>
 </div>
 </div>
-<div id="tabset-19-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-19-2-tab">
+<div id="tabset-20-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-20-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb123"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>penguins.<span class="bu">slice</span>(<span class="dv">89</span>,<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -4184,9 +4172,9 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 <h3 class="anchored" data-anchor-id="slice-sample">Slice Sample</h3>
 <p>I find it useful to take a random sample of rows and test functions. It is nice for the function to work on a set of examples you come up with but not everything is consistent so lopping off chunks of a dataset and seeing if it still works is useful.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-20-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-20-1" role="tab" aria-controls="tabset-20-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-20-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-20-2" role="tab" aria-controls="tabset-20-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-21-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-21-1" role="tab" aria-controls="tabset-21-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-21-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-21-2" role="tab" aria-controls="tabset-21-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-20-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-20-1-tab">
+<div id="tabset-21-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-21-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1994</span>)</span>
 <span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
@@ -4209,7 +4197,7 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 </div>
 </div>
 </div>
-<div id="tabset-20-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-20-2-tab">
+<div id="tabset-21-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-21-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb127"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>penguins.sample(n <span class="op">=</span> <span class="dv">10</span>, seed <span class="op">=</span> <span class="dv">1994</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -4226,9 +4214,9 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 <p>Often times if we download data from the internet the column names are a mess and we want to rename them all at once. The janitor package in R is extra handy</p>
 <p>Lets say we wanted to mass produce a camel case across the entire dataframe. In <code>R</code> that is a fairly simple task. Is it the case for python?</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-21-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-21-1" role="tab" aria-controls="tabset-21-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-21-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-21-2" role="tab" aria-controls="tabset-21-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-22-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-22-1" role="tab" aria-controls="tabset-22-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-22-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-22-2" role="tab" aria-controls="tabset-22-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-21-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-21-1-tab">
+<div id="tabset-22-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-22-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
 <span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a>janitor<span class="sc">::</span><span class="fu">clean_names</span>(<span class="at">case =</span> <span class="st">"lower_camel"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -4250,7 +4238,7 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 </div>
 </div>
 </div>
-<div id="tabset-21-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-21-2-tab">
+<div id="tabset-22-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-22-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb131"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> janitor <span class="im">import</span> clean_names</span>
 <span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -4280,9 +4268,9 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 </div>
 <p>In my head it looks like this. Where we are effectively chaining clean names to the dataframe. From the documentation it looks like this</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-22-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-22-1" role="tab" aria-controls="tabset-22-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-22-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-22-2" role="tab" aria-controls="tabset-22-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-23-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-23-1" role="tab" aria-controls="tabset-23-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-23-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-23-2" role="tab" aria-controls="tabset-23-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-22-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-22-1-tab">
+<div id="tabset-23-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-23-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
 <span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>janitor<span class="sc">::</span><span class="fu">clean_names</span>(<span class="at">case =</span> <span class="st">"small_camel"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -4304,7 +4292,7 @@ $ starships &lt;list[str]&gt; ['X-wing', 'Imperial shuttle'], [], [], ['TIE Adva
 </div>
 </div>
 </div>
-<div id="tabset-22-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-22-2-tab">
+<div id="tabset-23-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-23-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb135"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>clean_names(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -4394,9 +4382,9 @@ Series: 'bill_depth_mm' [str]
 </div>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-23-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-23-1" role="tab" aria-controls="tabset-23-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-23-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-23-2" role="tab" aria-controls="tabset-23-2" aria-selected="false">Python</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-24-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-24-1" role="tab" aria-controls="tabset-24-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-24-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-24-2" role="tab" aria-controls="tabset-24-2" aria-selected="false">Python</a></li></ul>
 <div class="tab-content">
-<div id="tabset-23-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-23-1-tab">
+<div id="tabset-24-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-24-1-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a>vec1[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -4404,7 +4392,7 @@ Series: 'bill_depth_mm' [str]
 </div>
 </div>
 </div>
-<div id="tabset-23-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-23-2-tab">
+<div id="tabset-24-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-24-2-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb146"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np </span>
 <span id="cb146-2"><a href="#cb146-2" aria-hidden="true" tabindex="-1"></a></span>

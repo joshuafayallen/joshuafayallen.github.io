@@ -29,7 +29,6 @@ I got interested in [Alex Andora and Maximilian Göbel's Soccer Factor Model](ht
 
 
 # get reticulate to not be a pain to work with
-reticulate::use_python(Sys.getenv("RETICULATE_PYTHON"), required = TRUE)
 
 ```
 

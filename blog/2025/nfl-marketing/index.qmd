@@ -1,16 +1,22 @@
 ---
 title: "What Marketing Taught Me About Football"
 subtitle: "And What Football Taught Me about Marketing"
-format: html
 date: 03-25-2026
 date-modified: last-modified
 execute: 
   warning: false
   message: false
-  cache: true
+  code-fold: true 
+  results: "hide"
   knitr:
     opts_chunk:
         fig_pos: "H"
+draft: false
+description: "Modeling ROI of different personnel packages"
+tags: 
+ - Marketing
+ - Bayesian Statistics
+ - MMM
 ---
 
 ::: {.callout-important}
@@ -30,8 +36,10 @@ Another way that Kyle and Sean try to manufacture explosive plays is by using pe
 #| include: false
 #| echo: false
 
-# get reticulate to not be a pain to work with
-reticulate::use_python(Sys.getenv("RETICULATE_PYTHON"), required = TRUE)
+# make sure that reticulate doesn't do anything crazy
+library(arrow)
+
+
 
 ```
 
@@ -146,6 +154,7 @@ First we are going to generate two years worth of data
 
 ```{python}
 #| label: make-years-data
+
 df = (pl.DataFrame({
     'date_week': pl.date_range(min_date, max_date, "1d", eager = True)}
     )
@@ -203,8 +212,6 @@ Next we are going to pass each of these through our adstock function. In media m
 ```{python}
 #| code-fold: True
 #| label: make-adstock
-#| eval: false 
-
 alpha1: float = 0.4 
 alpha2: float = 0.2
 
@@ -243,7 +250,7 @@ The next thing we are going to do is add our concentration effects or how much m
 ```{python}
 #| code-fold: true
 #| label: make-saturation
-#| eval: false
+
 lam1: float = 4.0
 lam2: float = 3.0
 
@@ -277,47 +284,11 @@ df = (
 
 Then as always we are going to plot this to make sure everything is good. 
 
-```{python}
-#| echo: false
-#| label: read-in-data-behind-scenes
-
-import polars as pl
-from great_tables import GT
-import polars.selectors as cs
-import arviz as az 
-import matplotlib.pyplot as plt
-import numpy as np 
-import pandas as pd
-import preliz as pz
-import pymc as pm
-import pytensor 
-import pytensor.tensor as pt
-import seaborn as sns
-from pymc_extras.prior import Prior
-from pymc_marketing.mmm import GeometricAdstock, LogisticSaturation
-from pymc_marketing.mmm.multidimensional import MMM
-from pymc_marketing.mmm.transformers import geometric_adstock, logistic_saturation, michaelis_menten
-from datetime import date
-from pymc_marketing.mmm.hsgp import(
-    HSGP, 
-    SoftPlusHSGP,
-    create_m_and_L_recommendations, 
-    create_constrained_inverse_gamma_prior,
-    create_eta_prior, 
-    CovFunc, 
-    plot_curve
-)
-
-df = pl.read_parquet('blog-post-data/saturated-x.parquet')
-
-```
 
 ```{python}
 #| label: plot-effects
 
-fig, ax = plt.subplots()
 long_effects = df.unpivot(on = cs.starts_with('x'), index = 'date_week')
-
 g = sns.FacetGrid(data= long_effects, col = 'variable', col_wrap = 2)
 g.map(sns.lineplot, 'date_week', 'value')
 
@@ -531,7 +502,6 @@ To build an intuition on what that may mean practically we can simulate some spe
 ```{python}
 #| code-fold: true
 #| label: example-adstock
-#| eval: false
 raw_spend = np.array([1000, 900, 800, 700, 600, 500, 400, 300, 200, 100, 0, 0, 0, 0, 0, 0])
 
 adstock_spend_1 = geometric_adstock(x=raw_spend, alpha=0.20, l_max=8, normalize=True).eval().flatten()
@@ -560,9 +530,7 @@ plt.show()
 
 ```
 
-<center>
-![](figs/adstock.png)
-</center>
+
 
 In effect, geometric adstock is just a weighted average of media spend in the current period and previous periods, where we make an assumption about the maximum duration of the carryover effect. As the alpha values decrease the impact of the spend overtime. Generally this is used for re-targeting or campaigns with calls to action. Typically the reason you would set a low alpha value is if you are reasonably confident customers have seen the ad you are just trying to get them back onto your website to do something. The Red Cross doesn't want you to sit there and think about whether you should donate money after a hurricane or earthquake. They want to get you onto the website as quickly as possible to donate resources. 
 
@@ -595,7 +563,6 @@ Instead of zeroing in on the exact point where the decay happens we are going to
 ```{python}
 #| code-fold: true
 #| label: example-saturation
-#| eval: false
 scaled_spend = np.linspace(start=0.0, stop=1.0, num=100)
 
 saturated_spend_1 = logistic_saturation(x=scaled_spend, lam=1).eval()
@@ -630,7 +597,10 @@ So after that long aside lets fit the model.
 
 
 ```{python}
-#| eval: false
+#| warning: false
+#| message: false 
+#| results: hide
+
 mmm.fit(X = X, 
         y = y)
 
@@ -640,7 +610,10 @@ Then we plot can check how we did by plotting the posterior predictive.
 
 
 ```{python}
-#| eval: false
+#| warning: false
+#| message: false 
+#| results: hide
+
 mmm.sample_posterior_predictive(X=X, random_seed = seed)
 
 fig, axes = mmm.plot.posterior_predictive(var=["y_original_scale"], hdi_prob=0.94)
@@ -713,9 +686,7 @@ fig.suptitle("Contribution Breakdown over Time", fontsize=16, fontweight="bold")
 
 ```
 
-<center>
-![](figs/channel-contribution.png)
-</center>
+
 
 It looks like we get a reasonable return on spending across both channels. It seems like channel two is giving us a bit more than channel 1. 
 
@@ -818,7 +789,7 @@ The first order of business is to only include offensive plays this is easy sinc
 
 
 ```{python}
-
+#| code-fold: true
 examp2 = (
     load_participation()
     .filter((pl.col('defenders_in_box') != 0) & (pl.col('possession_team') == 'SF'))
@@ -847,7 +818,7 @@ The simple trick to this is just to add the RBs and Fullbacks together, than con
 
 
 ```{python}
-
+#| code-fold: true
 fixed = (
     examp2 
     .with_columns(
@@ -1190,11 +1161,7 @@ stds = (
 
 )
 
-
-
 just_controls_pl = pl.from_pandas(just_controls)
-
-
 
 just_controls_sdz = (
     just_controls_pl
@@ -1263,18 +1230,15 @@ To speed this process along a little bit, I then go and make a few binary indica
 
 ```{python}
 #| label: plot-explosive-play-rate
-#| eval: false
+
 fig, axes = plt.subplots()
-sns.histplot(data = scaled_y, x = 'explosive_play_rate_transformed')
+sns.histplot(data = scaled_y.to_pandas(), x = 'explosive_play_rate_transformed')
 
 
 
 ```
 
 
-<center>
-![](figs/expr-obs.png)
-</center>
 
 To handle this I nudged the values of explosive play rate away from zero and one. There are definitely drawbacks to this approach as outlined in [Kubinec 2023](https://www.cambridge.org/core/journals/political-analysis/article/abs/ordered-beta-regression-a-parsimonious-wellfitting-model-for-continuous-data-with-lower-and-upper-bounds/89F4141DA16D4FC217809B5EB45EEE83), but we are still working on a native PyMC implementation. 
 
@@ -1332,6 +1296,7 @@ Then we are going to generate the models to check how well each of them fit the 
 ```{python}
 #| code-fold: true
 #| label: build-example-models
+#| results: 'hide'
 
 n_knots = 20
 
@@ -1431,8 +1396,6 @@ In the interest of full disclosure I fit each model and then compared how well t
 ```{python}
 #| code-fold: True
 #| label: build-front-half
-#| eval: false
-
 
 def logit(p):
     return np.log(p / (1 - p))
@@ -1622,7 +1585,6 @@ Next, we are going to transform these variables using a Michaelis-Menten saturat
 ```{python}
 #| label: build-hsgp
 #| code-fold: true
-#| eval: false
 
 
 tc_max = raw_data_pd['tenure_relative'].max()
@@ -1915,696 +1877,15 @@ az.compare(mod_dict)
 
 ```
 
+
+
 ```{python}
 #| echo: false
-#| label: build-full-models
-#| results: false
-from patsy import dmatrix
-
-seed = 14993111
-def logit(p):
-    return np.log(p / (1 - p))
-
-RANDOM_SEED = np.random.default_rng(seed = seed)
-
-def plot_prior(trace ,param: str):
-    fig, axe = plt.subplots()
-    return az.plot_dist(trace.prior[param])
-
-
-
-keep_these = (
-    pl.read_parquet('processed-data/processed-dat.parquet')
-    .group_by('off_play_caller')
-    .agg(
-        pl.len().alias('games_called')
-    )
-    .filter(
-        pl.col('games_called') >= 104 # generally we want at least like two years of data 
-    )
-    ['off_play_caller'].to_list()
-)
-
-
-raw_data = (
-    pl.read_parquet('processed-data/processed-dat.parquet')
-    .with_columns(
-        pl.col('nflverse_game_id')
-        .str.extract(r"_(\d{2})_")
-        .str.replace_all('_', '')
-        .str.to_integer()
-        .alias('week'),
-        pl.when(pl.col('surface') == 'grass')
-        .then(pl.lit(1))
-        .otherwise(0)
-        .alias('is_grass'),
-        pl.when(
-        pl.col('roof').is_in(['closed', 'dome']))
-        .then(pl.lit(1))
-        .otherwise(0)
-        .alias('is_indoors'), 
-        pl.col('game_date').str.extract(r"(\d{4})").str.to_integer().alias('year')    
-            )
-        .with_columns(
-            (pl.col('year') - 2017).alias('obs_tenure')
-        )
-        .filter(
-            pl.col('off_play_caller').is_in(keep_these)
-        )
-        ## we just need to get some relative indicators 
-        .with_columns(
-            pl.col('play_caller_tenure').min().over('off_play_caller').alias('first_observed')
-        )
-        .with_columns(
-            (pl.col('play_caller_tenure') - pl.col('first_observed'))
-            .alias('tenure_relative')
-        )
-        .with_columns(
-            ((pl.col('first_observed') - pl.col('first_observed').mean())/
-            pl.col('first_observed').std()).alias('career_scaled')
-        )
-
-)   
-
-
-
-
-raw_data_pd = (raw_data.to_pandas()
-            .sort_values(['off_play_caller', 'season', 'week']))
-
-
-unique_seasons = raw_data_pd['play_caller_tenure'].sort_values().unique()
-
-unique_play_callers = raw_data_pd['off_play_caller'].sort_values().unique()
-
-season_idx = pd.Categorical(
-    raw_data_pd['play_caller_tenure'], categories=unique_seasons
-).codes
-
-
-coach_idx = pd.Categorical(
-    raw_data_pd['off_play_caller'], categories=unique_play_callers).codes
-
-
-predictors = ['avg_epa', 'avg_defenders_in_box',
-            'is_indoors', 'is_grass', 'div_game',
-            'wind', 'temp', 'is_home_team', 'avg_diff', 'avg_pass_rate']
-
-
-
-just_controls = raw_data_pd[predictors]
-
-nobs = raw_data.height
-
-scaled_y = (
-    raw_data
-    .with_columns(
-    (pl.col('explosive_play_rate') / (pl.col('explosive_play_rate').abs()
-    .max()))
-    .alias("scaled_explosive_plays")
-    ).with_columns(
-        (((pl.col('scaled_explosive_plays')) * (nobs-1) + 0.5)/nobs)
-        .alias("explosive_play_rate_transformed")
-    )
-
-)
-
-
-
-
-get_stds = (
-    raw_data
-    .group_by('season')
-    .agg(
-        pl.col('explosive_play_rate').std()
-    )
-
-)
-
-
-numeric_cols = (
-    pl.from_pandas(just_controls)
-    .select(
-            pl.exclude('div_game', 'is_home_team', 'is_indoors', 'is_grass')
-            ).columns
-)
-
-
-means = (
-    pl.from_pandas(just_controls)
-    .select(
-        [pl.col(c).mean().alias(c) for c in numeric_cols]
-    )
-
-)
-
-
-stds = (
-    pl.from_pandas(just_controls)
-    .select(
-        [pl.col(c).std().alias(c) for c in numeric_cols]
-    )
-
-)
-
-
-
-just_controls_pl = pl.from_pandas(just_controls)
-
-
-
-just_controls_sdz = (
-    just_controls_pl
-    .with_columns(
-        [((pl.col(c) - means[0,c])/ stds[0, c]).alias(c) for c in numeric_cols]
-    )
-    .with_columns(
-        pl.Series("div_game", just_controls_pl['div_game']),
-        pl.Series('is_home_team', just_controls_pl['is_home_team']), 
-        pl.Series('is_indoors', just_controls_pl['is_indoors']), 
-        pl.Series ('is_grass', just_controls_pl['is_grass'])
-    ).to_pandas()
-
-)
-
-personnel_cols = (
-    raw_data.select(cs.starts_with('personnel')).to_pandas()
-)
-
-
-usage = personnel_cols.mean(axis = 0)
-
-reliable_cols = usage[usage >= 0.01].index.tolist()
-
-personnel_cols = personnel_cols[reliable_cols]
-
-
-used_cols = (
-    raw_data
-    .select(cs.starts_with('personnel'))
-
-)
-
-
-usage = used_cols.mean()
-
-mask_df = usage.select(
-    [(pl.col(c) >= 0.01).alias(c) for c in usage.columns]
-
-)
-
-mask = mask_df.row(0, named = True)
-
-reliable_cols = [name for name, keep in mask.items() if keep]
-
-personnel_cols = used_cols.select(reliable_cols).columns
-
-personnel_scaled = (
-    raw_data
-    .select(pl.col(personnel_cols))
-    .with_columns(
-        [
-            (pl.col(c) / (pl.col(c).abs().max()))
-            for c in personnel_cols
-        ]
-    ).to_pandas()
-    
-
-)
-
-## instead of using a full hsgp we are going to use a penalized one 
-## we do also need 
-
-tc_max = raw_data_pd['tenure_relative'].max()
-tc_mid = tc_max/2
-
-m_seasons, l_seasons  = create_m_and_L_recommendations(
-    X = raw_data_pd['tenure_relative'], 
-    X_mid=tc_mid,
-    ls_lower=1.0, 
-    ls_upper=tc_max,
-    cov_func=CovFunc.Matern52
-)
-
-ls_prior = create_constrained_inverse_gamma_prior(
-    lower = 1.0, 
-    upper = tc_max, 
-    mass = 0.9
-)
-
-eta_prior = create_eta_prior(mass = 0.05, upper = 0.5)
-
-_obs_epr = scaled_y['explosive_play_rate_transformed'].to_numpy()
-_logit_mean_baseline = float(logit(np.mean(_obs_epr))) 
-
-coords = {
-    'seasons': unique_seasons, 
-    'predictors': just_controls_sdz.drop('avg_pass_rate',axis = 1).columns.tolist(), 
-    'channels': personnel_scaled.columns,
-    'play_callers': unique_play_callers,
-    'obs_id': just_controls_sdz.index, 
-}
-
-with pm.Model(coords = coords) as mmm_hsgp:
-
-    global_controls = pm.Data(
-        'control_data',
-        just_controls_sdz.drop('avg_pass_rate', axis = 1),
-        dims = ('obs_id', 'predictors')
-    )
-
-    passing_dat = pm.Data(
-        'passing_data', 
-        just_controls_sdz['avg_pass_rate'], 
-        dims = 'obs_id'
-    )
-
-    personnel_dat = pm.Data(
-        'personnel_data', 
-        personnel_scaled.to_numpy(),
-        dims = ('obs_id', 'channels')
-    )
-
-    obs_exp_plays = pm.Data(
-        'obs_exp_plays',
-        scaled_y['explosive_play_rate_transformed'].to_numpy(),
-        dims = 'obs_id'
-    )
-
-    coach_id = pm.Data('coach_id', coach_idx, dims = 'obs_id')
-    tenure_dat = pm.Data('tenure_relative',
-                        raw_data['tenure_relative'].to_numpy(),
-                        dims = 'obs_id')
-    
-    career_exp_dat = pm.Data(
-        'career_exp', 
-        raw_data['career_scaled'].to_numpy(), 
-        dims = 'obs_id'
-    )
-
-    coach_sigma = pm.HalfNormal('coach_sigma', 0.5),
-    coach_baseline = pm.Normal('coach_baseline', 0,1, dims = 'play_callers')
-    coach_prior = pm.Normal(
-        'coach_prior', 
-        mu = _logit_mean_baseline,
-        sigma = 0.5,
-    )
-
-    coach_mean = pm.Deterministic(
-        'coach_mean', 
-        coach_prior + (coach_sigma * coach_baseline), 
-        dims = 'play_callers'
-
-    )
-    coach_mu = pm.Deterministic(
-        'coach_mu', 
-        coach_mean[coach_id],
-        dims = 'obs_id'
-    )
-
-    controls_prior = pm.Normal(
-        'controls_beta', 
-        mu = 0,
-        sigma = 0.05,
-        dims = 'predictors'
-    )
-
-    control_contribution = pm.Deterministic(
-        'control_contribution',
-        pm.math.dot(global_controls, controls_prior),
-        dims = 'obs_id'
-    )
-
-    passing_prior = pm.Normal('passing_prior', mu = 0, sigma = 0.1)
-
-    adstock_alphas = pm.Beta(
-        'adstock_alphas',
-        alpha = 1, 
-        beta = 12,
-        dims = 'channels'
-    )
-
-    adstock_list = []
-
-    for i in range(len(coords['channels'])):
-        adstock_list.append(
-            geometric_adstock(personnel_dat[:,i], adstock_alphas[i], l_max = 2)
-        )
-    
-    x_adstock = pm.Deterministic(
-        'x_adstock', 
-        pt.stack(adstock_list, axis = 1), 
-        dims = ('obs_id', 'channels')
-    )
-
-    exp_effect = pm.Normal(
-        'exp_effect', 
-        mu = 0, 
-        sigma = 0.5
-    )
-    mm_alpha_base = pm.Gamma(
-        'mm_alpha_base',
-        alpha = 3, beta = 6,
-        dims='channels'
-    )
-    
-    mm_lam = pm.Gamma(
-        'mm_lam',
-        alpha = 3,
-        beta = 15, 
-        dims = 'channels'
-    )
-
-    mm_alpha = pm.Deterministic(
-        'mm_alpha', 
-        mm_alpha_base[None, :] * pm.math.exp(
-            exp_effect * career_exp_dat[:,None]
-        ),
-        dims = ('obs_id', 'channels')
-    )
-
-    saturated_list = []
-    for i in range(len(coords['channels'])):
-        saturated_list.append(
-            michaelis_menten(x_adstock[:,i], mm_alpha[:,i], mm_lam[i])
-        )
-    
-    x_saturated_base = pt.stack(saturated_list, axis = 1)
-
-    hsgp_tvp = SoftPlusHSGP(
-        eta = eta_prior,
-        ls = ls_prior, 
-        m = m_seasons,
-        L = l_seasons,
-        X = tenure_dat,
-        X_mid=tc_mid,
-        cov_func=CovFunc.Matern52,
-        dims = ('obs_id', 'channels'),
-        centered=False,
-        drop_first=False
-    )
-    tenure_mult = hsgp_tvp.create_variable(
-        'tenure_multiplier'
-    )
-
-    x_saturated = pm.Deterministic(
-        'x_saturated', 
-        x_saturated_base * tenure_mult,
-        dims = ('obs_id', 'channels')
-    )
-
-    personnel_contribution = pm.Deterministic(
-        'personnel_contribution', 
-        x_saturated.sum(axis =1),
-        dims = 'obs_id'
-    )
-
-    mu = pm.Deterministic(
-        'mu',
-        coach_mu + 
-        personnel_contribution + 
-        control_contribution + 
-        pm.math.dot(passing_prior, passing_dat), 
-        dims = 'obs_id'
-    )
-
-    precision = pm.Gamma('precision', alpha = 10, beta = 0.5)
-    # precisions = pm.Exponential('precision', 1/25)
-
-    mu_logit = pm.math.invlogit(mu)
-
-    pm.Beta(
-        'y_obs', 
-        alpha = mu_logit * precision,
-        beta = (1-mu_logit) * precision,
-        observed=obs_exp_plays,
-        dims = 'obs_id'
-    )
-
-
-with mmm_hsgp:
-    idata_hsgp = pm.sample_prior_predictive()
-
-
-
-with mmm_hsgp:
-    idata_hsgp.extend(
-        pm.sample(random_seed=RANDOM_SEED, nuts_sampler='numpyro')
-    )
-
-
-with mmm_hsgp:
-    idata_hsgp.extend(
-        pm.sample_posterior_predictive(
-            idata_hsgp
-        )
-    )
-    pm.compute_log_likelihood(idata_hsgp)
-
-
-unique_tenure = raw_data_pd['tenure_relative'].sort_values().unique()
-_tenure_idx = pd.Categorical(
-    raw_data_pd['tenure_relative'], categories=unique_tenure
-).codes
-
-
-n_knots = 3
-
-knots = np.quantile(unique_tenure, np.linspace(0,1, n_knots))
-spline_obs = dmatrix(
-    "bs(tenure, knots = knots, degree = 3, include_intercept = True) - 1",
-    {'tenure': raw_data['tenure_relative'].to_numpy(), 'knots':knots[1:-1]}
-)
-spline_grid = dmatrix(
-    "bs(tenure, knots=knots, degree=3, include_intercept=True) - 1",
-    {'tenure': unique_tenure, 'knots': knots[1:-1]}
-)
-
-
-basis_set_obs  = np.array(spline_obs)   # (obs_id, n_basis)
-basis_set_grid = np.array(spline_grid)  # (n_unique_tenure, n_basis)
-
-coords['spline_basis'] = [f"s{i}" for i in range(basis_set_obs.shape[1])]
-
-with pm.Model(coords = coords) as mmm_spline:
-    global_controls = pm.Data(
-        'control_data', just_controls_sdz.drop('avg_pass_rate', axis=1),
-        dims=('obs_id', 'predictors')
-    )
-    passing_dat   = pm.Data('passing_data',
-                            just_controls_sdz['avg_pass_rate'], dims='obs_id')
-    personnel_dat = pm.Data(
-        'personnel_data', personnel_scaled, dims=('obs_id', 'channels')
-    )
-    obs_exp_plays = pm.Data('obs_exp_plays',
-                        scaled_y['explosive_play_rate_transformed'].to_numpy(), 
-                        dims='obs_id')
-
-    # Spline basis evaluated at each observation's tenure_relative position
-    spline_basis_dat = pm.Data(
-        'spline_basis_obs', basis_set_obs,
-        dims=('obs_id', 'spline_basis')
-    )
-
-
-    coach_id = pm.Data('coach_id', coach_idx, dims = 'obs_id')
-    tenure_dat = pm.Data('tenure_relative',
-                        raw_data['tenure_relative'].to_numpy(),
-                        dims = 'obs_id')
-    
-    career_exp_dat = pm.Data(
-        'career_exp', 
-        raw_data['career_scaled'].to_numpy(), 
-        dims = 'obs_id'
-    )
-
-    coach_sigma = pm.HalfNormal('coach_sigma', 0.5)
-    coach_baseline = pm.Normal('coach_baseline', 0,1, dims = 'play_callers')
-    coach_prior = pm.Normal(
-        'coach_prior', 
-        mu = _logit_mean_baseline,
-        sigma = 0.5,
-    )
-
-    coach_mean = pm.Deterministic(
-        'coach_mean', 
-        coach_baseline + coach_sigma * coach_prior, 
-        dims = 'play_callers'
-
-    )
-    coach_mu = pm.Deterministic(
-        'coach_mu', 
-        coach_mean[coach_id],
-        dims = 'obs_id'
-    )
-    controls_prior = pm.Normal(
-        'controls_beta', 
-        mu = 0,
-        sigma = 0.05,
-        dims = 'predictors'
-    )
-
-    control_contribution = pm.Deterministic(
-        'control_contribution',
-        pm.math.dot(global_controls, controls_prior),
-        dims = 'obs_id'
-    )
-
-    passing_prior = pm.Normal('passing_prior', mu = 0, sigma = 0.1)
-
-    adstock_alphas = pm.Beta(
-        'adstock_alphas',
-        alpha = 1, 
-        beta = 12,
-        dims = 'channels'
-    )
-
-    adstock_list = []
-
-    for i in range(len(coords['channels'])):
-        adstock_list.append(
-            geometric_adstock(personnel_dat[:,i], adstock_alphas[i], l_max = 2)
-        )
-    
-    x_adstock = pm.Deterministic(
-        'x_adstock', 
-        pt.stack(adstock_list, axis = 1), 
-        dims = ('obs_id', 'channels')
-    )
-    exp_effect = pm.Normal(
-        'exp_effect', 
-        mu = 0, 
-        sigma = 0.5
-    )
-    mm_alpha_base = pm.Gamma(
-        'mm_alpha_base',
-        alpha = 3, beta = 6,
-        dims='channels'
-    )
-    
-    mm_lam = pm.Gamma(
-        'mm_lam',
-        alpha = 3,
-        beta = 15, 
-        dims = 'channels'
-    )
-
-    mm_alpha = pm.Deterministic(
-        'mm_alpha', 
-        mm_alpha_base[None, :] * pm.math.exp(
-            exp_effect * career_exp_dat[:,None]
-        ),
-        dims = ('obs_id', 'channels')
-    )
-
-    saturated_list = []
-    for i in range(len(coords['channels'])):
-        saturated_list.append(
-            michaelis_menten(x_adstock[:,i], mm_alpha[:,i], mm_lam[i])
-        )
-    
-    x_saturated_base = pt.stack(saturated_list, axis = 1)
-    
-    spline_sigma = pm.Exponential('spline_sigma', 2)
-    spline_raw = pm.Normal('spline_raw',
-                            mu = 0,
-                            sigma = 1,
-                            dims = ('spline_basis', 'channels'))
-
-
-    spline_beta = pm.Deterministic(
-        'spline_beta', 
-        spline_sigma * spline_raw, 
-        dims = ('spline_basis', 'channels')
-    )
-
-
-    spline_surface = pm.math.dot(spline_basis_dat, spline_beta)
-    tenure_factor_raw = pm.math.log1pexp(spline_surface)
-    tenure_factor_mean = tenure_factor_raw.mean(axis = 0)
-
-    tenure_mult = pm.Deterministic(
-        'tenure_mult',
-        tenure_factor_raw/tenure_factor_mean[None, :], 
-        dims = ('obs_id', 'channels')
-    )
-
-    x_saturated = pm.Deterministic(
-        'x_saturated', 
-        x_saturated_base * tenure_mult,
-        dims = ('obs_id', 'channels')
-    )
-
-
-    personnel_contribution = pm.Deterministic(
-        'personnel_contribution', 
-        x_saturated.sum(axis =1),
-        dims = 'obs_id'
-    )
-
-    mu = pm.Deterministic(
-        'mu',
-        coach_mu + 
-        personnel_contribution + 
-        control_contribution + 
-        pm.math.dot(passing_prior, passing_dat), 
-        dims = 'obs_id'
-    )
-
-    precision = pm.Gamma('precision', alpha = 10, beta = 0.5)
-    # precisions = pm.Exponential('precision', 1/25)
-
-    mu_logit = pm.math.invlogit(mu)
-
-    pm.Beta(
-        'y_obs', 
-        alpha = mu_logit * precision,
-        beta = (1-mu_logit) * precision,
-        observed=obs_exp_plays,
-        dims = 'obs_id'
-    )
-
-
-with mmm_spline: 
-    idata_spline = pm.sample_prior_predictive()
-
-
-
-with mmm_spline:
-    idata_spline.extend(
-        pm.sample(random_seed=RANDOM_SEED, nuts_sampler='numpyro')
-    )
-
-
-with mmm_spline:
-    idata_spline.extend(
-        pm.sample_posterior_predictive(idata_spline)
-    )
-    pm.compute_log_likelihood(idata_spline)
-
-
-
-
-```
-
-
-
-Functionally there is not a huge difference between the two models. The HSGP model is technically better than the spline model but not by a lot. So lets go and look at the curves that both models produce. 
-
-```{python}
-#| label: mod-comparisions-fake
 #| eval: false
-mod_names = ['mod with hsgp', 'mod with spline']
 
-mod_dict = dict(zip(mod_names,[idata_hsgp, idata_spline]))
-comps = az.compare(mod_dict)
+import polars as pl 
+from great_tables import GT
 
-
-
-```
-
-```{python}
-#| echo: false
 comps = (
         pl.read_parquet('blog-post-data/comps.parquet')
         .rename({'__index_level_0__': 'mod'})
@@ -2656,7 +1937,10 @@ The core of the model remains mostly the same. Through some further exploration 
 #| code-fold: true
 #| message: false
 #| results: false
+#| label: final-model
 #| eval: false
+
+
 personnel_cols = (
     raw_data.select(cs.starts_with('personnel')).columns
 )
@@ -2704,14 +1988,14 @@ n_pairs = len(coach_group_pairs)
 pair_coach_idx = np.array(
     pd.Categorical(
         [c for c, _ in coach_group_pairs],
-        categories=unique_play_callers  # same categories as coach_idx
+        categories=unique_play_callers  
     ).codes
 )
 
 pair_group_idx = np.array(
     pd.Categorical(
         [g for _, g in coach_group_pairs],
-        categories=list(keep)  # same order as coords['channels']
+        categories=list(keep)  
     ).codes
 )
 
@@ -2726,6 +2010,7 @@ tenure_idx = pd.Categorical(
 
 tc_max = raw_data_pd['tenure_relative'].max()
 tc_mid = tc_max/2
+
 
 m_seasons, l_seasons  = create_m_and_L_recommendations(
     X = unique_tenure, 
@@ -2743,10 +2028,6 @@ ls_prior = create_constrained_inverse_gamma_prior(
 )
 
 eta_prior = create_eta_prior(mass = 0.05, upper = 0.2)
-
-
-def logit(p):
-    return np.log(p / (1 - p))
 
 _epr_per_game = (
     raw_data['n_explosive'] / raw_data['total_plays']
@@ -2965,24 +2246,26 @@ with pm.Model(coords = coords) as mmm_hsgp:
 
 
 
-with mmm:
-    idata = pm.sample_prior_predictive()
+with mmm_hsgp:
+    idata_hsgp = pm.sample_prior_predictive()
 
 
-with mmm:
-    idata.extend(
+with mmm_hsgp:
+    idata_hsgp.extend(
         pm.sample(random_seed=RANDOM_SEED,
         nuts_sampler='nutpie')
     )
 
-idata.sample_stats['diverging'].sum().data
+idata_hsgp.sample_stats['diverging'].sum().data
 
 
 
-with mmm:
-    pm.sample_posterior_predictive(idata, extend_inferencedata=True)
-    pm.compute_log_likelihood(idata)
+with mmm_hsgp:
+    pm.sample_posterior_predictive(idata_hsgp, extend_inferencedata=True)
+    pm.compute_log_likelihood(idata_hsgp)
 
+az.plot_ppc(idata_hsgp, kind='cumulative')
+az.plot_loo_pit(idata_hsgp, y='y_obs', legend=True)
 
 
 ```
@@ -2992,14 +2275,15 @@ As we can see the model does a much better job of predicting the observed data!
 
 
 ```{python}
-#| eval: false
+
+idata = az.from_netcdf('model/mmm-binomial.nc')
 
 az.plot_ppc(idata)
 
 
 ```
 
-![](figs/ppc-binomial.png)
+
 
 
 Now the next step is just to look at what our returns for each channel are. I am going to do this in R just because `ggdist` is a bit easier to use and adheres more closely to my personal preferences on data visualizations. The only real tricky part is just getting everything I want and what ggdist wants into one dataframe. I found that you can really just use the `to_dataframe` feature to get everything to pandas and then just merge everything together. Initially, I found that the data was a bit to big to work with in memory so I converted them to lazy frames and then wrote them using the streaming engine. However, in the interest of full disclosure it was likely due to the fact that I was working on another project that was taking up a fair amount of memory, 
@@ -3007,7 +2291,10 @@ Now the next step is just to look at what our returns for each channel are. I am
 ```{python}
 #| eval: false
 #| code-fold: true
-idata.to_netcdf('model/mmm-binomial.nc')
+#| label: mock-build-data
+
+idata = az.from_netcdf('model/mmm-binomial.nc')
+
 coach_group_pairs = (
     pl.from_pandas(
         idata.posterior['x_saturated_pairs'].to_dataframe().reset_index()
@@ -3080,15 +2367,20 @@ add_personnel_contributions = (
 
 add_personnel_contributions.write_parquet(
     'contribution',
-    partition_by = ['coach', 'personnel_grouping'],
+    pyarrow_options = {"partition_cols": ['coach', 'personnel_grouping']},
+    use_pyarrow = True)
 ```
 
 
 Then from there we can just bring everything into R. The interesting thing about the Polars parquet writer native parquet writer is that it creates some inconsistencies in the strings. So we do have to resolve them later in R. 
 
 ```{r}
-library(arrow)
+#| label: make-marginal-lift
+#| code-fold: true
+
 library(ggdist)
+library(arrow)
+library(MetBrewer)
 library(tidyverse)
 
 scheme = schema(
@@ -3103,15 +2395,486 @@ scheme = schema(
   overall_mean = float64(),
   season = float64(), 
   week = float64(),
-  tenure_relative = float64()
+  tenure_relative = float64(), 
+  n_explosive = float64(),
+  total_plays = int32(),
+  time = float64()
 )
 
-raw_data = open_dataset('contribution', partitioning = c('coach', 'personnel_grouping'), schema = scheme) |>
+
+raw_data = open_dataset('contribution', format =  'parquet', partitioning = c("coach", "personnel_grouping"), schema = scheme) |>
   collect()
+
+
+make_marginal_lift = raw_data |>
+  mutate(
+    p_full = plogis(overall_mean),
+    p_base = plogis(overall_mean - x_saturated_pairs),
+    marginal_lift = p_full - p_base,
+    personnel_nice = str_remove(personnel_grouping, 'personnel_'), 
+    personnel_nice = as.factor(glue::glue("{personnel_nice} Personnel")), 
+
+  ) |>
+    filter(coach %in% c('Kyle Shanahan', 'Sean McVay', 'Andy Reid', 'Sean Payton'))
 
 ```
 
 
 ## The Returns on Personnel Groupings
 
-So after an admittedly long-winded section on 
+So after an admittedly long-winded section on what I did I think we should try to learn something about football. Instead of focusing on every play caller in the dataset I am going to subset the data to only include Kyle Shanahan, Sean McVay, Andy Reid, and Sean Payton.^[This just means I am dropping Josh McDaniels, Matt LaFleur, Zac Taylor, Kellen Moore, and Arthur Smith] I these four the most interesting due to their reputations and in some ways represent their respective eras of offense/philosophies quite well.
+
+
+To give you a sense about what these plots are saying on average teams run anywhere between 60-70 plays per game. So if a team has about 60 plays a game and their marginal lift was 0.005 they would have, roughly, `r 60 * 0.05` explosive plays per game or about an extra explosive every 3 games. At the top I will note we don't see a huge return for any personnel groupings. While I didn't expect huge effects I was still struck by how small the median effects were and how wide the intervals were. I will return to why I suspect this is the case but for now I will just focus on the substance of the findings. 
+
+Kind of unsurprisingly, 11 personnel leads all other personnel groupings in terms of marginal left. Intuitively this makes the most sense. In 11 personnel you have three WRs on the field making it much more amenable for passing and for run concepts if your WRs are good blockers you can leverage that against the defense for explosive runs. A pet cat of analytics for the last 10ish years has been that teams should be passing more because it is more efficient and more effective than passing the ball. 
+
+```{r}
+#| label: overall-marginal-lift
+#| fig-cap: "Overall Marginal Lift"
+
+ggplot(
+  make_marginal_lift,
+  aes(
+    x = marginal_lift,
+    y = personnel_nice,
+    color = personnel_nice,
+    fill = personnel_nice
+  )
+) + 
+  stat_pointinterval() +
+  scale_fill_met_d(name = 'Lakota') + 
+  scale_color_met_d(name = 'Lakota') +
+  labs(y = NULL) + 
+  theme_minimal() + 
+  theme(legend.position = 'none')
+
+
+
+```
+
+
+Initially I was kind of surprised that 21 personnel had the second highest relative lift. This personnel grouping is a hallmark of classic "3 yards and cloud of dust" football or really conservative run heavy football that is meant to grind you down throughout the game. No doubt that some of this is due to the fact that Kyle Shanahan consistently has really explosive offenses and also employs 21 personnel at or near the top of the league. However, this is also structural to how modern offenses work. 
+
+Ben Solak does a much more in depth schematic deep dive on these offenses in this [article](https://www.theringer.com/2024/02/07/nfl/super-bowl-preview-kyle-shanahan-offense-evolution-san-francisco-49ers). To paraphrase Ben pretty heavily how the Shanahan and McVay systems are so effective is how use they use these personnel groupings to move defenders to where they want and then setup the play around where they expect them to be. Take this example from Ben's article. Due to the fact that the Niners are in 21 personnel with Christian McCaffrey and Kyle Juszczyk the Lions are thinking run. The Niners use the combination of motion and keeping Juszczyk and Kittle in to block to free up the middle of the field to hit Deebo. 
+
+
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/xWGrhk9CJsY?si=_awpnqolNKsfqzZP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+We can see a similar thing happening early on in Shanahan's tenure out of 11 personnel. Here Deebo Samuel lines up in the backfield with Matt Breida. If you look at the second level of the defense you see two defensive backs, Nickell Robey-Coleman and Taylor Rapp, lined up alongside a linebacker. This forces the DBs to play out of a spot they are likely not comfortable with. The ideal outcome for the Niners is that Deebo outruns the corner. However, there is also a world where you are forcing the DB to take on a block from an offensive lineman which every coordinator and lineman would take in a heartbeat. 
+
+
+```{r}
+#| code-fold: true
+#| label: shanny-11-gif
+library(gganimate)
+
+la_colors = c(nflplotR:::primary_colors['LA'])
+sf_colors = c(nflplotR:::primary_colors['SF'])
+ar_colors = c(nflplotR:::primary_colors['AR'])
+ball = '#964B00'
+
+xmin <- 0
+xmax <- 160 / 3
+hash.right <- 38.35
+hash.left <- 12
+hash.width <- 3.3
+
+
+sf_run = read_tsv('https://raw.githubusercontent.com/asonty/ngs_highlights/refs/heads/master/play_data/2019_SF_2019122102_1184.tsv')  |>
+    mutate(teamAbbr = ifelse(is.na(teamAbbr), 'Ball', teamAbbr),
+            colors = case_when(teamAbbr == 'SF' ~ sf_colors, 
+                                teamAbbr == 'LA' ~ la_colors,
+                                .default= ball))
+
+y_min_run = max(round(min(sf_run$x, na.rm = TRUE) - 10, -1), 0)
+y_max_run = min(round(max(sf_run$x, na.rm = TRUE) + 10, -1), 120)
+
+
+df_hash <- expand.grid(x = c(0, 23.36667, 29.96667, xmax), y = (10:110))
+df_hash <- df_hash |> filter(!(floor(y %% 5) == 0))
+df_hash <- df_hash |> filter(y < y_max_run, y > y_min_run)
+
+df_hash_run = df_hash |>
+    filter(y < y_max_run, y > y_min_run)
+
+
+
+anim_rush = ggplot() +
+scale_size_manual(values = c(6, 4, 6), guide = FALSE) +
+  scale_shape_manual(values = c(21, 16, 21), guide = FALSE) +
+  scale_fill_manual(
+    values = c(sf_colors, "#654321", la_colors),
+    guide = FALSE
+  ) +
+  scale_colour_manual(
+    values = c("black", "#654321", sf_colors),
+    guide = FALSE
+  ) +
+  annotate(
+    "text",
+    x = df_hash_run$x[df_hash_run$x < 55 / 2],
+    y = df_hash_run$y[df_hash_run$x < 55 / 2],
+    label = "_",
+    hjust = 0,
+    vjust = -0.2
+  ) +
+  annotate(
+    "text",
+    x = df_hash_run$x[df_hash_run$x > 55 / 2],
+    y = df_hash_run$y[df_hash_run$x > 55 / 2],
+    label = "_",
+    hjust = 1,
+    vjust = -0.2
+  ) +
+  annotate(
+    "segment",
+    x = xmin,
+    y = seq(max(10, y_min_run), min(y_max_run, 110), by = 5),
+    xend = xmax,
+    yend = seq(max(10, y_min_run), min(y_max_run, 110), by = 5)
+  ) +
+  annotate(
+    "text",
+    x = rep(hash.left, 11),
+    y = seq(10, 110, by = 10),
+    label = c("G   ", seq(10, 50, by = 10), rev(seq(10, 40, by = 10)), "   G"),
+    angle = 270,
+    size = 4
+  ) +
+  annotate(
+    "text",
+    x = rep((xmax - hash.left), 11),
+    y = seq(10, 110, by = 10),
+    label = c("   G", seq(10, 50, by = 10), rev(seq(10, 40, by = 10)), "G   "),
+    angle = 90,
+    size = 4
+  ) +
+  annotate(
+    "segment",
+    x = c(xmin, xmin, xmax, xmax),
+    y = c(y_min_run, y_max_run, y_max_run, y_min_run),
+    xend = c(xmin, xmax, xmax, xmin),
+    yend = c(y_max_run, y_max_run, y_min_run, y_min_run),
+    colour = "black"
+  ) +
+  geom_point(
+    data = sf_run,
+    aes(
+      x = (xmax - y),
+      y = x,
+      shape = teamAbbr,
+      fill = teamAbbr,
+      group = nflId,
+      size = teamAbbr,
+      colour = teamAbbr
+    ),
+    alpha = 0.7
+  ) +
+  geom_text(
+    data = sf_run,
+    aes(x = (xmax - y), y = x, label = jerseyNumber),
+    colour = "white",
+    vjust = 0.36,
+    size = 4.5
+  ) +
+  ylim(y_min_run, y_max_run) +
+  coord_fixed() +
+  transition_time(frame) +
+  ease_aes('linear', interval = 0.001) +
+  labs(x = NULL, y = NULL, caption = 'Data are Provided by NFL Footbal Ops') +
+  theme(
+    axis.text.x = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.ticks.y = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
+animate(anim_rush, nframes = 300 ,fps =  50)
+
+
+
+```
+
+So structully it makes sense that one of the most used personnel groupings by an offensive play caller that consistently has top 10 offenses is, generally, pretty explosive. 
+
+If we look at who is extracting the most out of the two most explosive personnel groupings an intersting story emerges. McVay has a very tight distribution and much tighter HDI's for 11 personnel while Andy Reid has a much higher median and wider distribution. We see a similar trend emerge with 21 personnel with Shanahan and Payton albeit the difference is much more muted between the two play callers. 
+
+```{r}
+#| label: plot-all-coaches
+#| fig-cap: "Explosive Play Rate by Coaches"
+formations_subset = make_marginal_lift |>
+  filter(personnel_grouping %in% c('personnel_11', 'personnel_21'))
+
+ggplot(
+  formations_subset,
+  aes(
+    x = marginal_lift,
+    y = coach,
+    color = coach,
+    fill =  coach)
+) + 
+  stat_halfeye(slab_alpha = 0.75) + 
+  scale_fill_met_d(name = 'Lakota') + 
+  scale_color_met_d(name = 'Lakota') +
+  facet_wrap(vars(personnel_nice), scales = 'free') + 
+  labs(y = NULL) + 
+  theme_minimal() + 
+  theme(legend.position = 'none')
+
+```
+
+
+Part of the story behind this is structural. One of the reasons why the intervals are so tight for Shanahan and McVay is that they run most of their plays out of 21 and 11 personnel respectively. The Rams in particular employ 11 personnel on close to 90% of plays from 2022-2024 according to [Sūmer Sports](https://sumersports.com/teams/offensive/personnel-tendency/?personnel=11). So it makes sense that while they have a lower overall explosive play rate out of these personnel groupings, but the distribution is really tight. In 2023 George Kittle gave an interview with Pardon My Take where he outlines the core of what makes the Shanahan offense tick. 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/OcTPL8l_eUw?si=R5XbRzpVWsAyMvQQ&amp;start=3328" title="Kittle Explains Why The Scheme is So Effective" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+While you can make the argument that all four play callers are just different flavors of the West Coast offense, Payton in particular tends to mix in more personnel versatility. So much so that in 2019 former Bucs coach Dirk Koetter claimed that the Saints had show [28 different personnel groupings](https://www.nfl.com/news/keys-to-sean-mcvay-s-sean-payton-s-differing-offensive-methods-0ap3000001011448).^[Undoubtedly this is a mixture of how many TEs and RBs are on the field but also who is on the field.] We can see this born out in the model where, for most of, Mcvay's carrer he has primarily employed 12 personnel whereas Payton tends to use a mixture of personnel groupings. 
+
+```{r}
+#| label: plot-seans
+#| fig-cap: "Sean Mcvay versus Sean Payton Explosive Play Rate by Personnel Groupings"
+just_seans = make_marginal_lift |>
+    filter(coach  %in% c('Sean Payton', 'Sean McVay'))
+
+
+ggplot(just_seans, aes(x = marginal_lift, y = personnel_nice, color = personnel_nice, fill = personnel_nice)) + 
+    stat_halfeye(slab_alpha = 0.5) + 
+    scale_color_met_d('Lakota') + 
+    scale_fill_met_d('Lakota') + 
+    labs(color = NULL, fill = NULL, y = NULL) + 
+    facet_wrap(vars(coach), scales = 'free') +
+    theme_minimal() +
+    theme(legend.position = 'none')
+
+
+```
+
+
+[Ollie Connolly details](https://www.readoptional.com/p/the-art-of-play-sequencing-and-how) some of what makes the Payton offense tick. Philosophically one of the big divergences is where all the details show up. The Shanahan/McVay systems tend to employ very similar rules and are not neccessarily overly complicated. The bevy of details that lead to explosive plays tend to show up in what they are doing in other parts of the play. Whereas Payton is less wedded to particular personnel groupings and spends lots of time on protection plans. Part of this is because he wants to buy time for the routes to develop so his QB can hit them at the top of the drop.
+
+We can also likely explain some of the discrepencies between in explosive play rate just due to overall team strength. If we examine the HSGP for Andy Reid we see that the explosiveness of the Chief's offense is fairly stable throughout his tenure. However, around the 2023 season a lot of analysts and pundits started to ask where did the explosive play element of the offense go? By this time offensive roster was significantly older, the line became a problem, and critically the Chiefs kept missing on pass catchers. 
+
+
+```{python}
+#| code-fold: true
+#| label: plot-andy-hsgp
+
+from scipy.special import expit
+
+raw_data_pd['time_decimal'] = (
+    raw_data_pd['season'] + (raw_data_pd['week'] - 1) / 18
+)
+
+reid_mask = raw_data_pd['off_play_caller'] == 'Andy Reid'
+reid_obs = np.where(reid_mask)[0]
+
+time_vals = raw_data_pd.loc[reid_mask, 'time_decimal'].values
+
+obs_rate =  (raw_data['n_explosive'].to_numpy()[reid_mask] / 
+            raw_data['total_plays'].to_numpy()[reid_mask])
+
+mu_samples = az.extract(idata, group = 'posterior', var_names=['mu']).values[reid_obs, :]
+
+p_samples = expit(mu_samples)
+
+fig, axs = plt.subplots()
+pm.gp.util.plot_gp_dist(
+    ax = axs,
+    samples = p_samples.T, 
+    x = time_vals, 
+    palette='Reds'
+)
+
+axs.scatter(
+    time_vals, obs_rate, color = 'black', alpha = 0.4, s = 15
+)
+
+axs.set(xlabel = 'time', ylabel = 'Observed Explosive Play Rate', title = "Andy Reid's Explosive Play Rate")
+```
+
+While it is difficult to tell from just eyeballing there seems to be some evidence of a lower baseline rate towards the tail of the graph. To test this we are just going to visualize these differences
+
+
+
+```{python}
+#| echo: false
+#| label: make-marginal-contrasts
+
+early_mask = (time_vals < 2023)
+recent_mask  = (time_vals > 2023)
+
+early = p_samples[early_mask, :].mean(axis = 0)
+recent = p_samples[recent_mask, :].mean(axis = 0)
+
+diff = recent - early 
+
+mu_extracted = idata.posterior['mu'].values
+n_chains, n_draws, n_obs = mu_extracted.shape
+mu_reid = mu_extracted[:, :, reid_obs]  
+p_reid  = expit(mu_reid)                
+
+
+early_idx = np.where(early_mask)[0]
+recent_idx  = np.where(recent_mask)[0]
+
+early_mean  = p_reid[:, :, early_idx].mean(axis=2) 
+recent_mean = p_reid[:, :, recent_idx].mean(axis=2)   
+
+diff = recent_mean - early_mean
+
+
+
+chain_ids = np.repeat(np.arange(n_chains), n_draws)
+draw_ids  = np.tile(np.arange(n_draws), n_chains)
+diff_flat = diff.flatten()
+early_flat = early_mean.flatten()
+recent_flat = recent_mean.flatten()
+
+diff_df = pl.DataFrame({
+    'chain': chain_ids,
+    'draw':  draw_ids,
+    'diff':  diff_flat, 
+    'pre_2023_mean': early_flat, 
+    'post_2023_mean': recent_flat
+})
+
+diff_df.write_csv('blog-post-data/reid-contrasts.csv')
+
+```
+
+
+
+```{r}
+#| fig-cap: "Posterior Constrasts From 2017-2022 and 2023 on"
+#| label: plot-marginal-contrasts
+
+reid_post_contrasts = read_csv('blog-post-data/reid-contrasts.csv') 
+
+kc_red = nflplotR:::primary_colors['KC']
+kc_second = nflplotR:::secondary_colors['KC']
+
+ggplot(reid_post_contrasts, aes(x = diff)) + 
+    stat_halfeye(point_interval = 'median_hdi', slab_alpha = 0.5, color = kc_red, fill = kc_second) + 
+    geom_vline(xintercept = 0) +
+    labs(x = 'Posterior Contrast', y = NULL) + 
+    theme_minimal()
+
+
+```
+
+We do see that there is a small difference in explosive play rate but altogether less than a full percent and the bulk of the distribution is below zero. So altogether not an overwhelming amount of evidence that their is a huge difference. 
+
+## Concluding Thoughts
+
+After a rather long blog post and a project that, admittedly, took longer than anticipated we have a workingish MMM. When trying to understand why these effects might be small there was a lot that I learned about MMM's and a lot that I learned football. I kept coming back to the plot below.
+
+
+
+```{python}
+#| echo: false
+#| label: make-plotting-data
+
+idata_prior = (pl.from_pandas(
+    idata.prior[['mm_alpha', 'mm_lam']].to_dataframe().reset_index())
+    .with_columns(pl.col('coach_group_pairs').str.split_exact('|',1)
+        .struct.rename_fields(['coach', 'personnel_grouping']),
+        pl.lit("prior").alias('group'))
+        .unnest('coach_group_pairs')
+)
+
+
+idata_post = (pl.from_pandas(
+    idata.posterior[['mm_alpha', 'mm_lam']].to_dataframe().reset_index())
+    .with_columns(pl.col('coach_group_pairs').str.split_exact('|',1)
+        .struct.rename_fields(['coach', 'personnel_grouping']),
+        pl.lit('posterior').alias('group'))
+    .unnest('coach_group_pairs')
+)
+
+
+all_together =  pl.concat([idata_prior, idata_post], how = 'diagonal_relaxed')
+
+all_together.write_parquet('blog-post-data/sat-prior-v-post.parquet', compression='zstd')
+
+
+```
+
+```{r}
+#| fig-cap: "Prior vs Posterior for Michaelis Menten Saturation Parameters"
+#| label: post-v-prior-saturation
+
+raw_sat_dat = read_parquet('blog-post-data/sat-prior-v-post.parquet') 
+
+clean_sat = raw_sat_dat |>
+    pivot_longer(
+        cols = c(mm_alpha:mm_lam), 
+        names_to = 'param', 
+        values_to = 'val'
+    ) |>
+        filter(coach %in% c('Sean Payton')) |>
+    mutate( digits = str_extract(personnel_grouping, '\\d{2}'),
+            labs_nice = glue::glue("{digits} Personnel"), 
+            group = factor(group, levels = c('prior', 'posterior')))
+
+
+ggplot(clean_sat, aes(x = val, y = labs_nice, color = group)) +
+    stat_halfeye(position = position_dodge(width = 0.5), point_interval = 'median_hdi') +
+    facet_wrap('param') + 
+    labs(y = NULL) + 
+    scale_fill_met_d('Lakota') + 
+    theme_minimal()
+
+
+
+
+```
+
+When going through my model checks I noticed that the priors and the posteriors for the saturation parameters mostly didn't change. There are some slight shifts or the HDIs get a bit tighter but overall it looked like the saturation was being mostly driven by my priors. Through lots and lots changing priors or switching saturation functions I found that nothing really changed these results. The saturation did not really update at all when I introduced data into the model. 
+
+To be honest I was pretty stumped so I just decided to plot the usage data against the simulated data. I just wanted to get a sense of what an idealized example of adspend looks like against some data that aren't typically used for MMMs.  
+
+
+
+```{python}
+#| label: plot-epr-v-sim
+#| fig-cap: "Explosive Play Rate Versus Simulated Data"
+#| code-fold: true
+
+long_fake_data = (
+    df
+    .select(
+        pl.col('x1', 'x2')
+    )
+    .unpivot()
+)
+
+long_personnel = (
+    raw_data
+    .select(cs.starts_with('personnel'), pl.col('off_play_caller'))
+    .unpivot(index = 'off_play_caller')
+    .with_columns(
+        pl.col('variable').str.extract(r"(\d{2})").str.to_integer().alias('digits')
+    )
+    .filter(pl.col('digits').is_in([11,12,21,22]))
+)
+
+fig, axs = plt.subplots(ncols = 2)
+
+sns.kdeplot(long_fake_data, x = 'value',  hue = 'variable', ax = axs[0])
+sns.kdeplot(long_personnel, x = 'value', hue = 'variable', ax = axs[1])
+
+axs[0].set_title('Distribution of Fake Sales Data')
+axs[1].set_title('Distribution of Personnel Usage')
+
+```
+
+
+What stands out wen we compare the distributions of our channel variables is that adspend is pretty variable, whereas our personnel usage is much less variable outside of 11 and 12 personnel. This makes sense since 4 of the 9 play callers are either Sean McVay, Kyle Shanahan, or worked for one or both of them.^[Notably Sean McVay was a TE coach under Kyle Shanhan in 2013 when Kyle Shanahan was offensive coordinator for his dad Mike Shanahan] So their approach to offensive football is going to pretty similar. 
+
+This got me thinking about some posts I get from time to time from one of the founders of Recast on LinkedIn. Recast is an analytics firm that has built out a whole analytics suite to help brands track their return on adspend. Across a few posts he kind of distills why we would likely expect the results we got. The gist of these posts boil down to effectively this graph. Basically, MMM's not only require some level spend across channels but we do also require some noticeable levels of variation. Companies can build this in across ad campaigns by just varying your spend across channels. This gives the model more variation to latch onto a update the posterior accordingly. 
+
+Purposely throttling down usage of one personnel grouping from week-to-week does happen for some coaches, but in all likelihood the extent that it is needed to get any additional signal for each play caller likely doesn't happen. Who is available, who the opponent is, and the game script are going to do a fair amount of heavy lifting for what is going to dictate personnel usage in the game and what gets installed that week. But these changes are going to be pretty meager in comparision to what is needed to get a real signal from the data. 
