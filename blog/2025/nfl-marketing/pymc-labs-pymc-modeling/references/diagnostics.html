@@ -2,16 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.7.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>diagnostics</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -73,10 +70,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../../site_libs/bootstrap/bootstrap-bcb211d6da54b2c171149088ed9cac7e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../../site_libs/bootstrap/bootstrap-0e7c780847e7614632d3eab8de51e1e3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -123,18 +120,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link" href="../../../../../index.html"> 
 <span class="menu-text">Home</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../../../../research/index.html"> 
-<span class="menu-text">Research</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../../../../teaching/index.html"> 
-<span class="menu-text">Teaching</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../../../../CV/index.html"> 
-<span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../../../../blog/index.html"> 
@@ -239,7 +224,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="quick-diagnostic-checklist" class="level2">
 <h2 class="anchored" data-anchor-id="quick-diagnostic-checklist">Quick Diagnostic Checklist</h2>
 <p>Run this immediately after every sampling run:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> check_sampling(idata, var_names<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Quick post-sampling diagnostic check."""</span></span>
@@ -270,10 +255,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> summary</span>
 <span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Usage</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> check_sampling(idata)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> check_sampling(idata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="essential-visual-checks" class="level3">
 <h3 class="anchored" data-anchor-id="essential-visual-checks">Essential Visual Checks</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Trace plots (mixing and stationarity)</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Trace plots (mixing and stationarity)</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>az.plot_trace(idata, compact<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Rank plots (more sensitive than traces)</span></span>
@@ -281,7 +266,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Pair plot with divergences (if any divergences)</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> idata.sample_stats[<span class="st">"diverging"</span>].<span class="bu">sum</span>() <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    az.plot_pair(idata, divergences<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    az.plot_pair(idata, divergences<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -341,13 +326,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="divergence-troubleshooting">Divergence Troubleshooting</h2>
 <section id="step-1-locate-divergent-regions" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-locate-divergent-regions">Step 1: Locate Divergent Regions</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Where do divergences occur in parameter space?</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Where do divergences occur in parameter space?</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>az.plot_pair(</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    idata,</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"sigma"</span>],  <span class="co"># adjust to your params</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    divergences<span class="op">=</span><span class="va">True</span>,</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    divergences_kwargs<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"red"</span>, <span class="st">"alpha"</span>: <span class="fl">0.8</span>}</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Look for: Divergences clustered in specific regions (often near boundaries or in funnels).</p>
 </section>
 <section id="step-2-identify-the-cause" class="level3">
@@ -392,28 +377,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-3-apply-fixes" class="level3">
 <h3 class="anchored" data-anchor-id="step-3-apply-fixes">Step 3: Apply Fixes</h3>
 <p><strong>Fix 1: Non-centered parameterization</strong> (most common fix)</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BEFORE: Centered (causes funnel)</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BEFORE: Centered (causes funnel)</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> pm.Normal(<span class="st">"alpha"</span>, mu_alpha, sigma_alpha, dims<span class="op">=</span><span class="st">"group"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># AFTER: Non-centered</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>alpha_offset <span class="op">=</span> pm.Normal(<span class="st">"alpha_offset"</span>, <span class="dv">0</span>, <span class="dv">1</span>, dims<span class="op">=</span><span class="st">"group"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> pm.Deterministic(<span class="st">"alpha"</span>, mu_alpha <span class="op">+</span> sigma_alpha <span class="op">*</span> alpha_offset, dims<span class="op">=</span><span class="st">"group"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> pm.Deterministic(<span class="st">"alpha"</span>, mu_alpha <span class="op">+</span> sigma_alpha <span class="op">*</span> alpha_offset, dims<span class="op">=</span><span class="st">"group"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Fix 2: Better priors on scale parameters</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BEFORE: Problematic</span></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BEFORE: Problematic</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> pm.HalfCauchy(<span class="st">"sigma"</span>, beta<span class="op">=</span><span class="dv">10</span>)  <span class="co"># too diffuse</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> pm.Uniform(<span class="st">"sigma"</span>, <span class="dv">0</span>, <span class="dv">100</span>)      <span class="co"># flat prior</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># AFTER: Weakly informative</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> pm.HalfNormal(<span class="st">"sigma"</span>, sigma<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> pm.Exponential(<span class="st">"sigma"</span>, lam<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> pm.Exponential(<span class="st">"sigma"</span>, lam<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Fix 3: Increase target acceptance</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># More careful sampling (slower but fewer divergences)</span></span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># More careful sampling (slower but fewer divergences)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> pm.sample(target_accept<span class="op">=</span><span class="fl">0.95</span>)  <span class="co"># default is 0.8</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># For nutpie</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> nutpie.sample(compiled, target_accept<span class="op">=</span><span class="fl">0.95</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> nutpie.sample(compiled, target_accept<span class="op">=</span><span class="fl">0.95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Fix 4: Increase adaptation</strong> (rare)</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> pm.sample(tune<span class="op">=</span><span class="dv">2000</span>)  <span class="co"># default is 1000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> pm.sample(tune<span class="op">=</span><span class="dv">2000</span>)  <span class="co"># default is 1000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="when-divergences-persist" class="level3">
 <h3 class="anchored" data-anchor-id="when-divergences-persist">When Divergences Persist</h3>
@@ -427,42 +412,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="problem-high-r-hat">Problem: High R-hat</h3>
 <p><strong>Symptoms</strong>: R-hat &gt; 1.01 for some parameters</p>
 <p><strong>Diagnostic</strong>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> az.summary(idata)</span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> az.summary(idata)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(summary[summary[<span class="st">"r_hat"</span>] <span class="op">&gt;</span> <span class="fl">1.01</span>])</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>az.plot_trace(idata, var_names<span class="op">=</span>[<span class="st">"problem_param"</span>], compact<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>az.plot_trace(idata, var_names<span class="op">=</span>[<span class="st">"problem_param"</span>], compact<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Causes and fixes</strong>: 1. <strong>Insufficient warmup</strong>: Increase <code>tune</code> (e.g., tune=2000) 2. <strong>Multimodality</strong>: Check for multiple modes in trace plot 3. <strong>Label switching</strong>: Add ordering constraint for mixtures 4. <strong>Slow mixing</strong>: Reparameterize or increase samples</p>
 </section>
 <section id="problem-low-ess" class="level3">
 <h3 class="anchored" data-anchor-id="problem-low-ess">Problem: Low ESS</h3>
 <p><strong>Symptoms</strong>: ESS &lt; 400 (especially ESS_tail)</p>
 <p><strong>Diagnostic</strong>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>az.plot_ess(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>], kind<span class="op">=</span><span class="st">"evolution"</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>az.plot_autocorr(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>az.plot_ess(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>], kind<span class="op">=</span><span class="st">"evolution"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>az.plot_autocorr(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Causes and fixes</strong>: 1. <strong>High autocorrelation</strong>: Reparameterize, improve sampler settings 2. <strong>Not enough samples</strong>: Increase <code>draws</code> 3. <strong>Difficult posterior</strong>: Increase <code>target_accept</code>, use non-centered</p>
 </section>
 <section id="problem-poor-posterior-predictive-fit" class="level3">
 <h3 class="anchored" data-anchor-id="problem-poor-posterior-predictive-fit">Problem: Poor Posterior Predictive Fit</h3>
 <p><strong>Symptoms</strong>: Observed data outside posterior predictive distribution</p>
 <p><strong>Diagnostic</strong>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    pm.sample_posterior_predictive(idata, extend_inferencedata<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(idata, kind<span class="op">=</span><span class="st">"cumulative"</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>az.plot_loo_pit(idata, y<span class="op">=</span><span class="st">"y"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>az.plot_loo_pit(idata, y<span class="op">=</span><span class="st">"y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Causes and fixes</strong>: 1. <strong>Missing predictor</strong>: Add relevant covariates 2. <strong>Wrong likelihood</strong>: Try different distribution family 3. <strong>Missing structure</strong>: Add hierarchical levels, random effects 4. <strong>Outliers</strong>: Use robust likelihood (StudentT instead of Normal)</p>
 </section>
 <section id="problem-high-pareto-k-values" class="level3">
 <h3 class="anchored" data-anchor-id="problem-high-pareto-k-values">Problem: High Pareto k Values</h3>
 <p><strong>Symptoms</strong>: <code>pareto_k &gt; 0.7</code> for many observations in LOO</p>
 <p><strong>Diagnostic</strong>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>loo <span class="op">=</span> az.loo(idata, pointwise<span class="op">=</span><span class="va">True</span>)</span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>loo <span class="op">=</span> az.loo(idata, pointwise<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>az.plot_khat(idata)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Which observations are problematic?</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>bad_idx <span class="op">=</span> np.where(loo.pareto_k.values <span class="op">&gt;</span> <span class="fl">0.7</span>)[<span class="dv">0</span>]</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Problematic observations: </span><span class="sc">{</span>bad_idx<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Problematic observations: </span><span class="sc">{</span>bad_idx<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Causes and fixes</strong>: 1. <strong>Influential outliers</strong>: Investigate those data points 2. <strong>Model misspecification</strong>: Improve model for those observations 3. <strong>Use K-fold CV</strong>: When LOO approximation fails 4. <strong>Moment matching</strong>: Can improve LOO estimates (advanced)</p>
 <hr>
 </section>
@@ -472,44 +457,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="computing-log-likelihood-with-nutpie" class="level3">
 <h3 class="anchored" data-anchor-id="computing-log-likelihood-with-nutpie">Computing Log-Likelihood with nutpie</h3>
 <p>nutpie does not store log-likelihood automatically (it silently ignores <code>idata_kwargs</code>). Compute it explicitly after sampling. See SKILL.md § Inference for details.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample(nuts_sampler<span class="op">=</span><span class="st">"nutpie"</span>, ...)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    pm.compute_log_likelihood(idata)  <span class="co"># Required for LOO-CV</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    pm.compute_log_likelihood(idata)  <span class="co"># Required for LOO-CV</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="plot_khat-requires-loo-object" class="level3">
 <h3 class="anchored" data-anchor-id="plot_khat-requires-loo-object">plot_khat Requires LOO Object</h3>
 <p>The <code>az.plot_khat()</code> function expects a LOO object (from <code>az.loo()</code>), not the InferenceData directly.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ERROR: Incorrect khat data input</span></span>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ERROR: Incorrect khat data input</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>az.plot_khat(idata, show_bins<span class="op">=</span><span class="va">True</span>)  <span class="co"># ValueError: Incorrect khat data input</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># FIX: Pass the LOO object</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>loo <span class="op">=</span> az.loo(idata, pointwise<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>az.plot_khat(loo, show_bins<span class="op">=</span><span class="va">True</span>)  <span class="co"># OK</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>az.plot_khat(loo, show_bins<span class="op">=</span><span class="va">True</span>)  <span class="co"># OK</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Best practice</strong>: Always compute LOO first, then plot:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>loo <span class="op">=</span> az.loo(idata, pointwise<span class="op">=</span><span class="va">True</span>)</span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>loo <span class="op">=</span> az.loo(idata, pointwise<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>az.plot_khat(loo, show_bins<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check Pareto k values</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>n_bad <span class="op">=</span> (loo.pareto_k <span class="op">&gt;</span> <span class="fl">0.7</span>).<span class="bu">sum</span>().item()</span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> n_bad <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Warning: </span><span class="sc">{</span>n_bad<span class="sc">}</span><span class="ss"> observations with high Pareto k"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Warning: </span><span class="sc">{</span>n_bad<span class="sc">}</span><span class="ss"> observations with high Pareto k"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="model-comparison-quick-reference" class="level2">
 <h2 class="anchored" data-anchor-id="model-comparison-quick-reference">Model Comparison Quick Reference</h2>
 <section id="loo-cv-preferred" class="level3">
 <h3 class="anchored" data-anchor-id="loo-cv-preferred">LOO-CV (Preferred)</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Single model</span></span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Single model</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>loo <span class="op">=</span> az.loo(idata, pointwise<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"ELPD: </span><span class="sc">{</span>loo<span class="sc">.</span>elpd_loo<span class="sc">:.1f}</span><span class="ss"> ± </span><span class="sc">{</span>loo<span class="sc">.</span>se<span class="sc">:.1f}</span><span class="ss">"</span>)</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"p_loo: </span><span class="sc">{</span>loo<span class="sc">.</span>p_loo<span class="sc">:.1f}</span><span class="ss">"</span>)</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Check Pareto k</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Bad k (&gt;0.7): </span><span class="sc">{</span>(loo.pareto_k <span class="op">&gt;</span> <span class="fl">0.7</span>)<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">.</span>item()<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Bad k (&gt;0.7): </span><span class="sc">{</span>(loo.pareto_k <span class="op">&gt;</span> <span class="fl">0.7</span>)<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">.</span>item()<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="model-comparison" class="level3">
 <h3 class="anchored" data-anchor-id="model-comparison">Model Comparison</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>comparison <span class="op">=</span> az.compare({</span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>comparison <span class="op">=</span> az.compare({</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"model_a"</span>: idata_a,</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"model_b"</span>: idata_b,</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"model_c"</span>: idata_c,</span>
@@ -519,7 +504,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(comparison[[<span class="st">"rank"</span>, <span class="st">"elpd_loo"</span>, <span class="st">"p_loo"</span>, <span class="st">"d_loo"</span>, <span class="st">"weight"</span>, <span class="st">"dse"</span>]])</span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Visual comparison</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>az.plot_compare(comparison)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>az.plot_compare(comparison)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Interpretation</strong>: - <code>elpd_loo</code>: Higher is better (log predictive density) - <code>d_loo</code>: Difference from best model - <code>dse</code>: Standard error of difference - <strong>Rule</strong>: If <code>d_loo &lt; 2*dse</code>, models are effectively equivalent</p>
 </section>
 <section id="when-to-use-waic-vs-loo" class="level3">
@@ -528,8 +513,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>LOO (default)</strong>: More robust, handles outliers better</li>
 <li><strong>WAIC</strong>: Faster for large datasets, but less robust</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># WAIC alternative</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>waic <span class="op">=</span> az.waic(idata)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># WAIC alternative</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>waic <span class="op">=</span> az.waic(idata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -598,14 +583,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

@@ -2,16 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.7.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>troubleshooting</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -73,10 +70,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../../site_libs/bootstrap/bootstrap-bcb211d6da54b2c171149088ed9cac7e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../../site_libs/bootstrap/bootstrap-0e7c780847e7614632d3eab8de51e1e3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -123,18 +120,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link" href="../../../../../index.html"> 
 <span class="menu-text">Home</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../../../../research/index.html"> 
-<span class="menu-text">Research</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../../../../teaching/index.html"> 
-<span class="menu-text">Teaching</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../../../../CV/index.html"> 
-<span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../../../../blog/index.html"> 
@@ -378,13 +363,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Problem</strong>: <code>ValueError</code> about shape mismatch during model initialization.</p>
 <p><strong>Root cause</strong>: Confusing the dimensions of parameter priors with the dimensions of the likelihood. In hierarchical models, parameters are defined at the group level (K groups) while the likelihood must evaluate at every observation (N data points).</p>
 <p><strong>Example of the error</strong>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Likelihood sized to number of groups, not observations</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Likelihood sized to number of groups, not observations</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> bad_model:</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    alpha <span class="op">=</span> pm.Normal(<span class="st">"alpha"</span>, <span class="dv">0</span>, <span class="dv">1</span>, shape<span class="op">=</span><span class="dv">4</span>)  <span class="co"># 4 groups</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>alpha, sigma<span class="op">=</span><span class="dv">1</span>, observed<span class="op">=</span>y_obs)  <span class="co"># y_obs has 100 points!</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Error: alpha has shape (4,), y_obs has shape (100,)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Error: alpha has shape (4,), y_obs has shape (100,)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Solution</strong>: Use index vectors to expand group parameters to observation size.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create index mapping observations to groups</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>group_idx, group_labels <span class="op">=</span> pd.factorize(df[<span class="st">"group"</span>], sort<span class="op">=</span><span class="va">True</span>)</span>
@@ -403,15 +388,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> alpha[group_idx]</span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Likelihood: shape (N,)</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>y_obs, dims<span class="op">=</span><span class="st">"obs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>y_obs, dims<span class="op">=</span><span class="st">"obs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Key insight</strong>: The log-likelihood is a sum over individual data points. Every observation must have a corresponding mean value, so <code>alpha[group_idx]</code> expands the K group effects to N observations.</p>
 </section>
 <section id="likelihood-size-independence-from-parameters" class="level3">
 <h3 class="anchored" data-anchor-id="likelihood-size-independence-from-parameters">Likelihood Size Independence from Parameters</h3>
 <p><strong>Common misconception</strong>: New users often try to “shrink” the likelihood to match the number of groups.</p>
 <p><strong>Reality</strong>: The likelihood size is always determined by the number of observations, regardless of how many parameters the model has. A linear regression with 3 parameters and 100 observations has a likelihood of size 100.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The model evaluates (y_i - mu_group[i]) for every i in 1...N</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># NOT once per group</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The model evaluates (y_i - mu_group[i]) for every i in 1...N</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># NOT once per group</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -421,21 +406,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="initial-evaluation-of-model-at-starting-point-failed">“Initial evaluation of model at starting point failed”</h3>
 <p><strong>Problem</strong>: Log-probability is <code>-inf</code> or <code>NaN</code> at the initial parameter values.</p>
 <p><strong>Cause 1: Data outside distribution support</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Observations outside truncation bounds</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Observations outside truncation bounds</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> bad_model:</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> pm.Normal(<span class="st">"mu"</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># TruncatedNormal bounded below at 0</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.TruncatedNormal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span><span class="dv">1</span>, lower<span class="op">=</span><span class="dv">0</span>, observed<span class="op">=</span>y_obs)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If y_obs contains negative values, log-likelihood = -inf</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If y_obs contains negative values, log-likelihood = -inf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Solution</strong>: Verify observed data matches the likelihood’s support.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check data before modeling</span></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check data before modeling</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"y range: [</span><span class="sc">{</span>y_obs<span class="sc">.</span><span class="bu">min</span>()<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>y_obs<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss">]"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># For bounded distributions, ensure data is within bounds</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> y_obs.<span class="bu">min</span>() <span class="op">&gt;=</span> <span class="dv">0</span>, <span class="st">"Data contains negative values!"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> y_obs.<span class="bu">min</span>() <span class="op">&gt;=</span> <span class="dv">0</span>, <span class="st">"Data contains negative values!"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Cause 2: Initialization jitter pushes parameters outside support</strong></p>
 <p>PyMC’s default <code>jitter+adapt_diag</code> initialization adds random noise to starting values. For constrained parameters (e.g., positive-only), this can create invalid starting points.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution 1: Reduce or eliminate jitter</span></span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution 1: Reduce or eliminate jitter</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> pm.sample(init<span class="op">=</span><span class="st">"adapt_diag"</span>)  <span class="co"># no jitter</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution 2: Specify valid initial values</span></span>
@@ -444,20 +429,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution 3: Use ADVI for more robust initialization</span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample(init<span class="op">=</span><span class="st">"advi+adapt_diag"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample(init<span class="op">=</span><span class="st">"advi+adapt_diag"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Cause 3: Constant response variable</strong></p>
 <p>When the response variable has zero variance (all values identical), automatic prior selection in tools like Bambi may set scale parameters to zero.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for constant response</span></span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for constant response</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> y_obs.std() <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"WARNING: Response variable is constant!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"WARNING: Response variable is constant!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="debugging-initialization" class="level3">
 <h3 class="anchored" data-anchor-id="debugging-initialization">Debugging Initialization</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check which variables have invalid log-probabilities</span></span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check which variables have invalid log-probabilities</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>model.point_logps()</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Run model diagnostics</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>model.debug()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>model.debug()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -475,35 +460,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="unscaled-predictors" class="level3">
 <h3 class="anchored" data-anchor-id="unscaled-predictors">Unscaled Predictors</h3>
 <p>When predictors are on vastly different scales, gradients for large-scale variables become numerically indistinguishable from zero.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Features on different scales</span></span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Features on different scales</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.column_stack([</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    feature_0_to_1,      <span class="co"># range [0, 1]</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    feature_0_to_million  <span class="co"># range [0, 1,000,000]</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient w.r.t. large-scale feature may underflow</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient w.r.t. large-scale feature may underflow</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Solution</strong>: Standardize all predictors.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>X_scaled <span class="op">=</span> scaler.fit_transform(X)</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Now all features have mean=0, std=1</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Priors can use unit-scale: beta ~ Normal(0, 1)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Priors can use unit-scale: beta ~ Normal(0, 1)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="underconstrained-parameters-flat-energy-landscape" class="level3">
 <h3 class="anchored" data-anchor-id="underconstrained-parameters-flat-energy-landscape">Underconstrained Parameters (Flat Energy Landscape)</h3>
 <p>When data provides no information about a parameter (e.g., a group with no observations), the likelihood is flat and gradients are zero.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for empty groups</span></span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for empty groups</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> group <span class="kw">in</span> group_labels:</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    n_obs <span class="op">=</span> (df[<span class="st">"group"</span>] <span class="op">==</span> group).<span class="bu">sum</span>()</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n_obs <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"WARNING: Group '</span><span class="sc">{</span>group<span class="sc">}</span><span class="ss">' has no observations!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"WARNING: Group '</span><span class="sc">{</span>group<span class="sc">}</span><span class="ss">' has no observations!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Solution</strong>: Use weakly informative priors to provide “soft” curvature.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Flat or very diffuse priors</span></span>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Flat or very diffuse priors</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> pm.Uniform(<span class="st">"sigma"</span>, <span class="dv">0</span>, <span class="dv">100</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># GOOD: Weakly informative prior provides curvature</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> pm.HalfNormal(<span class="st">"sigma"</span>, sigma<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> pm.HalfNormal(<span class="st">"sigma"</span>, sigma<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -516,19 +501,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-funnel-geometry" class="level3">
 <h3 class="anchored" data-anchor-id="the-funnel-geometry">The Funnel Geometry</h3>
 <p>In hierarchical models, when group-level variance is small, individual effects are constrained to a narrow region. As variance increases, the region expands. This creates a “funnel” shape that is difficult for NUTS to navigate.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Centered parameterization creates funnel</span></span>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Centered parameterization creates funnel</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># When sigma_group is small, alpha values are tightly constrained</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> pm.Normal(<span class="st">"alpha"</span>, mu<span class="op">=</span>mu_group, sigma<span class="op">=</span>sigma_group, dims<span class="op">=</span><span class="st">"group"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> pm.Normal(<span class="st">"alpha"</span>, mu<span class="op">=</span>mu_group, sigma<span class="op">=</span>sigma_group, dims<span class="op">=</span><span class="st">"group"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="non-centered-reparameterization" class="level3">
 <h3 class="anchored" data-anchor-id="non-centered-reparameterization">Non-Centered Reparameterization</h3>
 <p>The standard fix transforms the funnel into an isotropic Gaussian.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BEFORE: Centered (funnel geometry)</span></span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BEFORE: Centered (funnel geometry)</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> pm.Normal(<span class="st">"alpha"</span>, mu_group, sigma_group, dims<span class="op">=</span><span class="st">"group"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># AFTER: Non-centered (spherical geometry)</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> pm.Normal(<span class="st">"z"</span>, <span class="dv">0</span>, <span class="dv">1</span>, dims<span class="op">=</span><span class="st">"group"</span>)  <span class="co"># standard normal</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> pm.Deterministic(<span class="st">"alpha"</span>, mu_group <span class="op">+</span> sigma_group <span class="op">*</span> z, dims<span class="op">=</span><span class="st">"group"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> pm.Deterministic(<span class="st">"alpha"</span>, mu_group <span class="op">+</span> sigma_group <span class="op">*</span> z, dims<span class="op">=</span><span class="st">"group"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 45%">
@@ -560,11 +545,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="increasing-target-acceptance" class="level3">
 <h3 class="anchored" data-anchor-id="increasing-target-acceptance">Increasing Target Acceptance</h3>
 <p>For scattered divergences (not clustered in funnels), try increasing <code>target_accept</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Default is 0.8; increase for difficult posteriors</span></span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Default is 0.8; increase for difficult posteriors</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> pm.sample(target_accept<span class="op">=</span><span class="fl">0.95</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># For very difficult models</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> pm.sample(target_accept<span class="op">=</span><span class="fl">0.99</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> pm.sample(target_accept<span class="op">=</span><span class="fl">0.99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Trade-off</strong>: Higher target acceptance means smaller step sizes and slower sampling.</p>
 <hr>
 </section>
@@ -574,36 +559,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-clipping-problem" class="level3">
 <h3 class="anchored" data-anchor-id="the-clipping-problem">The Clipping Problem</h3>
 <p>Using <code>pm.math.clip()</code> or similar hard constraints creates regions where gradients are exactly zero.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Hard clipping creates flat gradient regions</span></span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Hard clipping creates flat gradient regions</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> pm.math.clip(x, <span class="dv">0</span>, np.inf)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradients are zero in clipped regions, causing divergences</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradients are zero in clipped regions, causing divergences</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Solution 1: Use soft alternatives</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Softplus maps R -&gt; R+ with smooth gradients</span></span>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Softplus maps R -&gt; R+ with smooth gradients</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pytensor.tensor.nnet <span class="im">import</span> softplus</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> softplus(x)  <span class="co"># log(1 + exp(x))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> softplus(x)  <span class="co"># log(1 + exp(x))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Solution 2: Use distributions with natural constraints</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Instead of clipping to positive, use naturally positive distributions</span></span>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Instead of clipping to positive, use naturally positive distributions</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> pm.HalfNormal(<span class="st">"sigma"</span>, <span class="dv">1</span>)  <span class="co"># automatically positive</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>rate <span class="op">=</span> pm.LogNormal(<span class="st">"rate"</span>, <span class="dv">0</span>, <span class="dv">1</span>)  <span class="co"># automatically positive</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>rate <span class="op">=</span> pm.LogNormal(<span class="st">"rate"</span>, <span class="dv">0</span>, <span class="dv">1</span>)  <span class="co"># automatically positive</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="python-conditionals-in-models" class="level3">
 <h3 class="anchored" data-anchor-id="python-conditionals-in-models">Python Conditionals in Models</h3>
 <p>Python <code>if/else</code> statements are evaluated at model construction time, not sampling time.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Python conditional doesn't work during sampling</span></span>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Python conditional doesn't work during sampling</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> x <span class="op">&gt;</span> <span class="dv">0</span>:  <span class="co"># evaluated once when model is built!</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> a</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Solution</strong>: Use PyTensor symbolic conditionals.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytensor.tensor <span class="im">as</span> pt</span>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytensor.tensor <span class="im">as</span> pt</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># GOOD: Symbolic conditional evaluated during sampling</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> pt.switch(x <span class="op">&gt;</span> <span class="dv">0</span>, a, b)</span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># For more complex conditionals</span></span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pytensor.ifelse <span class="im">import</span> ifelse</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> ifelse(condition, true_value, false_value)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> ifelse(condition, true_value, false_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For iterative logic (loops that depend on random variables), use <code>pytensor.scan</code>.</p>
 <hr>
 </section>
@@ -618,7 +603,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="solution-1-marginalization" class="level3">
 <h3 class="anchored" data-anchor-id="solution-1-marginalization">Solution 1: Marginalization</h3>
 <p>Analytically integrate out the discrete variable, replacing it with a continuous mixture.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BEFORE: Discrete latent variable (poor mixing)</span></span>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BEFORE: Discrete latent variable (poor mixing)</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> discrete_model:</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> pm.Bernoulli(<span class="st">"z"</span>, p<span class="op">=</span><span class="fl">0.5</span>, shape<span class="op">=</span>N)  <span class="co"># discrete latent</span></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> pm.math.switch(z, mu1, mu0)</span>
@@ -631,26 +616,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    mu1 <span class="op">=</span> pm.Normal(<span class="st">"mu1"</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.HalfNormal(<span class="st">"sigma"</span>, <span class="dv">1</span>)</span>
 <span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.NormalMixture(<span class="st">"y"</span>, w<span class="op">=</span>[<span class="dv">1</span><span class="op">-</span>p, p], mu<span class="op">=</span>[mu0, mu1], sigma<span class="op">=</span>sigma, observed<span class="op">=</span>y_obs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.NormalMixture(<span class="st">"y"</span>, w<span class="op">=</span>[<span class="dv">1</span><span class="op">-</span>p, p], mu<span class="op">=</span>[mu0, mu1], sigma<span class="op">=</span>sigma, observed<span class="op">=</span>y_obs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="solution-2-continuous-relaxation" class="level3">
 <h3 class="anchored" data-anchor-id="solution-2-continuous-relaxation">Solution 2: Continuous Relaxation</h3>
 <p>Approximate discrete switches with continuous sigmoid functions.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Soft approximation of a discrete switch</span></span>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Soft approximation of a discrete switch</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>temperature <span class="op">=</span> <span class="fl">0.1</span>  <span class="co"># lower = sharper</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>soft_z <span class="op">=</span> pm.math.sigmoid((x <span class="op">-</span> threshold) <span class="op">/</span> temperature)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> soft_z <span class="op">*</span> mu1 <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> soft_z) <span class="op">*</span> mu0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> soft_z <span class="op">*</span> mu1 <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> soft_z) <span class="op">*</span> mu0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="prior-sampling-with-discrete-variables" class="level3">
 <h3 class="anchored" data-anchor-id="prior-sampling-with-discrete-variables">Prior Sampling with Discrete Variables</h3>
 <p><strong>Common mistake</strong>: Using <code>pm.sample()</code> to sample priors from a model with discrete variables.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: pm.sample() uses MCMC, struggles with discrete priors</span></span>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: pm.sample() uses MCMC, struggles with discrete priors</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> discrete_model:</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    prior <span class="op">=</span> pm.sample(draws<span class="op">=</span><span class="dv">1000</span>)  <span class="co"># slow, poor convergence</span></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># GOOD: Use ancestral sampling for priors</span></span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> discrete_model:</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    prior <span class="op">=</span> pm.sample_prior_predictive(draws<span class="op">=</span><span class="dv">1000</span>)  <span class="co"># instant, exact</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    prior <span class="op">=</span> pm.sample_prior_predictive(draws<span class="op">=</span><span class="dv">1000</span>)  <span class="co"># instant, exact</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -659,13 +644,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="mutable-data-for-out-of-sample-prediction" class="level3">
 <h3 class="anchored" data-anchor-id="mutable-data-for-out-of-sample-prediction">Mutable Data for Out-of-Sample Prediction</h3>
 <p>Static NumPy arrays are baked into the model graph and cannot be changed for prediction.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Static data prevents out-of-sample prediction</span></span>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Static data prevents out-of-sample prediction</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> static_model:</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    X_train <span class="op">=</span> np.array(...)  <span class="co"># fixed at model construction</span></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> pm.math.dot(X_train, beta)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span><span class="dv">1</span>, observed<span class="op">=</span>y_train)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span><span class="dv">1</span>, observed<span class="op">=</span>y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Solution</strong>: Use <code>pm.Data</code> containers.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> mutable_model:</span>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> mutable_model:</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> pm.Data(<span class="st">"X"</span>, X_train)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    y_obs <span class="op">=</span> pm.Data(<span class="st">"y_obs"</span>, y_train)</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -680,16 +665,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict on new data</span></span>
 <span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> mutable_model:</span>
 <span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    pm.set_data({<span class="st">"X"</span>: X_test, <span class="st">"y_obs"</span>: np.zeros(<span class="bu">len</span>(X_test))})</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    ppc <span class="op">=</span> pm.sample_posterior_predictive(idata)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    ppc <span class="op">=</span> pm.sample_posterior_predictive(idata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="shape-tracking-for-variable-size-predictions" class="level3">
 <h3 class="anchored" data-anchor-id="shape-tracking-for-variable-size-predictions">Shape Tracking for Variable-Size Predictions</h3>
 <p><strong>Critical</strong>: The likelihood shape must track the data container shape.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Fixed shape doesn't update with new data</span></span>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Fixed shape doesn't update with new data</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>y_obs)  <span class="co"># shape inferred from y_obs at construction</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># GOOD: Shape linked to data container</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>y_obs, shape<span class="op">=</span>X.shape[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>y_obs, shape<span class="op">=</span>X.shape[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -698,7 +683,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="multi-level-hierarchy-index-management" class="level3">
 <h3 class="anchored" data-anchor-id="multi-level-hierarchy-index-management">Multi-Level Hierarchy Index Management</h3>
 <p>For nested hierarchies (e.g., observations within cities within states), avoid MultiIndex complications.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create independent factorized indices for each level</span></span>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create independent factorized indices for each level</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>city_idx, city_labels <span class="op">=</span> pd.factorize(df[<span class="st">"city"</span>], sort<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>state_idx, state_labels <span class="op">=</span> pd.factorize(df[<span class="st">"state"</span>], sort<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -718,12 +703,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Combine at observation level</span></span>
 <span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> alpha_state[state_idx] <span class="op">+</span> alpha_city[city_idx]</span>
 <span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>y_obs, dims<span class="op">=</span><span class="st">"obs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>y_obs, dims<span class="op">=</span><span class="st">"obs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="consistent-factorization-across-data-splits" class="level3">
 <h3 class="anchored" data-anchor-id="consistent-factorization-across-data-splits">Consistent Factorization Across Data Splits</h3>
 <p><strong>Critical error</strong>: Factorizing training and test sets separately creates inconsistent mappings.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Separate factorization</span></span>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Separate factorization</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>train_idx, train_labels <span class="op">=</span> pd.factorize(train_df[<span class="st">"group"</span>])</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>test_idx, test_labels <span class="op">=</span> pd.factorize(test_df[<span class="st">"group"</span>])</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># "group 0" in train may be different from "group 0" in test!</span></span>
@@ -735,7 +720,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Category codes are now consistent</span></span>
 <span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>train_idx <span class="op">=</span> train_df[<span class="st">"group"</span>].cat.codes</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>test_idx <span class="op">=</span> test_df[<span class="st">"group"</span>].cat.codes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>test_idx <span class="op">=</span> test_df[<span class="st">"group"</span>].cat.codes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -744,13 +729,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="multinomial-count-constraints" class="level3">
 <h3 class="anchored" data-anchor-id="multinomial-count-constraints">Multinomial Count Constraints</h3>
 <p><strong>Problem</strong>: Observed counts don’t sum to the specified <code>n</code> parameter.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Each row of observed counts must sum to n</span></span>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Each row of observed counts must sum to n</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>observed_counts <span class="op">=</span> np.array([[<span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">2</span>], [<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>]])  <span class="co"># each row sums to 10</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>n_trials <span class="op">=</span> observed_counts.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)  <span class="co"># [10, 10]</span></span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> multinomial_model:</span>
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> pm.Dirichlet(<span class="st">"p"</span>, a<span class="op">=</span>np.ones(<span class="dv">3</span>))</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Multinomial(<span class="st">"y"</span>, n<span class="op">=</span>n_trials, p<span class="op">=</span>p, observed<span class="op">=</span>observed_counts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Multinomial(<span class="st">"y"</span>, n<span class="op">=</span>n_trials, p<span class="op">=</span>p, observed<span class="op">=</span>observed_counts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="dirichlet-simplex-constraints" class="level3">
 <h3 class="anchored" data-anchor-id="dirichlet-simplex-constraints">Dirichlet Simplex Constraints</h3>
@@ -763,7 +748,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="log-probability-overflows-in-gammabeta-models" class="level3">
 <h3 class="anchored" data-anchor-id="log-probability-overflows-in-gammabeta-models">Log-Probability Overflows in Gamma/Beta Models</h3>
 <p>When modeling with Gamma or Beta likelihoods, parameters calculated through exponential transformations can overflow.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Exponential growth can overflow</span></span>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Exponential growth can overflow</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>mu_inv <span class="op">=</span> pm.math.exp(lambda_param <span class="op">*</span> pm.math.log(x))</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># If lambda is large, mu_inv can exceed 10^20, causing overflow</span></span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -772,59 +757,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution 2: Log-transform the data</span></span>
 <span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>log_y <span class="op">=</span> np.log(y_obs)</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu_log, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>log_y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu_log, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>log_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="over-tight-priors-and-link-function-failure" class="level3">
 <h3 class="anchored" data-anchor-id="over-tight-priors-and-link-function-failure">Over-Tight Priors and Link Function Failure</h3>
 <p>Priors that are too narrow can “lock” the model, especially with link functions on new data.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If prior on slope is very tight: beta ~ Normal(0, 0.1)</span></span>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If prior on slope is very tight: beta ~ Normal(0, 0.1)</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># And new X values are much larger than training X</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Then sigmoid(X_new @ beta) can be exactly 0 or 1</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This causes log(0) = -inf in the likelihood</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This causes log(0) = -inf in the likelihood</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Solution</strong>: Use prior predictive checks across the expected range of predictors.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    prior <span class="op">=</span> pm.sample_prior_predictive(draws<span class="op">=</span><span class="dv">500</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that prior predictions are valid across expected X range</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Not just the training data range</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Not just the training data range</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="label-switching-in-mixture-models" class="level3">
 <h3 class="anchored" data-anchor-id="label-switching-in-mixture-models">Label Switching in Mixture Models</h3>
 <p>Unordered mixture components cause label switching — the sampler swaps component identities between iterations, producing meaningless per-component summaries.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Unordered components</span></span>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Unordered components</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> pm.Normal(<span class="st">"mu"</span>, <span class="dv">0</span>, <span class="dv">10</span>, dims<span class="op">=</span><span class="st">"component"</span>)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># FIX: Order constraint</span></span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> pm.Normal(<span class="st">"mu"</span>, <span class="dv">0</span>, <span class="dv">10</span>, dims<span class="op">=</span><span class="st">"component"</span>,</span>
 <span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>               transform<span class="op">=</span>pm.distributions.transforms.ordered,</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>               initval<span class="op">=</span>np.linspace(y_obs.<span class="bu">min</span>(), y_obs.<span class="bu">max</span>(), K))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>               initval<span class="op">=</span>np.linspace(y_obs.<span class="bu">min</span>(), y_obs.<span class="bu">max</span>(), K))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>See <a href="../../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/mixtures.html">mixtures.md</a> for detailed solutions.</p>
 </section>
 <section id="missing-prior-predictive-checks" class="level3">
 <h3 class="anchored" data-anchor-id="missing-prior-predictive-checks">Missing Prior Predictive Checks</h3>
 <p>Always check prior implications before fitting:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    prior_pred <span class="op">=</span> pm.sample_prior_predictive()</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(prior_pred, group<span class="op">=</span><span class="st">"prior"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(prior_pred, group<span class="op">=</span><span class="st">"prior"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If prior predictive range is implausible (negative counts, probabilities &gt; 1, extreme values), adjust priors before proceeding.</p>
 </section>
 <section id="the-horseshoe-prior-challenge" class="level3">
 <h3 class="anchored" data-anchor-id="the-horseshoe-prior-challenge">The Horseshoe Prior Challenge</h3>
 <p>Horseshoe priors have a massive spike at zero and heavy tails, creating a “double-funnel” geometry.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Horseshoe often requires very high target_accept</span></span>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Horseshoe often requires very high target_accept</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>idata <span class="op">=</span> pm.sample(target_accept<span class="op">=</span><span class="fl">0.99</span>)</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Consider Regularized Horseshoe for better geometry (manual implementation)</span></span>
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co"># See priors.md for full regularized horseshoe code</span></span>
 <span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Or use simpler Laplace prior if sufficient</span></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>beta <span class="op">=</span> pm.Laplace(<span class="st">"beta"</span>, mu<span class="op">=</span><span class="dv">0</span>, b<span class="op">=</span><span class="dv">1</span>, dims<span class="op">=</span><span class="st">"features"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>beta <span class="op">=</span> pm.Laplace(<span class="st">"beta"</span>, mu<span class="op">=</span><span class="dv">0</span>, b<span class="op">=</span><span class="dv">1</span>, dims<span class="op">=</span><span class="st">"features"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="redundant-intercepts-in-hierarchical-models" class="level3">
 <h3 class="anchored" data-anchor-id="redundant-intercepts-in-hierarchical-models">Redundant Intercepts in Hierarchical Models</h3>
 <p><strong>Problem</strong>: Defining an intercept for every predictor creates non-identifiability.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Intercept per predictor (non-identifiable)</span></span>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BAD: Intercept per predictor (non-identifiable)</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> over_param:</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    intercept_age <span class="op">=</span> pm.Normal(<span class="st">"int_age"</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    intercept_income <span class="op">=</span> pm.Normal(<span class="st">"int_income"</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
@@ -836,7 +821,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    slope_age <span class="op">=</span> pm.Normal(<span class="st">"slope_age"</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    slope_income <span class="op">=</span> pm.Normal(<span class="st">"slope_income"</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> group_intercept[group_idx] <span class="op">+</span> slope_age <span class="op">*</span> age <span class="op">+</span> slope_income <span class="op">*</span> income</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> group_intercept[group_idx] <span class="op">+</span> slope_age <span class="op">*</span> age <span class="op">+</span> slope_income <span class="op">*</span> income</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -845,7 +830,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="variable-name-same-as-dimension-label" class="level3">
 <h3 class="anchored" data-anchor-id="variable-name-same-as-dimension-label">Variable Name Same as Dimension Label</h3>
 <p>PyMC v5+ does not allow a variable to have the same name as its dimension label. This causes a <code>ValueError</code> at model creation.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ERROR: Variable `cohort` has the same name as its dimension label</span></span>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ERROR: Variable `cohort` has the same name as its dimension label</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {<span class="st">"cohort"</span>: cohorts, <span class="st">"year"</span>: years}</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model:</span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    cohort <span class="op">=</span> rw2_fn(<span class="st">"cohort"</span>, n_cohorts, sigma_c, dims<span class="op">=</span><span class="st">"cohort"</span>)  <span class="co"># ValueError!</span></span>
@@ -854,12 +839,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {<span class="st">"cohort_idx"</span>: cohorts, <span class="st">"year_idx"</span>: years}</span>
 <span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> model:</span>
 <span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    cohort <span class="op">=</span> rw2_fn(<span class="st">"cohort"</span>, n_cohorts, sigma_c, dims<span class="op">=</span><span class="st">"cohort_idx"</span>)  <span class="co"># OK</span></span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    period <span class="op">=</span> rw2_fn(<span class="st">"period"</span>, n_years, sigma_t, dims<span class="op">=</span><span class="st">"year_idx"</span>)  <span class="co"># OK</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    period <span class="op">=</span> rw2_fn(<span class="st">"period"</span>, n_years, sigma_t, dims<span class="op">=</span><span class="st">"year_idx"</span>)  <span class="co"># OK</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="arviz-plot_ppc-parameter-names" class="level3">
 <h3 class="anchored" data-anchor-id="arviz-plot_ppc-parameter-names">ArviZ plot_ppc Parameter Names</h3>
 <p>ArviZ’s <code>plot_ppc()</code> function does not accept <code>num_pp_samples</code> parameter. This parameter was removed in recent versions.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ERROR: Unexpected keyword argument</span></span>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ERROR: Unexpected keyword argument</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(idata, kind<span class="op">=</span><span class="st">"cumulative"</span>, num_pp_samples<span class="op">=</span><span class="dv">100</span>)  <span class="co"># TypeError</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># FIX: Remove num_pp_samples parameter</span></span>
@@ -867,18 +852,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset to fewer draws if needed</span></span>
 <span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>idata_subset <span class="op">=</span> idata.sel(draw<span class="op">=</span><span class="bu">slice</span>(<span class="dv">0</span>, <span class="dv">100</span>))</span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(idata_subset, kind<span class="op">=</span><span class="st">"cumulative"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(idata_subset, kind<span class="op">=</span><span class="st">"cumulative"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="pm.mutabledata-pm.constantdata-deprecation" class="level3">
 <h3 class="anchored" data-anchor-id="pm.mutabledata-pm.constantdata-deprecation">pm.MutableData / pm.ConstantData Deprecation</h3>
 <p><code>pm.MutableData</code> and <code>pm.ConstantData</code> are deprecated in PyMC v5+. Use <code>pm.Data</code> instead, which is mutable by default.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">DEPRECATED</span></span>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">DEPRECATED</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> pm.MutableData(<span class="st">"x"</span>, x_obs)</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> pm.ConstantData(<span class="st">"c"</span>, constants)</span>
 <span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="co"># CURRENT</span></span>
 <span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> pm.Data(<span class="st">"x"</span>, x_obs)           <span class="co"># mutable by default</span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> pm.Data(<span class="st">"c"</span>, constants)       <span class="co"># use pm.Data for constants too</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> pm.Data(<span class="st">"c"</span>, constants)       <span class="co"># use pm.Data for constants too</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -886,25 +871,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="performance-issues">Performance Issues</h2>
 <section id="full-gp-on-large-datasets" class="level3">
 <h3 class="anchored" data-anchor-id="full-gp-on-large-datasets">Full GP on Large Datasets</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># O(n³) - slow for n &gt; 1000</span></span>
+<div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># O(n³) - slow for n &gt; 1000</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>gp <span class="op">=</span> pm.gp.Marginal(cov_func<span class="op">=</span>cov)</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> gp.marginal_likelihood(<span class="st">"y"</span>, X<span class="op">=</span>X_large, y<span class="op">=</span>y_obs)</span>
 <span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="co"># O(nm) - use HSGP instead</span></span>
 <span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>gp <span class="op">=</span> pm.gp.HSGP(m<span class="op">=</span>[<span class="dv">30</span>], c<span class="op">=</span><span class="fl">1.5</span>, cov_func<span class="op">=</span>cov)</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> gp.prior(<span class="st">"f"</span>, X<span class="op">=</span>X_large)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> gp.prior(<span class="st">"f"</span>, X<span class="op">=</span>X_large)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="saving-large-deterministics" class="level3">
 <h3 class="anchored" data-anchor-id="saving-large-deterministics">Saving Large Deterministics</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stores n_obs x n_draws array</span></span>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stores n_obs x n_draws array</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> pm.Deterministic(<span class="st">"mu"</span>, X <span class="op">@</span> beta, dims<span class="op">=</span><span class="st">"obs"</span>)  <span class="co"># SLOW</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Don't save intermediate computations</span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> X <span class="op">@</span> beta  <span class="co"># Not saved, use posterior_predictive if needed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> X <span class="op">@</span> beta  <span class="co"># Not saved, use posterior_predictive if needed</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="recompiling-for-each-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="recompiling-for-each-dataset">Recompiling for Each Dataset</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recompiles every iteration</span></span>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recompiles every iteration</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dataset <span class="kw">in</span> datasets:</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> pm.Model() <span class="im">as</span> model:</span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ...</span></span>
@@ -917,18 +902,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dataset <span class="kw">in</span> datasets:</span>
 <span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>    pm.set_data({<span class="st">"x"</span>: dataset[<span class="st">"x"</span>]})</span>
-<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>    idata <span class="op">=</span> pm.sample()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="profiling-slow-models" class="level3">
 <h3 class="anchored" data-anchor-id="profiling-slow-models">Profiling Slow Models</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time individual operations in the log-probability computation</span></span>
+<div class="sourceCode" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time individual operations in the log-probability computation</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>profile <span class="op">=</span> model.profile(model.logp())</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>profile.summary()</span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify bottlenecks in gradient computation</span></span>
 <span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytensor</span>
 <span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>grad_profile <span class="op">=</span> model.profile(pytensor.grad(model.logp(), model.continuous_value_vars))</span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>grad_profile.summary()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>grad_profile.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -946,37 +931,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="common-causes" class="level3">
 <h3 class="anchored" data-anchor-id="common-causes">Common Causes</h3>
 <p><strong>Overparameterized models</strong>: More parameters than the data can support.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Too many group-level effects for small groups</span></span>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Too many group-level effects for small groups</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>alpha_group <span class="op">=</span> pm.Normal(<span class="st">"alpha_group"</span>, <span class="dv">0</span>, <span class="dv">1</span>, dims<span class="op">=</span><span class="st">"group"</span>)  <span class="co"># 100 groups, 3 obs each</span></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>beta_group <span class="op">=</span> pm.Normal(<span class="st">"beta_group"</span>, <span class="dv">0</span>, <span class="dv">1</span>, dims<span class="op">=</span><span class="st">"group"</span>)    <span class="co"># Can't estimate both</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>beta_group <span class="op">=</span> pm.Normal(<span class="st">"beta_group"</span>, <span class="dv">0</span>, <span class="dv">1</span>, dims<span class="op">=</span><span class="st">"group"</span>)    <span class="co"># Can't estimate both</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Multicollinearity</strong>: Correlated predictors make individual effects unidentifiable.</p>
 <p><strong>Redundant random effects</strong>: Nested effects without constraints.</p>
 </section>
 <section id="fixes" class="level3">
 <h3 class="anchored" data-anchor-id="fixes">Fixes</h3>
 <p><strong>Sum-to-zero constraints</strong> for categorical effects:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytensor.tensor <span class="im">as</span> pt</span>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytensor.tensor <span class="im">as</span> pt</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Constrain group effects to sum to zero</span></span>
 <span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>alpha_raw <span class="op">=</span> pm.Normal(<span class="st">"alpha_raw"</span>, <span class="dv">0</span>, <span class="dv">1</span>, shape<span class="op">=</span>n_groups <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> pm.Deterministic(<span class="st">"alpha"</span>, pt.concatenate([alpha_raw, <span class="op">-</span>alpha_raw.<span class="bu">sum</span>(keepdims<span class="op">=</span><span class="va">True</span>)]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> pm.Deterministic(<span class="st">"alpha"</span>, pt.concatenate([alpha_raw, <span class="op">-</span>alpha_raw.<span class="bu">sum</span>(keepdims<span class="op">=</span><span class="va">True</span>)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>QR decomposition</strong> for regression with correlated predictors:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Orthogonalize design matrix</span></span>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Orthogonalize design matrix</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>Q, R <span class="op">=</span> np.linalg.qr(X)</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> qr_model:</span>
 <span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    beta_tilde <span class="op">=</span> pm.Normal(<span class="st">"beta_tilde"</span>, <span class="dv">0</span>, <span class="dv">1</span>, dims<span class="op">=</span><span class="st">"features"</span>)</span>
 <span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> pm.Deterministic(<span class="st">"beta"</span>, pt.linalg.solve(R, beta_tilde))</span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> Q <span class="op">@</span> beta_tilde  <span class="co"># Use Q directly in likelihood</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> Q <span class="op">@</span> beta_tilde  <span class="co"># Use Q directly in likelihood</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Reduce model complexity</strong>: Start simple, add complexity only if needed.</p>
 </section>
 <section id="diagnosis" class="level3">
 <h3 class="anchored" data-anchor-id="diagnosis">Diagnosis</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for strong correlations</span></span>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for strong correlations</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>az.plot_pair(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>, <span class="st">"beta"</span>], divergences<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Look for banana-shaped or ridge-like posteriors</span></span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="co"># These indicate non-identifiability</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="co"># These indicate non-identifiability</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -993,7 +978,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="diagnosis-1" class="level3">
 <h3 class="anchored" data-anchor-id="diagnosis-1">Diagnosis</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare prior and posterior</span></span>
+<div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare prior and posterior</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>az.plot_dist_comparison(idata, var_names<span class="op">=</span>[<span class="st">"sigma"</span>])</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Visual comparison for all parameters</span></span>
@@ -1001,23 +986,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, var <span class="kw">in</span> <span class="bu">zip</span>(axes, param_names):</span>
 <span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    az.plot_density(idata.prior, var_names<span class="op">=</span>[var], ax<span class="op">=</span>ax, colors<span class="op">=</span><span class="st">"C0"</span>, label<span class="op">=</span><span class="st">"Prior"</span>)</span>
 <span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    az.plot_density(idata.posterior, var_names<span class="op">=</span>[var], ax<span class="op">=</span>ax, colors<span class="op">=</span><span class="st">"C1"</span>, label<span class="op">=</span><span class="st">"Posterior"</span>)</span>
-<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    ax.set_title(var)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    ax.set_title(var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="common-scenarios" class="level3">
 <h3 class="anchored" data-anchor-id="common-scenarios">Common Scenarios</h3>
 <p><strong>Prior too narrow</strong>: Data suggests values outside prior range.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior rules out likely values</span></span>
+<div class="sourceCode" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior rules out likely values</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> pm.HalfNormal(<span class="st">"sigma"</span>, sigma<span class="op">=</span><span class="fl">0.1</span>)  <span class="co"># If true sigma is ~5, this fights the data</span></span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix: Use domain knowledge, not convenience</span></span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> pm.HalfNormal(<span class="st">"sigma"</span>, sigma<span class="op">=</span><span class="dv">5</span>)  <span class="co"># Allow for larger values</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> pm.HalfNormal(<span class="st">"sigma"</span>, sigma<span class="op">=</span><span class="dv">5</span>)  <span class="co"># Allow for larger values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Prior on wrong scale</strong>: Common when using default priors without checking.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Default prior on standardized scale</span></span>
+<div class="sourceCode" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Default prior on standardized scale</span></span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>beta <span class="op">=</span> pm.Normal(<span class="st">"beta"</span>, <span class="dv">0</span>, <span class="dv">1</span>)  <span class="co"># Fine if X is standardized</span></span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co"># But if X ranges from 10000 to 50000...</span></span>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize predictors or adjust prior</span></span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>X_scaled <span class="op">=</span> (X <span class="op">-</span> X.mean()) <span class="op">/</span> X.std()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>X_scaled <span class="op">=</span> (X <span class="op">-</span> X.mean()) <span class="op">/</span> X.std()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="resolution" class="level3">
 <h3 class="anchored" data-anchor-id="resolution">Resolution</h3>
@@ -1038,7 +1023,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="detection" class="level3">
 <h3 class="anchored" data-anchor-id="detection">Detection</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Condition number (&gt;30 suggests problems)</span></span>
 <span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>condition_number <span class="op">=</span> np.linalg.cond(X)</span>
@@ -1055,38 +1040,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a>vif_data <span class="op">=</span> pd.DataFrame()</span>
 <span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a>vif_data[<span class="st">"feature"</span>] <span class="op">=</span> feature_names</span>
 <span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a>vif_data[<span class="st">"VIF"</span>] <span class="op">=</span> [variance_inflation_factor(X, i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(X.shape[<span class="dv">1</span>])]</span>
-<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(vif_data)  <span class="co"># VIF &gt; 5-10 indicates multicollinearity</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(vif_data)  <span class="co"># VIF &gt; 5-10 indicates multicollinearity</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="symptoms-in-posteriors" class="level3">
 <h3 class="anchored" data-anchor-id="symptoms-in-posteriors">Symptoms in Posteriors</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Strong negative correlation between coefficients</span></span>
+<div class="sourceCode" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Strong negative correlation between coefficients</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>az.plot_pair(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>])</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Look for elongated ellipses or banana shapes</span></span>
 <span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Wide credible intervals despite large N</span></span>
 <span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> az.summary(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>])</span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(summary[[<span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"hdi_3%"</span>, <span class="st">"hdi_97%"</span>]])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(summary[[<span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"hdi_3%"</span>, <span class="st">"hdi_97%"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="solutions" class="level3">
 <h3 class="anchored" data-anchor-id="solutions">Solutions</h3>
 <p><strong>Drop redundant predictors</strong>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If age and birth_year are both included, drop one</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> X[:, [i <span class="cf">for</span> i, name <span class="kw">in</span> <span class="bu">enumerate</span>(feature_names) <span class="cf">if</span> name <span class="op">!=</span> <span class="st">"birth_year"</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If age and birth_year are both included, drop one</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> X[:, [i <span class="cf">for</span> i, name <span class="kw">in</span> <span class="bu">enumerate</span>(feature_names) <span class="cf">if</span> name <span class="op">!=</span> <span class="st">"birth_year"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Use regularizing priors</strong>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ridge-like prior (shrinks toward zero)</span></span>
+<div class="sourceCode" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ridge-like prior (shrinks toward zero)</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>beta <span class="op">=</span> pm.Normal(<span class="st">"beta"</span>, mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="fl">0.5</span>, dims<span class="op">=</span><span class="st">"features"</span>)</span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Horseshoe prior (sparse, some coefficients near zero)</span></span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="co"># See priors.md for full code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="co"># See priors.md for full code</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>QR parameterization</strong> (orthogonalizes predictors):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>Q, R <span class="op">=</span> np.linalg.qr(X)</span>
+<div class="sourceCode" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>Q, R <span class="op">=</span> np.linalg.qr(X)</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>R_inv <span class="op">=</span> np.linalg.inv(R)</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model() <span class="im">as</span> model:</span>
 <span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> pm.Normal(<span class="st">"theta"</span>, <span class="dv">0</span>, <span class="dv">1</span>, dims<span class="op">=</span><span class="st">"features"</span>)</span>
 <span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> pm.Deterministic(<span class="st">"beta"</span>, pt.dot(R_inv, theta))</span>
 <span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> pt.dot(Q, theta)</span>
-<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>y_obs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> pm.Normal(<span class="st">"y"</span>, mu<span class="op">=</span>mu, sigma<span class="op">=</span>sigma, observed<span class="op">=</span>y_obs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Interpret carefully</strong>: If prediction is the goal, multicollinearity may not matter—just don’t interpret individual coefficients.</p>
 <hr>
 </section>
@@ -1155,14 +1140,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

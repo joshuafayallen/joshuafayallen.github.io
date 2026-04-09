@@ -2,16 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.7.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>arviz</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -73,10 +70,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../../site_libs/bootstrap/bootstrap-bcb211d6da54b2c171149088ed9cac7e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../../site_libs/bootstrap/bootstrap-0e7c780847e7614632d3eab8de51e1e3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -123,18 +120,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link" href="../../../../../index.html"> 
 <span class="menu-text">Home</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../../../../research/index.html"> 
-<span class="menu-text">Research</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../../../../teaching/index.html"> 
-<span class="menu-text">Teaching</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../../../../CV/index.html"> 
-<span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../../../../../blog/index.html"> 
@@ -297,7 +282,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>ArviZ uses <code>InferenceData</code>—an xarray-based container. Master this to unlock ArviZ’s power.</p>
 <section id="structure" class="level3">
 <h3 class="anchored" data-anchor-id="structure">Structure</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># InferenceData groups:</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>idata.posterior          <span class="co"># MCMC samples: (chain, draw, *dims)</span></span>
@@ -306,11 +291,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>idata.prior_predictive   <span class="co"># Prior predictions</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>idata.observed_data      <span class="co"># The actual data</span></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>idata.sample_stats       <span class="co"># Sampler diagnostics (divergences, energy, etc.)</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>idata.log_likelihood     <span class="co"># Pointwise log-likelihoods (for LOO/WAIC)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>idata.log_likelihood     <span class="co"># Pointwise log-likelihoods (for LOO/WAIC)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="essential-operations" class="level3">
 <h3 class="anchored" data-anchor-id="essential-operations">Essential Operations</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Access a parameter (returns xarray.DataArray)</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Access a parameter (returns xarray.DataArray)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>beta <span class="op">=</span> idata.posterior[<span class="st">"beta"</span>]</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to numpy</span></span>
@@ -327,11 +312,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>idata.posterior[<span class="st">"beta"</span>].quantile([<span class="fl">0.025</span>, <span class="fl">0.975</span>], dim<span class="op">=</span>[<span class="st">"chain"</span>, <span class="st">"draw"</span>])</span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter variables</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>idata.posterior[[<span class="st">"alpha"</span>, <span class="st">"beta"</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>idata.posterior[[<span class="st">"alpha"</span>, <span class="st">"beta"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="combining-inferencedata-objects" class="level3">
 <h3 class="anchored" data-anchor-id="combining-inferencedata-objects">Combining InferenceData Objects</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add posterior predictive to existing idata</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add posterior predictive to existing idata</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    pm.sample_posterior_predictive(idata, extend_inferencedata<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -339,11 +324,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>idata.extend(pm.sample_posterior_predictive(idata))</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge separate idata objects</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>idata_combined <span class="op">=</span> az.concat([idata1, idata2], dim<span class="op">=</span><span class="st">"chain"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>idata_combined <span class="op">=</span> az.concat([idata1, idata2], dim<span class="op">=</span><span class="st">"chain"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="saving-and-loading" class="level3">
 <h3 class="anchored" data-anchor-id="saving-and-loading">Saving and Loading</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save (NetCDF format, portable)</span></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save (NetCDF format, portable)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>idata.to_netcdf(<span class="st">"results.nc"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load</span></span>
@@ -351,7 +336,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Save with compression (for large files)</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>idata.to_netcdf(<span class="st">"results.nc"</span>, engine<span class="op">=</span><span class="st">"h5netcdf"</span>,</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                encoding<span class="op">=</span>{var: {<span class="st">"zlib"</span>: <span class="va">True</span>} <span class="cf">for</span> var <span class="kw">in</span> idata.posterior.data_vars})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                encoding<span class="op">=</span>{var: {<span class="st">"zlib"</span>: <span class="va">True</span>} <span class="cf">for</span> var <span class="kw">in</span> idata.posterior.data_vars})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -360,7 +345,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Run these checks immediately after <code>pm.sample()</code> returns. If any fail, do not proceed to interpretation.</p>
 <section id="the-30-second-check" class="level3">
 <h3 class="anchored" data-anchor-id="the-30-second-check">The 30-Second Check</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> quick_diagnostics(idata, var_names<span class="op">=</span><span class="va">None</span>):</span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> quick_diagnostics(idata, var_names<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Run immediately after sampling."""</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Divergences (must be 0 or near 0)</span></span>
@@ -386,11 +371,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> summary</span>
 <span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Usage</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> quick_diagnostics(idata, var_names<span class="op">=</span>[<span class="st">"~offset"</span>])  <span class="co"># exclude auxiliary</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> quick_diagnostics(idata, var_names<span class="op">=</span>[<span class="st">"~offset"</span>])  <span class="co"># exclude auxiliary</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="az.summary-the-diagnostic-swiss-army-knife" class="level3">
 <h3 class="anchored" data-anchor-id="az.summary-the-diagnostic-swiss-army-knife">az.summary: The Diagnostic Swiss Army Knife</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Full summary</span></span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Full summary</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> az.summary(idata)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Key columns to check:</span></span>
@@ -408,7 +393,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> az.summary(idata, stat_funcs<span class="op">=</span>{<span class="st">"median"</span>: np.median}, extend<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom credible interval</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> az.summary(idata, hdi_prob<span class="op">=</span><span class="fl">0.90</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> az.summary(idata, hdi_prob<span class="op">=</span><span class="fl">0.90</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Interpretation thresholds:</strong></p>
 <table class="caption-top table">
 <thead>
@@ -449,7 +434,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="az.plot_trace-visual-convergence-check" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_trace-visual-convergence-check">az.plot_trace: Visual Convergence Check</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic trace plot</span></span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic trace plot</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>az.plot_trace(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>, <span class="st">"sigma"</span>])</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Compact mode for many parameters</span></span>
@@ -457,13 +442,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Rank-normalized traces (more sensitive to problems)</span></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>az.plot_trace(idata, kind<span class="op">=</span><span class="st">"rank_bars"</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>az.plot_trace(idata, kind<span class="op">=</span><span class="st">"rank_vlines"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>az.plot_trace(idata, kind<span class="op">=</span><span class="st">"rank_vlines"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>What to look for:</strong></p>
 <p>✅ <strong>Good mixing</strong> (left panel): Overlapping density curves for all chains ✅ <strong>Stationarity</strong> (right panel): Fuzzy caterpillar, no trends, no steps ❌ <strong>Bad mixing</strong>: Separated densities, one chain stuck in different region ❌ <strong>Non-stationarity</strong>: Visible trends, sudden jumps, periodic patterns</p>
 </section>
 <section id="checking-divergences" class="level3">
 <h3 class="anchored" data-anchor-id="checking-divergences">Checking Divergences</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count divergences</span></span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count divergences</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>n_div <span class="op">=</span> idata.sample_stats[<span class="st">"diverging"</span>].<span class="bu">sum</span>().item()</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Percentage</span></span>
@@ -473,7 +458,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Divergences in sample_stats are from sampling phase only</span></span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize where divergences occur in parameter space</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>az.plot_pair(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>, <span class="st">"sigma"</span>], divergences<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>az.plot_pair(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>, <span class="st">"sigma"</span>], divergences<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Divergence rules:</strong> - <strong>0 divergences</strong>: Ideal - <strong>&lt; 0.1% and random</strong>: Often acceptable, but investigate - <strong>&gt; 0.1% or clustered</strong>: Problem—do not trust results</p>
 <hr>
 </section>
@@ -484,47 +469,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="az.plot_rank-the-modern-convergence-test" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_rank-the-modern-convergence-test">az.plot_rank: The Modern Convergence Test</h3>
 <p>Rank plots are more sensitive than trace plots for detecting convergence issues.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>az.plot_rank(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>, <span class="st">"sigma"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>az.plot_rank(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>, <span class="st">"sigma"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Interpretation</strong>: Each chain should have a roughly uniform distribution of ranks. If one chain consistently has higher or lower ranks, it hasn’t converged to the same distribution.</p>
 <p><strong>What to look for:</strong> - ✅ Uniform histograms across all chains - ❌ One chain with ranks concentrated at one end - ❌ Systematic patterns (periodicity, gaps)</p>
 </section>
 <section id="az.plot_ess-effective-sample-size-evolution" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_ess-effective-sample-size-evolution">az.plot_ess: Effective Sample Size Evolution</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How ESS grows with more draws</span></span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How ESS grows with more draws</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>az.plot_ess(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>], kind<span class="op">=</span><span class="st">"evolution"</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ESS across the distribution (quantile-specific)</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>az.plot_ess(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>], kind<span class="op">=</span><span class="st">"quantile"</span>)</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Local ESS (identifies problematic regions)</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>az.plot_ess(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>], kind<span class="op">=</span><span class="st">"local"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>az.plot_ess(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>], kind<span class="op">=</span><span class="st">"local"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Evolution plot interpretation:</strong> - ✅ Linear growth: Good mixing - ❌ Plateauing: Poor mixing, more samples won’t help - ❌ Early plateau then growth: Slow adaptation</p>
 <p><strong>Quantile plot interpretation:</strong> - ✅ Roughly constant ESS across quantiles - ❌ Low ESS at tails: Unreliable credible intervals - ❌ Very low ESS at specific quantiles: Possible multimodality</p>
 </section>
 <section id="az.plot_mcse-monte-carlo-error-visualization" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_mcse-monte-carlo-error-visualization">az.plot_mcse: Monte Carlo Error Visualization</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MCSE across quantiles</span></span>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MCSE across quantiles</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>az.plot_mcse(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>])</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Local MCSE (error varies across distribution)</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>az.plot_mcse(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>], kind<span class="op">=</span><span class="st">"local"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>az.plot_mcse(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>], kind<span class="op">=</span><span class="st">"local"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Rule of thumb</strong>: MCSE should be &lt; 5% of posterior SD for reliable inference.</p>
 </section>
 <section id="az.plot_autocorr-mixing-efficiency" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_autocorr-mixing-efficiency">az.plot_autocorr: Mixing Efficiency</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>az.plot_autocorr(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>, <span class="st">"sigma"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>az.plot_autocorr(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>, <span class="st">"sigma"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Interpretation:</strong> - ✅ Rapid decay to zero (within ~20 lags) - ❌ Slow decay: High autocorrelation → low ESS - ❌ Negative autocorrelation: Can indicate sampler issues</p>
 </section>
 <section id="az.plot_energy-hmcnuts-health" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_energy-hmcnuts-health">az.plot_energy: HMC/NUTS Health</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>az.plot_energy(idata)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>az.plot_energy(idata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This plot shows the marginal energy distribution and the energy transition distribution.</p>
 <p><strong>Interpretation:</strong> - ✅ Overlapping distributions: Good exploration - ❌ Large gap between distributions: Poor exploration, potential bias - ❌ Marginal energy has long tails: Difficult posterior geometry</p>
 <p><strong>Expert tip</strong>: Energy plots are especially useful for diagnosing problems that R-hat and ESS miss, like when the sampler explores only part of a multimodal posterior.</p>
 </section>
 <section id="az.rhat-and-az.ess-programmatic-access" class="level3">
 <h3 class="anchored" data-anchor-id="az.rhat-and-az.ess-programmatic-access">az.rhat and az.ess: Programmatic Access</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get R-hat for all parameters</span></span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get R-hat for all parameters</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>rhat_values <span class="op">=</span> az.rhat(idata)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get ESS</span></span>
@@ -535,7 +520,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> rhat_values.data_vars:</span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    rhat <span class="op">=</span> rhat_values[var].values</span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> np.<span class="bu">any</span>(rhat <span class="op">&gt;</span> <span class="fl">1.01</span>):</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Warning: </span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> has R-hat = </span><span class="sc">{</span>rhat<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Warning: </span><span class="sc">{</span>var<span class="sc">}</span><span class="ss"> has R-hat = </span><span class="sc">{</span>rhat<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -545,7 +530,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="az.plot_ppc-posterior-predictive-checks" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_ppc-posterior-predictive-checks">az.plot_ppc: Posterior Predictive Checks</h3>
 <p>The most important model criticism tool. Does the model generate data that looks like the observed data?</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First, generate posterior predictive samples</span></span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First, generate posterior predictive samples</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> model:</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    pm.sample_posterior_predictive(idata, extend_inferencedata<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -560,23 +545,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset draws if needed for speed</span></span>
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>idata_subset <span class="op">=</span> idata.sel(draw<span class="op">=</span><span class="bu">slice</span>(<span class="dv">0</span>, <span class="dv">100</span>))</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(idata_subset, kind<span class="op">=</span><span class="st">"cumulative"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(idata_subset, kind<span class="op">=</span><span class="st">"cumulative"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>What to look for (density/KDE):</strong> - ✅ Dark line (observed) within the cloud of light lines (predicted) - ❌ Observed data outside predicted distribution - ❌ Shape mismatch (e.g., model symmetric but data skewed)</p>
 <p><strong>What to look for (cumulative):</strong> - ✅ Observed CDF within the posterior predictive band - ❌ Systematic deviation (observed consistently above/below) - ❌ Crossing pattern (model wrong in different directions at different values)</p>
 </section>
 <section id="groupedstratified-ppc" class="level3">
 <h3 class="anchored" data-anchor-id="groupedstratified-ppc">Grouped/Stratified PPC</h3>
 <p>Check fit across subgroups:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># PPC by group (if using coords)</span></span>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># PPC by group (if using coords)</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(idata, kind<span class="op">=</span><span class="st">"cumulative"</span>, flatten<span class="op">=</span>[])</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># For specific observed variable</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(idata, var_names<span class="op">=</span>[<span class="st">"y_obs"</span>], kind<span class="op">=</span><span class="st">"kde"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(idata, var_names<span class="op">=</span>[<span class="st">"y_obs"</span>], kind<span class="op">=</span><span class="st">"kde"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="custom-posterior-predictive-checks" class="level3">
 <h3 class="anchored" data-anchor-id="custom-posterior-predictive-checks">Custom Posterior Predictive Checks</h3>
 <p>Sometimes you need to check specific features:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define test statistics</span></span>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define test statistics</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tail_fraction(x):</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Fraction of values &gt; 95th percentile of observed data"""</span></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    threshold <span class="op">=</span> np.percentile(idata.observed_data[<span class="st">"y"</span>].values, <span class="dv">95</span>)</span>
@@ -600,28 +585,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>plt.hist(pp_stats, bins<span class="op">=</span><span class="dv">30</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span><span class="st">"Posterior predictive"</span>)</span>
 <span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>plt.axvline(obs_stat, color<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Observed"</span>)</span>
 <span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Tail fraction"</span>)</span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>plt.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="az.plot_loo_pit-calibration-diagnostic" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_loo_pit-calibration-diagnostic">az.plot_loo_pit: Calibration Diagnostic</h3>
 <p>The LOO-PIT (Leave-One-Out Probability Integral Transform) checks calibration: are the posterior predictive quantiles uniformly distributed?</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>az.plot_loo_pit(idata, y<span class="op">=</span><span class="st">"y"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>az.plot_loo_pit(idata, y<span class="op">=</span><span class="st">"y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Interpretation:</strong> - ✅ Uniform distribution (flat histogram, diagonal line): Well-calibrated - ❌ U-shape: Underdispersed (model overconfident) - ❌ Inverted U-shape: Overdispersed (model underconfident) - ❌ S-curve: Systematic bias</p>
 <p><strong>Expert insight</strong>: LOO-PIT is more sensitive than PPC for detecting calibration issues because it evaluates each observation using a model fit without that observation.</p>
 </section>
 <section id="az.plot_bpv-bayesian-p-values" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_bpv-bayesian-p-values">az.plot_bpv: Bayesian p-values</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of Bayesian p-values</span></span>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram of Bayesian p-values</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>az.plot_bpv(idata, kind<span class="op">=</span><span class="st">"p_value"</span>)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Using a test statistic</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>az.plot_bpv(idata, kind<span class="op">=</span><span class="st">"t_stat"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>az.plot_bpv(idata, kind<span class="op">=</span><span class="st">"t_stat"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Interpretation:</strong> - Values near 0.5: Good calibration - Values near 0 or 1: Model systematically over/under-predicts</p>
 </section>
 <section id="residual-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="residual-analysis">Residual Analysis</h3>
 <p>For regression models, check residuals:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute posterior mean predictions</span></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> idata.posterior_predictive[<span class="st">"y"</span>].mean(dim<span class="op">=</span>[<span class="st">"chain"</span>, <span class="st">"draw"</span>])</span>
@@ -635,7 +620,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>plt.scatter(y_pred, residuals, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"red"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>)</span>
 <span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Fitted values"</span>)</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Residuals"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Residuals"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>What to look for:</strong> - ✅ Random scatter around zero - ❌ Funnel shape: Heteroscedasticity - ❌ Curved pattern: Missing nonlinear term - ❌ Clusters: Missing grouping structure</p>
 <hr>
 </section>
@@ -645,7 +630,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Only after Phases 1-3 pass should you interpret parameter estimates.</p>
 <section id="az.plot_posterior-marginal-summaries" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_posterior-marginal-summaries">az.plot_posterior: Marginal Summaries</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic posterior summary</span></span>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic posterior summary</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>, <span class="st">"sigma"</span>])</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># With reference value (null hypothesis)</span></span>
@@ -658,13 +643,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(idata, hdi_prob<span class="op">=</span><span class="fl">0.90</span>)</span>
 <span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Point estimate options</span></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(idata, point_estimate<span class="op">=</span><span class="st">"mode"</span>)  <span class="co"># or "mean", "median"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(idata, point_estimate<span class="op">=</span><span class="st">"mode"</span>)  <span class="co"># or "mean", "median"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>ROPE interpretation:</strong> - Report % of posterior inside ROPE - If &gt; 95% inside ROPE: Practically equivalent to null - If &lt; 5% inside ROPE: Practically different from null</p>
 </section>
 <section id="az.plot_forest-comparing-parameters" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_forest-comparing-parameters">az.plot_forest: Comparing Parameters</h3>
 <p>Essential for hierarchical models and comparing effects.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic forest plot</span></span>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic forest plot</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>az.plot_forest(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>], combined<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># With R-hat coloring (spot convergence issues)</span></span>
@@ -682,12 +667,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Ridgeplot style (better for many groups)</span></span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>az.plot_forest(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>], kind<span class="op">=</span><span class="st">"ridgeplot"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>az.plot_forest(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>], kind<span class="op">=</span><span class="st">"ridgeplot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="az.plot_pair-parameter-relationships" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_pair-parameter-relationships">az.plot_pair: Parameter Relationships</h3>
 <p>Critical for understanding parameter correlations and identifying problems.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic pair plot</span></span>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic pair plot</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>az.plot_pair(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"sigma"</span>])</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># With divergences (essential for debugging)</span></span>
@@ -705,22 +690,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>az.plot_pair(idata, reference_values<span class="op">=</span>{<span class="st">"alpha"</span>: <span class="fl">1.0</span>, <span class="st">"beta"</span>: <span class="fl">0.5</span>})</span>
 <span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Point estimate overlay</span></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>az.plot_pair(idata, point_estimate<span class="op">=</span><span class="st">"mean"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>az.plot_pair(idata, point_estimate<span class="op">=</span><span class="st">"mean"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>What to look for:</strong> - <strong>Strong correlations</strong>: May indicate non-identifiability or need for reparameterization - <strong>Banana/funnel shapes</strong>: Common in hierarchical models, may need non-centered parameterization - <strong>Divergences clustered</strong>: Indicates problematic posterior regions - <strong>Multimodality</strong>: Multiple clusters suggest mixture or label switching</p>
 </section>
 <section id="az.plot_parallel-high-dimensional-relationships" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_parallel-high-dimensional-relationships">az.plot_parallel: High-Dimensional Relationships</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>az.plot_parallel(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"gamma"</span>, <span class="st">"sigma"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>az.plot_parallel(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"gamma"</span>, <span class="st">"sigma"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Divergent samples shown in different color—look for patterns indicating where the sampler struggles.</p>
 </section>
 <section id="az.plot_violin-distribution-comparison" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_violin-distribution-comparison">az.plot_violin: Distribution Comparison</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>az.plot_violin(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>az.plot_violin(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Good for comparing distributions across groups when you want quartile information.</p>
 </section>
 <section id="az.plot_ridge-compact-multi-parameter-view" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_ridge-compact-multi-parameter-view">az.plot_ridge: Compact Multi-Parameter View</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>az.plot_ridge(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>az.plot_ridge(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Useful when you have many group-level parameters to display compactly.</p>
 <hr>
 </section>
@@ -730,60 +715,60 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Compare models using out-of-sample predictive accuracy.</p>
 <section id="az.loo-leave-one-out-cross-validation" class="level3">
 <h3 class="anchored" data-anchor-id="az.loo-leave-one-out-cross-validation">az.loo: Leave-One-Out Cross-Validation</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute LOO (requires log_likelihood in idata)</span></span>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute LOO (requires log_likelihood in idata)</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>loo_result <span class="op">=</span> az.loo(idata, pointwise<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(loo_result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(loo_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Key outputs:</strong> - <code>elpd_loo</code>: Expected log pointwise predictive density (higher is better) - <code>se</code>: Standard error of elpd_loo - <code>p_loo</code>: Effective number of parameters (model complexity) - <code>pareto_k</code>: Diagnostic for approximation quality</p>
 <p><strong>Pareto k interpretation:</strong> | k value | Interpretation | Action | |———|—————-|——–| | &lt; 0.5 | Good | LOO reliable | | 0.5-0.7 | OK | Probably fine, be cautious | | 0.7-1.0 | Bad | LOO unreliable for these points | | &gt; 1.0 | Very bad | Likely model misspecification |</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check Pareto k values</span></span>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check Pareto k values</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>loo <span class="op">=</span> az.loo(idata, pointwise<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Good k (&lt; 0.5): </span><span class="sc">{</span>(loo.pareto_k <span class="op">&lt;</span> <span class="fl">0.5</span>)<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">.</span>item()<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"OK k (0.5-0.7): </span><span class="sc">{</span>((loo.pareto_k <span class="op">&gt;=</span> <span class="fl">0.5</span>) <span class="op">&amp;</span> (loo.pareto_k <span class="op">&lt;</span> <span class="fl">0.7</span>))<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">.</span>item()<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Bad k (&gt; 0.7): </span><span class="sc">{</span>(loo.pareto_k <span class="op">&gt;</span> <span class="fl">0.7</span>)<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">.</span>item()<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Bad k (&gt; 0.7): </span><span class="sc">{</span>(loo.pareto_k <span class="op">&gt;</span> <span class="fl">0.7</span>)<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">.</span>item()<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="az.plot_khat-visualize-pareto-k" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_khat-visualize-pareto-k">az.plot_khat: Visualize Pareto k</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>az.plot_khat(idata)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>az.plot_khat(idata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Points above the 0.7 line are influential observations where LOO approximation is unreliable. Consider: 1. Using moment matching (<code>az.loo(..., pointwise=True)</code> then refit) 2. K-fold CV instead 3. Investigating why these points are influential</p>
 </section>
 <section id="az.waic-widely-applicable-information-criterion" class="level3">
 <h3 class="anchored" data-anchor-id="az.waic-widely-applicable-information-criterion">az.waic: Widely Applicable Information Criterion</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>waic_result <span class="op">=</span> az.waic(idata)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(waic_result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>waic_result <span class="op">=</span> az.waic(idata)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(waic_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>WAIC is an alternative to LOO. LOO is generally preferred (more robust), but WAIC is faster for large datasets.</p>
 </section>
 <section id="az.compare-model-comparison-table" class="level3">
 <h3 class="anchored" data-anchor-id="az.compare-model-comparison-table">az.compare: Model Comparison Table</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>comparison <span class="op">=</span> az.compare({</span>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>comparison <span class="op">=</span> az.compare({</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"linear"</span>: idata_linear,</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"quadratic"</span>: idata_quad,</span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"spline"</span>: idata_spline,</span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>}, ic<span class="op">=</span><span class="st">"loo"</span>)</span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(comparison)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(comparison)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Key columns:</strong> - <code>rank</code>: Model ranking (0 is best) - <code>elpd_loo</code>: Expected log pointwise predictive density - <code>p_loo</code>: Effective number of parameters - <code>d_loo</code>: Difference from best model - <code>weight</code>: Stacking weight (for model averaging) - <code>se</code>: Standard error - <code>dse</code>: Standard error of difference</p>
 <p><strong>Decision rules:</strong> - If <code>d_loo &lt; 2</code>: Models practically indistinguishable - If <code>d_loo &lt; dse</code>: Difference not significant - If <code>d_loo &gt; 4</code> and <code>d_loo &gt; 2*dse</code>: Meaningful difference</p>
 </section>
 <section id="az.plot_compare-visual-model-comparison" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_compare-visual-model-comparison">az.plot_compare: Visual Model Comparison</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>az.plot_compare(comparison)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>az.plot_compare(comparison)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Shows ELPD differences with error bars. Overlapping bars suggest models perform similarly.</p>
 </section>
 <section id="az.plot_elpd-pointwise-comparison" class="level3">
 <h3 class="anchored" data-anchor-id="az.plot_elpd-pointwise-comparison">az.plot_elpd: Pointwise Comparison</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>az.plot_elpd({<span class="st">"linear"</span>: idata_linear, <span class="st">"quadratic"</span>: idata_quad})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>az.plot_elpd({<span class="st">"linear"</span>: idata_linear, <span class="st">"quadratic"</span>: idata_quad})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Identifies which observations drive model differences—useful for understanding where models disagree.</p>
 </section>
 <section id="model-averaging-with-stacking-weights" class="level3">
 <h3 class="anchored" data-anchor-id="model-averaging-with-stacking-weights">Model Averaging with Stacking Weights</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stacking weights from comparison</span></span>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stacking weights from comparison</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>weights <span class="op">=</span> comparison[<span class="st">"weight"</span>]</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Use weights for prediction averaging</span></span>
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>y_pred_avg <span class="op">=</span> (</span>
 <span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    weights[<span class="st">"linear"</span>] <span class="op">*</span> idata_linear.posterior_predictive[<span class="st">"y"</span>].mean(dim<span class="op">=</span>[<span class="st">"chain"</span>, <span class="st">"draw"</span>]) <span class="op">+</span></span>
 <span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    weights[<span class="st">"quadratic"</span>] <span class="op">*</span> idata_quad.posterior_predictive[<span class="st">"y"</span>].mean(dim<span class="op">=</span>[<span class="st">"chain"</span>, <span class="st">"draw"</span>])</span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -791,7 +776,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="advanced-techniques">Advanced Techniques</h2>
 <section id="working-with-xarray-directly" class="level3">
 <h3 class="anchored" data-anchor-id="working-with-xarray-directly">Working with xarray Directly</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute custom statistics</span></span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>posterior <span class="op">=</span> idata.posterior</span>
@@ -806,11 +791,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Posterior contrasts</span></span>
 <span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"group"</span> <span class="kw">in</span> posterior[<span class="st">"alpha"</span>].dims:</span>
 <span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>    contrast <span class="op">=</span> posterior[<span class="st">"alpha"</span>].sel(group<span class="op">=</span><span class="st">"treatment"</span>) <span class="op">-</span> posterior[<span class="st">"alpha"</span>].sel(group<span class="op">=</span><span class="st">"control"</span>)</span>
-<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>    az.plot_posterior(contrast.to_dataset(name<span class="op">=</span><span class="st">"treatment_effect"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>    az.plot_posterior(contrast.to_dataset(name<span class="op">=</span><span class="st">"treatment_effect"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="custom-summary-functions" class="level3">
 <h3 class="anchored" data-anchor-id="custom-summary-functions">Custom Summary Functions</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prob_direction(x):</span>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prob_direction(x):</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Probability parameter has same sign as mean"""</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (np.sign(x) <span class="op">==</span> np.sign(x.mean())).mean()</span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -824,36 +809,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    idata,</span>
 <span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    stat_funcs<span class="op">=</span>{<span class="st">"P(same sign)"</span>: prob_direction, <span class="st">"HDI width"</span>: hdi_width},</span>
 <span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>    extend<span class="op">=</span><span class="va">True</span></span>
-<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="subsampling-for-large-inferencedata" class="level3">
 <h3 class="anchored" data-anchor-id="subsampling-for-large-inferencedata">Subsampling for Large InferenceData</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Thin samples (keep every nth)</span></span>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Thin samples (keep every nth)</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>idata_thin <span class="op">=</span> idata.sel(draw<span class="op">=</span><span class="bu">slice</span>(<span class="va">None</span>, <span class="va">None</span>, <span class="dv">10</span>))  <span class="co"># Keep every 10th</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Random subset</span></span>
 <span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>n_draws <span class="op">=</span> idata.posterior.dims[<span class="st">"draw"</span>]</span>
 <span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>keep_idx <span class="op">=</span> np.random.choice(n_draws, size<span class="op">=</span><span class="dv">500</span>, replace<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>idata_subset <span class="op">=</span> idata.sel(draw<span class="op">=</span>keep_idx)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>idata_subset <span class="op">=</span> idata.sel(draw<span class="op">=</span>keep_idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="extracting-samples-for-custom-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="extracting-samples-for-custom-analysis">Extracting Samples for Custom Analysis</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get flattened samples for external tools</span></span>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get flattened samples for external tools</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>samples_dict <span class="op">=</span> {</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    var: idata.posterior[var].stack(sample<span class="op">=</span>(<span class="st">"chain"</span>, <span class="st">"draw"</span>)).values</span>
 <span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> var <span class="kw">in</span> [<span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"sigma"</span>]</span>
 <span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Or use az.extract</span></span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>samples <span class="op">=</span> az.extract(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>, <span class="st">"beta"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>samples <span class="op">=</span> az.extract(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>, <span class="st">"beta"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="combining-results-from-multiple-runs" class="level3">
 <h3 class="anchored" data-anchor-id="combining-results-from-multiple-runs">Combining Results from Multiple Runs</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Concatenate chains from different runs</span></span>
+<div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Concatenate chains from different runs</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>idata_combined <span class="op">=</span> az.concat([idata1, idata2], dim<span class="op">=</span><span class="st">"chain"</span>)</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Be careful: this assumes same model and convergence</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Be careful: this assumes same model and convergence</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -863,36 +848,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="pattern-multimodal-posterior">Pattern: Multimodal Posterior</h3>
 <p><strong>Symptoms:</strong> - Bimodal density in <code>plot_trace</code> - Separated clusters in <code>plot_pair</code> - Very high R-hat</p>
 <p><strong>Diagnosis:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>az.plot_pair(idata, var_names<span class="op">=</span>[<span class="st">"theta"</span>], marginals<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>az.plot_trace(idata, var_names<span class="op">=</span>[<span class="st">"theta"</span>], compact<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>az.plot_pair(idata, var_names<span class="op">=</span>[<span class="st">"theta"</span>], marginals<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>az.plot_trace(idata, var_names<span class="op">=</span>[<span class="st">"theta"</span>], compact<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Causes and fixes:</strong> 1. <strong>Label switching in mixtures</strong>: Add ordering constraint 2. <strong>Multiple solutions</strong>: May be valid—interpret carefully or use additional constraints 3. <strong>Insufficient warmup</strong>: Increase <code>tune</code></p>
 </section>
 <section id="pattern-funnel-geometry" class="level3">
 <h3 class="anchored" data-anchor-id="pattern-funnel-geometry">Pattern: Funnel Geometry</h3>
 <p><strong>Symptoms:</strong> - Divergences clustered at low scale parameter values - Funnel shape in pair plot of location vs scale - Low ESS for scale parameters</p>
 <p><strong>Diagnosis:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>az.plot_pair(idata, var_names<span class="op">=</span>[<span class="st">"mu_group"</span>, <span class="st">"sigma_group"</span>], divergences<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>az.plot_pair(idata, var_names<span class="op">=</span>[<span class="st">"mu_group"</span>, <span class="st">"sigma_group"</span>], divergences<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Fix:</strong> Use non-centered parameterization (see <a href="../../../../../blog/2025/nfl-marketing/pymc-labs-pymc-modeling/references/troubleshooting.html">troubleshooting.md</a>)</p>
 </section>
 <section id="pattern-poor-tail-sampling" class="level3">
 <h3 class="anchored" data-anchor-id="pattern-poor-tail-sampling">Pattern: Poor Tail Sampling</h3>
 <p><strong>Symptoms:</strong> - <code>ess_tail</code> much lower than <code>ess_bulk</code> - Credible intervals unreliable - Autocorrelation high at extremes</p>
 <p><strong>Diagnosis:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>az.plot_ess(idata, kind<span class="op">=</span><span class="st">"quantile"</span>)  <span class="co"># Check ESS at different quantiles</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>az.plot_ess(idata, kind<span class="op">=</span><span class="st">"quantile"</span>)  <span class="co"># Check ESS at different quantiles</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Fixes:</strong> 1. Increase samples 2. Increase <code>target_accept</code> (e.g., 0.95) 3. Reparameterize</p>
 </section>
 <section id="pattern-scale-parameter-at-boundary" class="level3">
 <h3 class="anchored" data-anchor-id="pattern-scale-parameter-at-boundary">Pattern: Scale Parameter at Boundary</h3>
 <p><strong>Symptoms:</strong> - Scale parameter (σ) posterior piled up near zero - May indicate overfitting/overparameterization</p>
 <p><strong>Diagnosis:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(idata, var_names<span class="op">=</span>[<span class="st">"sigma"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(idata, var_names<span class="op">=</span>[<span class="st">"sigma"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Interpretation:</strong> - If σ → 0: Group effects explain almost no variance—simplify model - Check if prior is appropriate</p>
 </section>
 <section id="pattern-strong-parameter-correlations" class="level3">
 <h3 class="anchored" data-anchor-id="pattern-strong-parameter-correlations">Pattern: Strong Parameter Correlations</h3>
 <p><strong>Symptoms:</strong> - Nearly linear relationship in pair plot - Can indicate non-identifiability</p>
 <p><strong>Diagnosis:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>az.plot_pair(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>, <span class="st">"beta"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>az.plot_pair(idata, var_names<span class="op">=</span>[<span class="st">"alpha"</span>, <span class="st">"beta"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Fixes:</strong> 1. Center predictors 2. Use sum-to-zero constraints 3. Consider if parameters are actually identifiable</p>
 <hr>
 </section>
@@ -901,7 +886,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="publication-quality-figures">Publication-Quality Figures</h2>
 <section id="style-configuration" class="level3">
 <h3 class="anchored" data-anchor-id="style-configuration">Style Configuration</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set ArviZ style</span></span>
@@ -910,21 +895,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom style</span></span>
 <span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>az.rcParams[<span class="st">"plot.max_subplots"</span>] <span class="op">=</span> <span class="dv">40</span></span>
 <span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>az.rcParams[<span class="st">"stats.hdi_prob"</span>] <span class="op">=</span> <span class="fl">0.94</span></span>
-<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>az.rcParams[<span class="st">"stats.ic_scale"</span>] <span class="op">=</span> <span class="st">"log"</span>  <span class="co"># for LOO/WAIC</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>az.rcParams[<span class="st">"stats.ic_scale"</span>] <span class="op">=</span> <span class="st">"log"</span>  <span class="co"># for LOO/WAIC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="figure-sizing-and-layout" class="level3">
 <h3 class="anchored" data-anchor-id="figure-sizing-and-layout">Figure Sizing and Layout</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Control figure size</span></span>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Control figure size</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>az.plot_posterior(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>], ax<span class="op">=</span>axes.flatten())</span>
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Or let ArviZ handle it</span></span>
-<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> az.plot_posterior(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>], figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> az.plot_posterior(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>], figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="combining-multiple-plots" class="level3">
 <h3 class="anchored" data-anchor-id="combining-multiple-plots">Combining Multiple Plots</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.gridspec <span class="im">import</span> GridSpec</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">10</span>))</span>
@@ -942,18 +927,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>ax3 <span class="op">=</span> fig.add_subplot(gs[<span class="dv">1</span>, <span class="dv">1</span>])</span>
 <span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>az.plot_ppc(idata, kind<span class="op">=</span><span class="st">"cumulative"</span>, ax<span class="op">=</span>ax3)</span>
 <span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="saving-figures" class="level3">
 <h3 class="anchored" data-anchor-id="saving-figures">Saving Figures</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save with high resolution</span></span>
+<div class="sourceCode" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save with high resolution</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> az.plot_posterior(idata, var_names<span class="op">=</span>[<span class="st">"beta"</span>])</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"posterior.png"</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"posterior.pdf"</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)  <span class="co"># Vector format</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"posterior.pdf"</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)  <span class="co"># Vector format</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="latex-labels" class="level3">
 <h3 class="anchored" data-anchor-id="latex-labels">LaTeX Labels</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<div class="sourceCode" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"text.usetex"</span>] <span class="op">=</span> <span class="va">True</span></span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Use LaTeX in labels</span></span>
@@ -961,7 +946,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>    idata,</span>
 <span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[<span class="st">"beta"</span>],</span>
 <span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>    labeller<span class="op">=</span>az.labels.MapLabeller(var_name_map<span class="op">=</span>{<span class="st">"beta"</span>: <span class="vs">r"</span><span class="dv">$\b</span><span class="vs">eta</span><span class="dv">$</span><span class="vs">"</span>})</span>
-<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
@@ -1105,14 +1090,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
